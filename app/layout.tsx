@@ -1,7 +1,9 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { siteConfig, topicLinks } from './site-config';
 import './globals.css';
 import './evidence-lab.css';
+import './seo-pages.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -14,18 +16,55 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
   title: {
-    default: 'Sverigefacit — data bakom politiken',
-    template: '%s · Sverigefacit',
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    'Offentlig svensk statistik, politisk kontext och tydliga evidensnivåer — utan att blanda ihop samvariation med bevisad orsak.',
+  description: siteConfig.description,
+  keywords: [
+    'svensk statistik',
+    'brottslighet statistik',
+    'migration Sverige',
+    'arbetslöshet Sverige',
+    'pension statistik',
+    'äldreomsorg statistik',
+    'privatekonomi Sverige',
+    'politiska vallöften',
+    'regeringar Sverige',
+    'SCB statistik',
+    'Brå statistik',
+  ],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: 'Samhälle och politik',
+  alternates: {
+    canonical: '/',
+    languages: { 'sv-SE': '/' },
+  },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     type: 'website',
-    locale: 'sv_SE',
-    title: 'Sverigefacit — data bakom politiken',
-    description:
-      'Se vad som hände, vad som rimligen kan kopplas till politiken och vad som inte går att bevisa kausalt.',
+    url: '/',
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    title: 'Sverigefacit – Sverige i siffror',
+    description: siteConfig.description,
     images: [
       {
         url: '/og.png',
@@ -37,10 +76,65 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sverigefacit — data bakom politiken',
-    description: 'Offentlig data. Politisk kontext. Tydliga evidensnivåer.',
+    title: 'Sverigefacit – Sverige i siffror',
+    description: siteConfig.description,
     images: ['/og.png'],
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#f4f2eb',
+  colorScheme: 'light',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteConfig.url}/#website`,
+      url: `${siteConfig.url}/`,
+      name: siteConfig.name,
+      alternateName: 'Sverigefacit – data bakom politiken',
+      description: siteConfig.description,
+      inLanguage: siteConfig.language,
+    },
+    {
+      '@type': 'CollectionPage',
+      '@id': `${siteConfig.url}/#webpage`,
+      url: `${siteConfig.url}/`,
+      name: siteConfig.title,
+      description: siteConfig.description,
+      inLanguage: siteConfig.language,
+      dateModified: siteConfig.modified,
+      isPartOf: { '@id': `${siteConfig.url}/#website` },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: `${siteConfig.url}/og.png`,
+        width: 1200,
+        height: 630,
+      },
+      about: [
+        'Svensk politik',
+        'Offentlig svensk statistik',
+        'Brottslighet och migration',
+        'Arbetsmarknad och privatekonomi',
+        'Pension och äldreomsorg',
+        'Politiska vallöften',
+      ].map((name) => ({ '@type': 'Thing', name })),
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: topicLinks.map((topic, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: topic.name,
+          url: `${siteConfig.url}${topic.href}`,
+        })),
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -53,6 +147,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+          }}
+        />
         {children}
       </body>
     </html>

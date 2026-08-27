@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import {
   CrimeMigrationEvidence,
@@ -797,10 +798,10 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow"><span /> Offentlig data. Politisk kontext.</p>
-          <h1>Vad hände<br />med Sverige?</h1>
+          <p className="eyebrow"><span /> Svensk statistik. Politisk kontext.</p>
+          <h1>Sverige i siffror.<br />Vad blev facit?</h1>
           <p className="hero-lead">
-            Följ utvecklingen bakom debatten. Jämför regeringsperioder — utan att blanda ihop samvariation med bevisad orsak.
+            Utforska officiell statistik om brott, migration, arbetslöshet, ekonomi, pension och energi. Jämför regeringsperioder — utan att blanda ihop samvariation med bevisad orsak.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="#utfall">Utforska utfallet <span>↓</span></a>
@@ -859,6 +860,16 @@ export default function Home() {
             );
           })}
         </div>
+        <nav className="topic-guides" aria-label="Fördjupande statistikområden">
+          <span>Läs ämnessidor</span>
+          <Link href="/statistik/brottslighet">Brottslighet <i>↗</i></Link>
+          <Link href="/statistik/migration">Migration <i>↗</i></Link>
+          <Link href="/statistik/arbetsloshet">Arbetslöshet <i>↗</i></Link>
+          <Link href="/statistik/privatekonomi">Privatekonomi <i>↗</i></Link>
+          <Link href="/statistik/pensioner">Pensioner <i>↗</i></Link>
+          <Link href="/statistik/aldreomsorg">Äldreomsorg <i>↗</i></Link>
+          <Link href="/statistik/invandring-och-brott">Invandring & brott <i>↗</i></Link>
+        </nav>
       </section>
 
       <section
@@ -1110,7 +1121,14 @@ export default function Home() {
           <span className="brand-mark" aria-hidden="true"><i /><i /></span>
           <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
         </div>
-        <p>En neutral pilot för att göra offentlig statistik, politiska beslut och evidensnivåer begripliga tillsammans.</p>
+        <div className="footer-summary">
+          <p>En neutral pilot för att göra offentlig svensk statistik, politiska beslut och evidensnivåer begripliga tillsammans.</p>
+          <nav aria-label="Genvägar till statistikområden">
+            <Link href="/statistik/invandring-och-brott">Brott & migration</Link>
+            <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
+            <Link href="/politik/valloften">Vallöften</Link>
+          </nav>
+        </div>
         <div className="footer-meta">
           <span>Källor verifierade 27 aug 2026</span>
           <a href="#top">Till toppen ↑</a>
