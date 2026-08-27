@@ -662,8 +662,8 @@ export function DataStudio() {
                       <polyline points={rightLine} fill="none" stroke={right.color} className="lab-series-line second" />
                       {pairs.map((pair) => (
                         <g key={pair.year}>
-                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.x, leftMin, leftMax))} r="3.3" fill="#fff" stroke={left.color} strokeWidth="2"><title>{pair.year}: {valueLabel(left, pair.x)}</title></circle>
-                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.y, rightMin, rightMax))} r="3.3" fill="#fff" stroke={right.color} strokeWidth="2"><title>{pair.year}: {valueLabel(right, pair.y)}</title></circle>
+                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.x, leftMin, leftMax))} r="3.3" fill="#fff" stroke={left.color} strokeWidth="2"><title>{`${pair.year}: ${valueLabel(left, pair.x)}`}</title></circle>
+                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.y, rightMin, rightMax))} r="3.3" fill="#fff" stroke={right.color} strokeWidth="2"><title>{`${pair.year}: ${valueLabel(right, pair.y)}`}</title></circle>
                         </g>
                       ))}
                       {[minYear, Math.round((minYear + maxYear) / 2), maxYear].map((year) => <text key={year} x={xForYear(year)} y={height - 17} textAnchor="middle" className="lab-axis-label">{year}</text>)}
@@ -673,7 +673,7 @@ export function DataStudio() {
                       <line x1={scatterX(leftMin)} y1={scatterY(clampToRightRange(regressionStart))} x2={scatterX(leftMax)} y2={scatterY(clampToRightRange(regressionEnd))} className="regression-line" />
                       {pairs.map((pair) => (
                         <circle key={pair.year} cx={scatterX(pair.x)} cy={scatterY(pair.y)} r="5" fill={left.color} opacity=".7" stroke="#fff" strokeWidth="1.5">
-                          <title>{pair.year}: {valueLabel(left, pair.x)} · {valueLabel(right, pair.y)}</title>
+                          <title>{`${pair.year}: ${valueLabel(left, pair.x)} · ${valueLabel(right, pair.y)}`}</title>
                         </circle>
                       ))}
                       <text x={padLeft} y={height - 15} className="lab-axis-label">{left.shortLabel} →</text>
