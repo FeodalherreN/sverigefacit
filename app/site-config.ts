@@ -1,11 +1,15 @@
-const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sverigefacit.se';
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sverigefacit.se';
+const normalizedUrl = configuredUrl.replace(/\/+$/, '');
+const canonicalUrl = normalizedUrl === 'https://sverigefacit.se'
+  ? 'https://www.sverigefacit.se'
+  : normalizedUrl;
 
 export const siteConfig = {
   name: 'Sverigefacit',
   title: 'Sverigefacit – svensk statistik bakom politiken',
   description:
     'Jämför svensk statistik om brott, migration, arbetslöshet, pension, elpriser och ekonomi med regeringar, reformer och officiella källor.',
-  url: configuredUrl.replace(/\/+$/, ''),
+  url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',
   modified: '2026-08-27',

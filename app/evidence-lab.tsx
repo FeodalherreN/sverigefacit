@@ -702,12 +702,17 @@ export function DataStudio() {
     url.searchParams.set('event', activeEvent.id);
     url.hash = 'datastudio';
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    const shareUrl = new URL(url);
+    shareUrl.searchParams.set('utm_source', 'delning');
+    shareUrl.searchParams.set('utm_medium', 'referral');
+    shareUrl.searchParams.set('utm_campaign', 'valet_2026');
+    shareUrl.searchParams.set('utm_content', `${leftId}-${rightId}`);
     if (navigator.share) {
       try {
         await navigator.share({
           title: `${left.shortLabel} jämfört med ${right.shortLabel}`,
           text: `Sverigefacit: ${mode === 'change' ? 'årsdifferenser' : 'nivåer'}, ${pairs.length} observationspar. Samvariation är inte bevisad effekt.`,
-          url: url.toString(),
+          url: shareUrl.toString(),
         });
         setCopiedSignature(analysisSignature);
         setCopyFailedSignature('');
@@ -718,9 +723,10 @@ export function DataStudio() {
       }
     }
     try {
-      await navigator.clipboard.writeText(url.toString());
+      await navigator.clipboard.writeText(shareUrl.toString());
       setCopiedSignature(analysisSignature);
       setCopyFailedSignature('');
+      window.gtag?.('event', 'share', { method: 'copy_link', content_type: 'data_analysis' });
     } catch {
       setCopiedSignature('');
       setCopyFailedSignature(analysisSignature);

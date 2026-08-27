@@ -30,7 +30,7 @@ export function GuideFooter() {
         <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
       </div>
       <p>Offentlig svensk statistik med politisk kontext och tydliga evidensnivåer.</p>
-      <div><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
+      <div><a href="/feed.xml">RSS</a><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
     </footer>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { FollowSverigefacit } from '../follow-sverigefacit';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 import { FactCard } from './fact-card';
 import { facts } from './facts';
@@ -25,6 +26,7 @@ export default function FactsIndexPage() {
       <section className="facts-grid" aria-label="Faktakort">
         {facts.map((fact) => <FactCard fact={fact} key={fact.slug} />)}
       </section>
+      <FollowSverigefacit context="fakta" />
       <GuideFooter />
     </main>
   );

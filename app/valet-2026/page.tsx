@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FactCard } from '../fakta/fact-card';
 import { factBySlug, featuredFacts } from '../fakta/facts';
+import { FollowSverigefacit } from '../follow-sverigefacit';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Valet 2026 – valfrågorna i siffror';
@@ -65,6 +66,7 @@ export default function Election2026Page() {
         <div><strong>Vad kan politiken påverka?</strong><span>Rimlig mekanism och andra samtidiga faktorer.</span></div>
         <div><strong>Vad är inte bevisat?</strong><span>Ingen kausal etikett utan starkare jämförelse.</span></div>
       </section>
+      <FollowSverigefacit context="valet" />
       <GuideFooter />
     </main>
   );

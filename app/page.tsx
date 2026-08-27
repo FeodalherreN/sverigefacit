@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { FactCard } from './fakta/fact-card';
 import { featuredFacts } from './fakta/facts';
-import { siteConfig } from './site-config';
+import { siteConfig, topicLinks } from './site-config';
 
 type Point = { year: number; value: number };
 type SeriesId =
@@ -760,6 +760,41 @@ function Comparison({
   );
 }
 
+const homeStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${siteConfig.url}/#webpage`,
+  url: `${siteConfig.url}/`,
+  name: siteConfig.title,
+  description: siteConfig.description,
+  inLanguage: siteConfig.language,
+  dateModified: siteConfig.modified,
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: `${siteConfig.url}/og.png`,
+    width: 1200,
+    height: 630,
+  },
+  about: [
+    'Svensk politik',
+    'Offentlig svensk statistik',
+    'Brottslighet och migration',
+    'Arbetsmarknad och privatekonomi',
+    'Pension och äldreomsorg',
+    'Politiska vallöften',
+  ].map((name) => ({ '@type': 'Thing', name })),
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: topicLinks.map((topic, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: topic.name,
+      url: `${siteConfig.url}${topic.href}`,
+    })),
+  },
+};
+
 export default function Home() {
   const [activeId, setActiveId] = useState<SeriesId>('work');
   const [periodA, setPeriodA] = useState('reinfeldt');
@@ -855,6 +890,7 @@ export default function Home() {
 
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData).replace(/</g, '\\u003c') }} />
       <a className="skip-link" href="#top">Hoppa till huvudinnehållet</a>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Sverigefacit, startsida">
