@@ -84,7 +84,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
           <h1>{topic.heading}</h1>
           <p>{topic.lead}</p>
           <div className="topic-page-actions">
-            <Link href="/#datastudio">Jämför serien i Datastudion <span>↗</span></Link>
+            <Link href="/datastudio">Jämför serien i Datastudion <span>↗</span></Link>
             <Link href="/metod">Så bedöms evidensen</Link>
           </div>
         </header>

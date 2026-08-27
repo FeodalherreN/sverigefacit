@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { AnalyticsConsent } from './analytics-consent';
+import { MobileBottomNav } from './mobile-bottom-nav';
 import { siteConfig, topicLinks } from './site-config';
 import './globals.css';
 import './evidence-lab.css';
@@ -89,8 +91,6 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 };
 
-const googleAnalyticsId = 'G-V1G0VLNPB3';
-
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -146,22 +146,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="sv">
-      <head>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${googleAnalyticsId}');
-            `,
-          }}
-        />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <script
           type="application/ld+json"
@@ -170,6 +154,8 @@ export default function RootLayout({
           }}
         />
         {children}
+        <MobileBottomNav />
+        <AnalyticsConsent />
       </body>
     </html>
   );

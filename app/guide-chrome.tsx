@@ -10,12 +10,14 @@ export function GuideHeader() {
         <em>beta</em>
       </Link>
       <nav aria-label="Fördjupningsmeny">
+        <Link href="/valet-2026">Valet 2026</Link>
+        <Link href="/fakta">Fakta</Link>
         <Link href="/statistik">Statistik</Link>
         <Link href="/politik/valloften">Vallöften</Link>
         <Link href="/metod">Metod</Link>
         <Link href="/kallor">Källor</Link>
       </nav>
-      <Link className="guide-home-link" href="/#datastudio">Öppna Datastudion <span>↗</span></Link>
+      <Link className="guide-home-link" href="/datastudio">Öppna Datastudion <span>↗</span></Link>
     </header>
   );
 }
@@ -28,7 +30,7 @@ export function GuideFooter() {
         <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
       </div>
       <p>Offentlig svensk statistik med politisk kontext och tydliga evidensnivåer.</p>
-      <Link href="/">Till startsidan ↑</Link>
+      <div><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
     </footer>
   );
 }

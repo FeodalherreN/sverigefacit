@@ -2,13 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import {
-  CrimeMigrationEvidence,
-  DataStudio,
-  ElectionAgenda,
-  PromiseTracker,
-  WelfarePulse,
-} from './evidence-lab';
+import { FactCard } from './fakta/fact-card';
+import { featuredFacts } from './fakta/facts';
 import { siteConfig } from './site-config';
 
 type Point = { year: number; value: number };
@@ -846,7 +841,13 @@ export default function Home() {
       setTimelineFilter('alla');
       window.setTimeout(() => document.getElementById('tidslinje')?.scrollIntoView({ behavior: 'smooth' }), 30);
     } else {
-      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 30);
+      const routes: Record<string, string> = {
+        datastudio: '/datastudio',
+        'brott-migration': '/analys/brott-och-migration',
+        valfragor: '/fakta',
+        valloften: '/politik/valloften',
+      };
+      window.location.assign(routes[id] || '/fakta');
     }
     setSearchOpen(false);
     setSearchTerm('');
@@ -862,11 +863,11 @@ export default function Home() {
           <em>beta</em>
         </a>
         <nav className="main-nav" aria-label="Huvudmeny">
-          <a href="#utfall">Utforska</a>
-          <a href="#datastudio">Datastudio</a>
-          <a href="#facit">Facit</a>
+          <Link href="/valet-2026">Valet 2026</Link>
+          <Link href="/fakta">Fakta</Link>
+          <Link href="/datastudio">Jämför</Link>
+          <Link href="/politik/valloften">Löften</Link>
           <a href="#tidslinje">Tidslinje</a>
-          <a href="#metod">Metod</a>
         </nav>
         <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök i all data">
           <span>Sök i all data</span><kbd>⌘ K</kbd>
@@ -882,8 +883,8 @@ export default function Home() {
             Utforska officiell statistik om brott, migration, arbetslöshet, ekonomi, pension och energi. Jämför regeringsperioder — utan att blanda ihop samvariation med bevisad orsak.
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#utfall">Utforska utfallet <span>↓</span></a>
-            <a className="text-link" href="#metod">Så fungerar facit <span>↗</span></a>
+            <Link className="primary-button" href="/valet-2026">Öppna valfacit 2026 <span>→</span></Link>
+            <a className="text-link" href="#utfall">Utforska tidsserier <span>↓</span></a>
           </div>
         </div>
         <aside className="hero-side">
@@ -901,12 +902,24 @@ export default function Home() {
       </section>
 
       <nav className="first-visit-guide" aria-label="Tre sätt att använda Sverigefacit">
-        <a href="#utfall"><span>01</span><strong>Vad hände?</strong><small>Se utfallet i officiella tidsserier.</small><i>↓</i></a>
-        <a href="#facit"><span>02</span><strong>Vad lovades och beslutades?</strong><small>Följ löftet från formulering till genomförande.</small><i>↓</i></a>
-        <a href="#metod"><span>03</span><strong>Vad kan kopplas till politiken?</strong><small>Skilj möjlig koppling från belagd effekt.</small><i>↓</i></a>
+        <Link href="/fakta"><span>01</span><strong>Vad hände?</strong><small>Korta svar med officiell källa.</small><i>→</i></Link>
+        <Link href="/politik/valloften"><span>02</span><strong>Vad lovades?</strong><small>Följ löftet till beslut och utfall.</small><i>→</i></Link>
+        <Link href="/datastudio"><span>03</span><strong>Hänger två saker ihop?</strong><small>Testa data utan att kalla samband för orsak.</small><i>→</i></Link>
       </nav>
 
-      <ElectionAgenda />
+      <section className="home-facts-section" aria-labelledby="home-facts-heading">
+        <div className="section-heading">
+          <div>
+            <p className="section-kicker">Valet 2026 · senaste facit</p>
+            <h2 id="home-facts-heading">Börja med ett tydligt svar</h2>
+          </div>
+          <p>Varje kort visar siffran, originalkällan och gränsen för vad den faktiskt bevisar.</p>
+        </div>
+        <div className="home-facts-grid">
+          {featuredFacts.slice(0, 4).map((fact) => <FactCard fact={fact} compact key={fact.slug} />)}
+        </div>
+        <Link className="home-facts-more" href="/fakta">Se alla verifierade facit <span>→</span></Link>
+      </section>
 
       <section className="topic-section" aria-labelledby="topic-heading">
         <div className="section-heading">
@@ -1048,11 +1061,21 @@ export default function Home() {
         />
       </section>
 
-      <DataStudio />
-
-      <CrimeMigrationEvidence />
-
-      <WelfarePulse />
+      <section className="tool-preview-section" aria-labelledby="tool-preview-heading">
+        <div className="section-heading">
+          <div>
+            <p className="section-kicker">Fördjupa utan att drunkna</p>
+            <h2 id="tool-preview-heading">Välj verktyg efter fråga</h2>
+          </div>
+          <p>De tyngre analyserna har egna sidor. Startsidan förblir snabb och enkel på mobilen.</p>
+        </div>
+        <div className="tool-preview-grid">
+          <Link href="/datastudio"><span>01 · Egen jämförelse</span><h3>Datastudion</h3><p>Jämför årsvisa förändringar, perioder och tidsförskjutningar.</p><i>Öppna →</i></Link>
+          <Link href="/analys/brott-och-migration"><span>02 · Känsligt samband</span><h3>Brott & migrationsbakgrund</h3><p>Se Brås råa och standardiserade registermått med alla begränsningar.</p><i>Öppna →</i></Link>
+          <Link href="/politik/valloften"><span>03 · Politisk kontroll</span><h3>Vallöfteslabbet</h3><p>Skilj formulering, beslut, genomförande och samhällseffekt.</p><i>Öppna →</i></Link>
+          <Link href="/metod"><span>04 · Evidens</span><h3>Så drar vi slutsatser</h3><p>Se kraven för att gå från tidssamband till rimlig kausal tolkning.</p><i>Öppna →</i></Link>
+        </div>
+      </section>
 
       <section className="promise-section" id="facit">
         <div className="promise-intro">
@@ -1083,8 +1106,6 @@ export default function Home() {
           </footer>
         </article>
       </section>
-
-      <PromiseTracker />
 
       <section className="timeline-section" id="tidslinje">
         <div className="section-heading">

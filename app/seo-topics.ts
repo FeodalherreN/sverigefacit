@@ -243,15 +243,15 @@ export const seoTopics: SeoTopic[] = [
     seoTitle: 'Invandring och brott – vad visar Brås statistik?',
     heading: 'Invandring och brott',
     description:
-      'Vad visar Brå om brott och migrationsbakgrund? Se absoluta andelar, relativ risk, standardisering och varför sambandet inte bevisar orsak.',
+      'Vad visar Brå om brott och migrationsbakgrund? Se observerade andelar, överrisk, standardisering och varför sambandet inte bevisar orsak.',
     lead:
       'Brås historiska registerstudie visar gruppskillnader i registrerad misstanke. Skillnaderna minskar när ålder, kön och socioekonomi likställs statistiskt, men studien kan inte avgöra varför de finns.',
     temporalCoverage: '2015/2018',
-    variableMeasured: ['Andel minst skäligen misstänkta', 'Rå relativ risk', 'Standardiserad relativ risk'],
+    variableMeasured: ['Andel minst skäligen misstänkta', 'Observerad överrisk', 'Standardiserad överrisk'],
     metrics: [
       { value: '8,0 %', label: 'utrikesfödda registrerade som misstänkta', period: '2015–2018' },
       { value: '3,2 %', label: 'referensgruppen registrerad som misstänkt', period: '2015–2018' },
-      { value: '2,51× → 1,76×', label: 'rå respektive standardiserad relativ risk', period: 'historisk kohort' },
+      { value: '2,51× → 1,77×', label: 'rå respektive standardiserad överrisk', period: 'historisk kohort' },
     ],
     observed:
       'I kohorten registrerades 7,99 procent av utrikesfödda som minst skäligen misstänkta för minst ett brott, jämfört med 3,18 procent i referensgruppen.',

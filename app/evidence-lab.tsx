@@ -23,6 +23,7 @@ type WorldEvent = {
   short: string;
   detail: string;
   sourceUrl: string;
+  relevantSeries: string[];
 };
 
 type CrimeCountry = {
@@ -231,6 +232,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Lehman Brothers föll 15 sep 2008',
     detail: 'Kreditmarknad, export, BNP och arbetslöshet påverkades. Markeringen visar timing, inte att varje förändring orsakades av krisen.',
     sourceUrl: 'https://www.riksbank.se/sv/om-riksbanken/historia/finanskrisen-2007-2010/',
+    relevantSeries: ['policyRate', 'unemployment', 'gdpPerCapita', 'economicStandard', 'interestRatio', 'debtRatio', 'emissions'],
   },
   {
     id: 'refugee-crisis',
@@ -239,6 +241,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Svensk mottagningstopp juli–november',
     detail: 'Mottagande, kommunal kapacitet, bostäder, skola och senare integration berördes. Senare utfall kräver kohort- och sammansättningsanalys.',
     sourceUrl: 'https://www.migrationsverket.se/om-migrationsverket/migrationsverket-svarar/2025/2025-10-27-tio-ar-sedan-2015---vad-var-det-som-hande.html',
+    relevantSeries: ['immigration', 'unemployment', 'gdpPerCapita'],
   },
   {
     id: 'covid',
@@ -247,6 +250,7 @@ const worldEvents: WorldEvent[] = [
     short: 'WHO klassade covid som pandemi 11 mars',
     detail: 'Hälsa, vård, arbetade timmar, arbetslöshet och BNP påverkades samtidigt. Relevant slutpunkt varierar mellan måtten.',
     sourceUrl: 'https://www.folkhalsomyndigheten.se/vara-amnesomraden/sjukdomsutbrott/arkiv-for-sjukdomsutbrott/covid-19-pandemin-2019-2023/nar-hande-vad-under-pandemin/',
+    relevantSeries: ['unemployment', 'gdpPerCapita', 'economicStandard', 'immigration', 'deadlyViolence', 'emissions'],
   },
   {
     id: 'ukraine',
@@ -255,6 +259,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Fullskalig invasion 24 feb 2022',
     detail: 'El, bränsle, inflation, ränta och hushållens realinkomster påverkades. Prisuppgången började dock före invasionen.',
     sourceUrl: 'https://www.energimyndigheten.se/nyhetsarkiv/2022/sa-paverkar-invasionen-av-ukraina-sveriges-energilage/',
+    relevantSeries: ['electricity', 'fuel', 'foodPrices', 'policyRate', 'interestRatio', 'economicStandard', 'gdpPerCapita'],
   },
   {
     id: 'gaza',
@@ -263,6 +268,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Krigsutbrott 7 okt 2023',
     detail: 'Främst relevant för utrikespolitik, säkerhet, bistånd och möjliga hatbrott. Makroeffekten i Sverige gick ännu inte att bedöma.',
     sourceUrl: 'https://www.riksbank.se/sv/press-och-publicerat/tal-och-presentationer/2023/thedeen-vi-har-lardomar-att-dra-av-de-senaste-arens-turbulens/',
+    relevantSeries: [],
   },
   {
     id: 'nato',
@@ -271,6 +277,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Medlemskap 7 mars 2024',
     detail: 'Påverkar försvarsutgifter, upphandling och styrkeplanering. Natoansökan var själv en reaktion på Rysslands invasion.',
     sourceUrl: 'https://regeringen.se/regeringens-politik/sverige-i-nato/sveriges-och-natos-historia/',
+    relevantSeries: [],
   },
 ];
 
@@ -282,16 +289,16 @@ const electionAgenda: { rank: number; label: string; value: number; status: Agen
   { rank: 5, label: 'Klimat', value: 31, status: 'available', href: '/#utfall' },
   { rank: 6, label: 'Äldreomsorg', value: 30, status: 'available', href: '/statistik/aldreomsorg' },
   { rank: 7, label: 'Invandring', value: 28, status: 'available', href: '/statistik/migration' },
-  { rank: 8, label: 'Energi', value: 27, status: 'partial', href: '/#datastudio' },
+  { rank: 8, label: 'Energi', value: 27, status: 'partial', href: '/datastudio' },
   { rank: 9, label: 'Landets ekonomi', value: 27, status: 'partial', href: '/statistik/privatekonomi' },
   { rank: 10, label: 'Utrikespolitik', value: 23, status: 'planned' },
 ];
 
 const crimeGroups = [
-  { label: 'Sverigefödd, två svenskfödda föräldrar', short: 'Referensgrupp', n: 5821794, rawPct: 3.18, adjustedPct: 3.18, rawRR: 1, adjustedRR: 1 },
-  { label: 'Sverigefödd, en utrikesfödd förälder', short: 'En utrikesfödd förälder', n: 501211, rawPct: 5.93, adjustedPct: 4.25, rawRR: 1.86, adjustedRR: 1.34 },
-  { label: 'Sverigefödd, två utrikesfödda föräldrar', short: 'Två utrikesfödda föräldrar', n: 261695, rawPct: 10.22, adjustedPct: 5.33, rawRR: 3.21, adjustedRR: 1.68 },
-  { label: 'Utrikesfödd', short: 'Utrikesfödd', n: 1481663, rawPct: 7.99, adjustedPct: 5.61, rawRR: 2.51, adjustedRR: 1.76 },
+  { label: 'Inrikesfödd, två inrikesfödda föräldrar', short: 'Två inrikesfödda föräldrar', n: 5821794, rawPct: 3.18, adjustedPct: 3.18, rawRR: 1, adjustedRR: 1 },
+  { label: 'Inrikesfödd, en inrikes- och en utrikesfödd förälder', short: 'En inrikes- och en utrikesfödd förälder', n: 501211, rawPct: 5.93, adjustedPct: 4.25, rawRR: 1.86, adjustedRR: 1.34 },
+  { label: 'Inrikesfödd, två utrikesfödda föräldrar', short: 'Två utrikesfödda föräldrar', n: 261695, rawPct: 10.22, adjustedPct: 5.33, rawRR: 3.21, adjustedRR: 1.68 },
+  { label: 'Utrikesfödd', short: 'Utrikesfödd', n: 1481663, rawPct: 7.99, adjustedPct: 5.61, rawRR: 2.51, adjustedRR: 1.77 },
 ];
 
 const crimeCountries: CrimeCountry[] = [
@@ -416,7 +423,7 @@ const promiseItems: PromiseItem[] = [
 const formatNumber = (value: number, digits = 1) =>
   value.toLocaleString('sv-SE', { maximumFractionDigits: digits, minimumFractionDigits: digits });
 
-const MIN_CORRELATION_POINTS = 8;
+const MIN_CORRELATION_POINTS = 10;
 
 const valueLabel = (item: LabSeries, value: number, mode: AnalysisMode = 'level') => {
   const unit = mode === 'change' && item.unit.startsWith('procent')
@@ -561,10 +568,10 @@ export function DataStudio() {
   const [rightId, setRightId] = useState('interestRatio');
   const [startYear, setStartYear] = useState(2000);
   const [endYear, setEndYear] = useState(2025);
-  const [mode, setMode] = useState<AnalysisMode>('level');
+  const [mode, setMode] = useState<AnalysisMode>('change');
   const [lag, setLag] = useState(0);
   const [view, setView] = useState<'timeline' | 'scatter'>('timeline');
-  const [showEvents, setShowEvents] = useState(true);
+  const [showEvents, setShowEvents] = useState(false);
   const [activeEventId, setActiveEventId] = useState('covid');
   const [urlReady, setUrlReady] = useState(false);
   const [copiedSignature, setCopiedSignature] = useState('');
@@ -584,7 +591,7 @@ export function DataStudio() {
     ? `Minst ${MIN_CORRELATION_POINTS} observationspar krävs`
     : pearsonValue === null
       ? 'Kan inte beräknas – minst en serie saknar variation'
-      : strengthLabel(pearsonValue);
+      : `${strengthLabel(pearsonValue)} i valt urval`;
   const width = 900;
   const height = 350;
   const padLeft = 52;
@@ -595,7 +602,12 @@ export function DataStudio() {
   const plotHeight = height - padTop - padBottom;
   const minYear = pairs.length ? pairs[0].year : startYear;
   const maxYear = pairs.length ? pairs[pairs.length - 1].year : endYear;
-  const chartEvents = worldEvents.filter((event) => event.year >= minYear && event.year <= maxYear);
+  const eventsEligible = lag === 0 && view === 'timeline';
+  const chartEvents = worldEvents.filter((event) =>
+    event.year >= minYear
+    && event.year <= maxYear
+    && (event.relevantSeries.includes(leftId) || event.relevantSeries.includes(rightId)),
+  );
   const activeEvent = chartEvents.find((event) => event.id === activeEventId) || chartEvents[0] || worldEvents[0];
   const analysisSignature = [leftId, rightId, startYear, endYear, mode, lag, view, showEvents ? 1 : 0, activeEvent.id].join('|');
   const linkCopied = copiedSignature === analysisSignature;
@@ -648,10 +660,10 @@ export function DataStudio() {
     setRightId(nextRight);
     setStartYear(Math.min(requestedFrom, requestedTo));
     setEndYear(Math.max(requestedFrom, requestedTo));
-    setMode(params.get('measure') === 'change' ? 'change' : 'level');
+    setMode(params.get('measure') === 'level' ? 'level' : 'change');
     setLag(Number.isInteger(requestedLag) ? Math.min(5, Math.max(-5, requestedLag)) : 0);
     setView(params.get('view') === 'scatter' ? 'scatter' : 'timeline');
-    setShowEvents(params.get('events') !== '0');
+    setShowEvents(params.get('events') === '1');
     const requestedEvent = params.get('event');
     if (requestedEvent && worldEvents.some((item) => item.id === requestedEvent)) setActiveEventId(requestedEvent);
     setUrlReady(true);
@@ -661,7 +673,7 @@ export function DataStudio() {
     if (!urlReady) return;
     const url = new URL(window.location.href);
     const hasAnalysisParams = url.searchParams.has('seriesA');
-    const isDefaultView = leftId === 'policyRate' && rightId === 'interestRatio' && startYear === 2000 && endYear === 2025 && mode === 'level' && lag === 0 && view === 'timeline' && showEvents && activeEvent.id === 'covid';
+    const isDefaultView = leftId === 'policyRate' && rightId === 'interestRatio' && startYear === 2000 && endYear === 2025 && mode === 'change' && lag === 0 && view === 'timeline' && !showEvents;
     if (!hasAnalysisParams && isDefaultView) return;
 
     url.searchParams.set('seriesA', leftId);
@@ -677,7 +689,7 @@ export function DataStudio() {
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }, [urlReady, leftId, rightId, startYear, endYear, mode, lag, view, showEvents, activeEvent.id]);
 
-  const copyShareLink = async () => {
+  const shareAnalysis = async () => {
     const url = new URL(window.location.href);
     url.searchParams.set('seriesA', leftId);
     url.searchParams.set('seriesB', rightId);
@@ -690,6 +702,21 @@ export function DataStudio() {
     url.searchParams.set('event', activeEvent.id);
     url.hash = 'datastudio';
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${left.shortLabel} jämfört med ${right.shortLabel}`,
+          text: `Sverigefacit: ${mode === 'change' ? 'årsdifferenser' : 'nivåer'}, ${pairs.length} observationspar. Samvariation är inte bevisad effekt.`,
+          url: url.toString(),
+        });
+        setCopiedSignature(analysisSignature);
+        setCopyFailedSignature('');
+        window.gtag?.('event', 'share', { method: 'native', content_type: 'data_analysis' });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+      }
+    }
     try {
       await navigator.clipboard.writeText(url.toString());
       setCopiedSignature(analysisSignature);
@@ -701,7 +728,7 @@ export function DataStudio() {
   };
 
   const presets = [
-    { label: 'Invandring ↔ dödligt våld', left: 'immigration', right: 'deadlyViolence' },
+    { label: 'Invandringsflöde ↔ totalt dödligt våld', left: 'immigration', right: 'deadlyViolence' },
     { label: 'Matpris ↔ köpkraft', left: 'foodPrices', right: 'economicStandard' },
     { label: 'Styrränta ↔ räntebörda', left: 'policyRate', right: 'interestRatio' },
     { label: 'Arbetslöshet ↔ BNP/person', left: 'unemployment', right: 'gdpPerCapita' },
@@ -723,17 +750,27 @@ export function DataStudio() {
           <button
             type="button"
             key={preset.label}
-            className={leftId === preset.left && rightId === preset.right ? 'active' : ''}
-            aria-pressed={leftId === preset.left && rightId === preset.right}
+            className={leftId === preset.left && rightId === preset.right && mode === 'change' && startYear === 2000 && endYear === 2025 && lag === 0 && view === 'timeline' && !showEvents ? 'active' : ''}
+            aria-pressed={leftId === preset.left && rightId === preset.right && mode === 'change' && startYear === 2000 && endYear === 2025 && lag === 0 && view === 'timeline' && !showEvents}
             onClick={() => {
               setLeftId(preset.left);
               setRightId(preset.right);
+              setStartYear(2000);
+              setEndYear(2025);
+              setMode('change');
+              setLag(0);
+              setView('timeline');
+              setShowEvents(false);
             }}
           >
             {preset.label}
           </button>
         ))}
       </div>
+
+      {leftId === 'immigration' && rightId === 'deadlyViolence' && (
+        <div className="lab-specific-warning"><strong>Viktigt om denna jämförelse:</strong> Invandringsserien avser alla registrerade inflyttningar och våldsserien allt konstaterat dödligt våld. Den innehåller ingen uppgift om gärningspersoners bakgrund och kan inte mäta en effekt av invandring.</div>
+      )}
 
       <div className="lab-controls">
         <label>
@@ -768,10 +805,10 @@ export function DataStudio() {
             </div>
             <div className="lab-toolbar-actions">
               <label className="event-toggle">
-                <input type="checkbox" checked={showEvents} onChange={(event) => setShowEvents(event.target.checked)} />
-                <span /> Visa världshändelser
+                <input type="checkbox" checked={showEvents} disabled={!eventsEligible} onChange={(event) => setShowEvents(event.target.checked)} />
+                <span /> {eventsEligible ? 'Visa relevanta världshändelser' : 'Händelser kräver samma år och tidslinje'}
               </label>
-              <button type="button" className="lab-share-button" onClick={copyShareLink} aria-live="polite">{linkCopied ? 'Länk kopierad ✓' : copyFailed ? 'Kunde inte kopiera – försök igen' : 'Kopiera delbar länk'}</button>
+              <button type="button" className="lab-share-button" onClick={shareAnalysis} aria-live="polite">{linkCopied ? 'Klart ✓' : copyFailed ? 'Kunde inte dela – försök igen' : 'Dela analys'}</button>
             </div>
           </div>
 
@@ -788,7 +825,7 @@ export function DataStudio() {
                   ))}
                   {view === 'timeline' ? (
                     <>
-                      {showEvents && chartEvents.map((event, index) => {
+                      {showEvents && eventsEligible && chartEvents.map((event, index) => {
                         const eventX = xForYear(event.year);
                         return (
                           <g key={event.id}>
@@ -830,7 +867,7 @@ export function DataStudio() {
           <div className="lab-legend">
             <span><i style={{ background: left.color }} /> {left.shortLabel}</span>
             <span><i style={{ background: right.color }} /> {right.shortLabel}</span>
-            {view === 'timeline' && <small>Normaliserad skala 0–100 inom vald period</small>}
+            {view === 'timeline' && <small>Varje serie normaliseras separat till 0–100 inom vald period. Linjernas höjd och avstånd kan inte jämföras i originalenheter.</small>}
           </div>
 
           <details className="lab-data-table">
@@ -843,7 +880,7 @@ export function DataStudio() {
             </div>
           </details>
 
-          {showEvents && chartEvents.length > 0 && (
+          {showEvents && eventsEligible && chartEvents.length > 0 && (
             <div className="world-event-row">
               {chartEvents.map((event, index) => (
                 <button type="button" key={event.id} className={activeEvent.id === event.id ? 'active' : ''} aria-pressed={activeEvent.id === event.id} onClick={() => setActiveEventId(event.id)}>
@@ -861,6 +898,7 @@ export function DataStudio() {
             <span>Pearson r</span>
           </div>
           <p className="correlation-strength">{correlationStatus}</p>
+          {hasEnoughData && pairs.length < 15 && <p className="correlation-sample-warning">Få observationspar — koefficienten är känslig för enskilda år.</p>}
           <div className="correlation-meta">
             <div><span>Spearman ρ</span><strong>{canEstimate ? formatCorrelation(spearmanValue) : '—'}</strong></div>
             <div><span>Observationspar</span><strong>{pairs.length}</strong></div>
@@ -870,9 +908,9 @@ export function DataStudio() {
           <p className="correlation-help">Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
           <div className="correlation-warning">
             <strong>Samvariation — inte effekt.</strong>
-            <p>Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja ett samband. En tidsförskjutning visar tidsordning, men bevisar inte orsak.</p>
+            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årsdifferenser minskar trendrisken, men bevisar inte orsak. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
           </div>
-          {showEvents && chartEvents.length > 0 && (
+          {showEvents && eventsEligible && chartEvents.length > 0 && (
             <div className="event-reading">
               <span>Vald omvärldshändelse · {activeEvent.year}</span>
               <strong>{activeEvent.label}</strong>
@@ -903,7 +941,7 @@ export function CrimeMigrationEvidence() {
       <div className="crime-evidence-heading">
         <div>
           <p className="section-kicker">Fördjupning · känsligt samband</p>
-          <h2>Kriminalitet och migrationsbakgrund.</h2>
+          <h2>Registrerad brottsmisstanke efter bakgrund.</h2>
         </div>
         <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. Skillnaderna minskar tydligt när gruppernas ålder, kön och socioekonomi likställs statistiskt — men studien kan inte visa varför skillnaden finns.</p>
       </div>
@@ -918,16 +956,16 @@ export function CrimeMigrationEvidence() {
         <article className="crime-risk-card">
           <div className="crime-card-toolbar">
             <div>
-              <span>Rått utfall kontra standardiserat samband</span>
-              <h3>{mode === 'absolute' ? 'Andel registrerad som misstänkt' : 'Relativ risk mot referensgruppen'}</h3>
+              <span>Observerad andel och standardiserat jämförelsemått</span>
+              <h3>{mode === 'absolute' ? 'Andel registrerad som misstänkt minst en gång 2015–2018' : 'Överrisk att registreras som misstänkt'}</h3>
             </div>
             <div role="group" aria-label="Välj mått">
               <button type="button" className={mode === 'absolute' ? 'active' : ''} aria-pressed={mode === 'absolute'} onClick={() => setMode('absolute')}>Absolut andel</button>
-              <button type="button" className={mode === 'risk' ? 'active' : ''} aria-pressed={mode === 'risk'} onClick={() => setMode('risk')}>Relativ risk</button>
+              <button type="button" className={mode === 'risk' ? 'active' : ''} aria-pressed={mode === 'risk'} onClick={() => setMode('risk')}>Överrisk</button>
             </div>
           </div>
           <div className="risk-legend">
-            <span><i className="raw-dot" /> Rått utfall</span>
+            <span><i className="raw-dot" /> Observerat utfall</span>
             <span><i className="adjusted-dot" /> Standardiserat</span>
           </div>
           <div className="risk-bars">
@@ -946,13 +984,13 @@ export function CrimeMigrationEvidence() {
                   </div>
                   <div className="risk-values">
                     <strong>{formatNumber(raw, 2)}{mode === 'absolute' ? ' %' : '×'}</strong>
-                    <span>{formatNumber(adjusted, 2)}{mode === 'absolute' ? ' %' : '×'} justerat</span>
+                    <span>{formatNumber(adjusted, 2)}{mode === 'absolute' ? ' %' : '×'} standardiserat</span>
                   </div>
                 </div>
               );
             })}
           </div>
-          <p className="standardization-note">Standardiserat för ålder, kön, låg disponibel inkomst, utbildningsnivå och kommuntyp. Det är statistisk omviktning — inte ett kausalt experiment.</p>
+          <p className="standardization-note">Brås publicerade jämförelsemått är standardiserade för ålder, kön, disponibel inkomst, utbildning och kommuntyp. Den standardiserade andelen är inte den observerade andelen och inte en kausal effekt. Överriskerna bygger på oavrundade underlag och kan därför avvika 0,01 från kvoten av visade procenttal.</p>
         </article>
 
         <aside className="crime-reading-card">
@@ -962,11 +1000,12 @@ export function CrimeMigrationEvidence() {
           <div className="crime-big-shift">
             <div><span>Rå relativ skillnad</span><strong>2,51×</strong></div>
             <b>→</b>
-            <div><span>Efter standardisering</span><strong>1,76×</strong></div>
+            <div><span>Efter standardisering</span><strong>1,77×</strong></div>
           </div>
           <p>Associationen minskar men försvinner inte. Det kvarvarande sambandet är inte en skattning av en “migrationseffekt”.</p>
           <ul>
             <li><i /> Misstänkt är inte dömd.</li>
+            <li><i /> Registrerad misstanke påverkas av anmälan, upptäckt och utredning.</li>
             <li><i /> Födelseland är inte etnicitet, religion eller kultur.</li>
             <li><i /> Gruppgenomsnitt säger inget om en enskild person.</li>
           </ul>
@@ -978,7 +1017,7 @@ export function CrimeMigrationEvidence() {
         <div className="country-intro">
           <span>Fördjupning · födelseland</span>
           <h3>Inte en nutida landranking.</h3>
-          <p>Brå särredovisar endast utrikesfödda från större födelseländer i 2014 års befolkning. Välj alfabetiskt och se både rått och standardiserat resultat. Landanalysen standardiserar för ålder, kön, inkomst och utbildning; kommuntyp ingår inte.</p>
+          <p>Brå särredovisar endast utrikesfödda från större födelseländer i 2014 års befolkning. B10 och B11 publicerar både råa och standardiserade andelar respektive överrisker. Sverigefacit räknar inte fram dem. Landanalysen standardiserar för ålder, kön, disponibel inkomst och utbildning; kommuntyp ingår inte.</p>
         </div>
         <div className="country-control">
           <label>
@@ -989,13 +1028,13 @@ export function CrimeMigrationEvidence() {
           </label>
           <div className="country-result" aria-live="polite">
             <div><span>Personer i kohorten</span><strong>{selectedCountry.n.toLocaleString('sv-SE')}</strong></div>
-            <div><span>Rå andel / RR</span><strong>{formatNumber(selectedCountry.rawPct, 2)} % · {formatNumber(selectedCountry.rawRR, 2)}×</strong></div>
-            <div><span>Standardiserad andel / RR</span><strong>{formatNumber(selectedCountry.adjustedPct, 2)} % · {formatNumber(selectedCountry.adjustedRR, 2)}×</strong></div>
+            <div><span>Observerad andel / överrisk</span><strong>{formatNumber(selectedCountry.rawPct, 2)} % · {formatNumber(selectedCountry.rawRR, 2)}×</strong></div>
+            <div><span>Brås standardiserade andel / överrisk</span><strong>{formatNumber(selectedCountry.adjustedPct, 2)} % · {formatNumber(selectedCountry.adjustedRR, 2)}×</strong></div>
           </div>
         </div>
         <div className="country-warning">
           <strong>Historisk avgränsning</strong>
-          <p>Folk­bokförda 2014, misstankar 2015–2018, alla brott sammantaget. Land × brottstyp finns inte i officiellt underlag. Brå planerar uppdatering för 2019–2024 först i slutet av 2026.</p>
+          <p>Folk­bokförda 2014, misstankar 2015–2018, alla brott sammantaget. Land × brottstyp finns inte i officiellt underlag. Brå planerar en första publicering av ett urval statistik för 2019–2024 i slutet av 2026, men har inte angett att födelselandstabellen uppdateras.</p>
           <a href="https://bra.se/download/18.366598ab19270941a1c3955/1729256818286/2021_Tabellbilaga%201%20delstudie%201.pdf" target="_blank" rel="noreferrer">Tabellbilaga ↗</a>
         </div>
       </div>

@@ -13,6 +13,8 @@ export const siteConfig = {
 };
 
 export const topicLinks = [
+  { name: 'Valet 2026 i verifierbara siffror', href: '/valet-2026' },
+  { name: 'Korta faktasvar med originalkällor', href: '/fakta' },
   { name: 'Svensk statistik och regeringsperioder', href: '/statistik' },
   { name: 'Brottslighet i Sverige', href: '/statistik/brottslighet' },
   { name: 'Brott och migrationsbakgrund', href: '/statistik/invandring-och-brott' },

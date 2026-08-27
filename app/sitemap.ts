@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { facts, factPath } from './fakta/facts';
 import { siteConfig } from './site-config';
 import { seoTopics, topicPath } from './seo-topics';
 
@@ -9,6 +10,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.8,
   }));
+  const factPages: MetadataRoute.Sitemap = facts.map((fact) => ({
+    url: `${siteConfig.url}${factPath(fact.slug)}`,
+    lastModified: new Date(siteConfig.modified),
+    changeFrequency: 'weekly',
+    priority: 0.86,
+  }));
 
   return [
     {
@@ -18,12 +25,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${siteConfig.url}/valet-2026`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'daily',
+      priority: 1,
+    },
+    {
+      url: `${siteConfig.url}/fakta`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    ...factPages,
+    {
       url: `${siteConfig.url}/statistik`,
       lastModified: new Date(siteConfig.modified),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     ...topicPages,
+    {
+      url: `${siteConfig.url}/datastudio`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'monthly',
+      priority: 0.78,
+    },
+    {
+      url: `${siteConfig.url}/analys/brott-och-migration`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     {
       url: `${siteConfig.url}/politik/valloften`,
       lastModified: new Date(siteConfig.modified),
@@ -41,6 +73,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(siteConfig.modified),
       changeFrequency: 'monthly',
       priority: 0.6,
+    },
+    {
+      url: `${siteConfig.url}/integritet`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ];
 }
