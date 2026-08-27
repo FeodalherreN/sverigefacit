@@ -1,6 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import {
+  CrimeMigrationEvidence,
+  DataStudio,
+  ElectionAgenda,
+  PromiseTracker,
+  WelfarePulse,
+} from './evidence-lab';
 
 type Point = { year: number; value: number };
 type SeriesId =
@@ -448,6 +455,9 @@ const sourceHubs = [
   { name: 'Riksbanken', detail: 'Ränta · penningpolitik', url: 'https://www.riksbank.se/sv/statistik/' },
   { name: 'Migrationsverket', detail: 'Asyl · tillstånd', url: 'https://www.migrationsverket.se/Om-Migrationsverket/Statistik.html' },
   { name: 'Energimyndigheten', detail: 'Energi · bränsle · el', url: 'https://www.energimyndigheten.se/statistik/' },
+  { name: 'Socialstyrelsen', detail: 'Äldreomsorg · socialtjänst', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
+  { name: 'Pensionsmyndigheten', detail: 'Pension · real utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
+  { name: 'Naturvårdsverket', detail: 'Klimat · utsläpp', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
   { name: 'Regeringen', detail: 'Reformer · propositioner', url: 'https://www.regeringen.se/rattsliga-dokument/' },
 ];
 
@@ -721,6 +731,10 @@ export default function Home() {
         title: series[id].label,
         subtitle: series[id].eyebrow,
       })),
+      { id: 'datastudio', type: 'Fördjupning', title: 'Datastudion', subtitle: 'Korrelation · egna serieval · världshändelser' },
+      { id: 'brott-migration', type: 'Fördjupning', title: 'Kriminalitet och migrationsbakgrund', subtitle: 'Brå · födelseland · rått och standardiserat samband' },
+      { id: 'valfragor', type: 'Fördjupning', title: 'Hushåll och välfärd', subtitle: 'Äldreomsorg · pension · matpriser · räntebörda' },
+      { id: 'valloften', type: 'Fördjupning', title: 'Vallöfteslabbet', subtitle: 'Beslut · genomförande · samhällseffekt' },
       ...timelineEvents.map((event) => ({
         id: event.id,
         type: 'Tidslinje',
@@ -749,10 +763,12 @@ export default function Home() {
     if (type === 'Tidsserie') {
       setActiveId(id as SeriesId);
       window.setTimeout(() => document.getElementById('utfall')?.scrollIntoView({ behavior: 'smooth' }), 30);
-    } else {
+    } else if (type === 'Tidslinje') {
       setSelectedEventId(id);
       setTimelineFilter('alla');
       window.setTimeout(() => document.getElementById('tidslinje')?.scrollIntoView({ behavior: 'smooth' }), 30);
+    } else {
+      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 30);
     }
     setSearchOpen(false);
     setSearchTerm('');
@@ -768,6 +784,7 @@ export default function Home() {
         </a>
         <nav className="main-nav" aria-label="Huvudmeny">
           <a href="#utfall">Utforska</a>
+          <a href="#datastudio">Datastudio</a>
           <a href="#facit">Facit</a>
           <a href="#tidslinje">Tidslinje</a>
           <a href="#metod">Metod</a>
@@ -797,12 +814,14 @@ export default function Home() {
             <p>Officiella API:er och publicerade tabeller. Varje mått har metodnot och direktlänk.</p>
           </div>
           <div className="hero-meta" aria-label="Om datan">
-            <div><strong>8</strong><span>tidsserier</span></div>
-            <div><strong>6</strong><span>källaktörer</span></div>
+            <div><strong>15</strong><span>tidsserier</span></div>
+            <div><strong>9</strong><span>källaktörer</span></div>
             <div><strong>2000–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
       </section>
+
+      <ElectionAgenda />
 
       <section className="topic-section" aria-labelledby="topic-heading">
         <div className="section-heading">
@@ -925,6 +944,12 @@ export default function Home() {
         />
       </section>
 
+      <DataStudio />
+
+      <CrimeMigrationEvidence />
+
+      <WelfarePulse />
+
       <section className="promise-section" id="facit">
         <div className="promise-intro">
           <p className="section-kicker">Påstående → utfall</p>
@@ -941,8 +966,8 @@ export default function Home() {
           </div>
           <div className="promise-result">
             <span className="verdict"><i /> Facit: ej uppfyllt</span>
-            <div className="result-number"><strong>8,3 %</strong><span>Sveriges arbetslöshet 2020</span></div>
-            <p>Eurostats årsdata visar att flera EU-länder hade lägre arbetslöshet. Målet kan därför bedömas. Däremot bevisar utfallet inte vilken enskild politik som orsakade avvikelsen.</p>
+            <div className="result-number"><strong>8,5 %</strong><span>Sveriges EU-harmoniserade arbetslöshet 2020</span></div>
+            <p>Eurostats jämförbara årsdata visar 8,5 procent för Sverige och 2,6 procent för Tjeckien. Målet kan därför bedömas. Däremot bevisar utfallet inte vilken enskild politik som orsakade avvikelsen.</p>
             <div className="result-sources">
               <a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/arbetsmarknad/utbud-av-arbetskraft/arbetskraftsundersokningarna-aku/pong/statistiknyhet/arbetskraftsundersokningarna-aku-arsmedeltal-2020/" target="_blank" rel="noreferrer">SCB ↗</a>
               <a href="https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table?lang=en" target="_blank" rel="noreferrer">Eurostat ↗</a>
@@ -954,6 +979,8 @@ export default function Home() {
           </footer>
         </article>
       </section>
+
+      <PromiseTracker />
 
       <section className="timeline-section" id="tidslinje">
         <div className="section-heading">
