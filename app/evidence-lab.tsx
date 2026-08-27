@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 
 type Point = { year: number; value: number };
+type AnalysisMode = 'level' | 'change';
 type LabSeries = {
   id: string;
   label: string;
@@ -34,6 +35,7 @@ type CrimeCountry = {
 };
 
 type PromiseStage = 'done' | 'partial' | 'no' | 'unknown';
+type AgendaStatus = 'available' | 'partial' | 'planned';
 type PromiseItem = {
   id: string;
   year: string;
@@ -272,17 +274,17 @@ const worldEvents: WorldEvent[] = [
   },
 ];
 
-const electionAgenda = [
-  { rank: 1, label: 'Sjukvård', value: 58, href: '#valfragor' },
-  { rank: 2, label: 'Lag & ordning', value: 48, href: '#brott-migration' },
-  { rank: 3, label: 'Skola', value: 42, href: '#valfragor' },
-  { rank: 4, label: 'Försvar', value: 34, href: '#datastudio' },
-  { rank: 5, label: 'Klimat', value: 31, href: '#datastudio' },
-  { rank: 6, label: 'Äldreomsorg', value: 30, href: '#valfragor' },
-  { rank: 7, label: 'Invandring', value: 28, href: '#brott-migration' },
-  { rank: 8, label: 'Energi', value: 27, href: '#datastudio' },
-  { rank: 9, label: 'Landets ekonomi', value: 27, href: '#valfragor' },
-  { rank: 10, label: 'Utrikespolitik', value: 23, href: '#datastudio' },
+const electionAgenda: { rank: number; label: string; value: number; status: AgendaStatus; href?: string }[] = [
+  { rank: 1, label: 'Sjukvård', value: 58, status: 'planned' },
+  { rank: 2, label: 'Lag & ordning', value: 48, status: 'partial', href: '/statistik/brottslighet' },
+  { rank: 3, label: 'Skola', value: 42, status: 'planned' },
+  { rank: 4, label: 'Försvar', value: 34, status: 'planned' },
+  { rank: 5, label: 'Klimat', value: 31, status: 'available', href: '/#utfall' },
+  { rank: 6, label: 'Äldreomsorg', value: 30, status: 'available', href: '/statistik/aldreomsorg' },
+  { rank: 7, label: 'Invandring', value: 28, status: 'available', href: '/statistik/migration' },
+  { rank: 8, label: 'Energi', value: 27, status: 'partial', href: '/#datastudio' },
+  { rank: 9, label: 'Landets ekonomi', value: 27, status: 'partial', href: '/statistik/privatekonomi' },
+  { rank: 10, label: 'Utrikespolitik', value: 23, status: 'planned' },
 ];
 
 const crimeGroups = [
@@ -414,29 +416,59 @@ const promiseItems: PromiseItem[] = [
 const formatNumber = (value: number, digits = 1) =>
   value.toLocaleString('sv-SE', { maximumFractionDigits: digits, minimumFractionDigits: digits });
 
-const valueLabel = (item: LabSeries, value: number) => {
-  if (item.unit === 'personer' || item.unit === 'offer' || item.unit.startsWith('kr/')) {
-    return Math.round(value).toLocaleString('sv-SE') + ' ' + item.unit;
+const MIN_CORRELATION_POINTS = 8;
+
+const valueLabel = (item: LabSeries, value: number, mode: AnalysisMode = 'level') => {
+  const unit = mode === 'change' && item.unit.startsWith('procent')
+    ? 'procentenheter'
+    : mode === 'change' && item.unit.startsWith('KPI-index')
+      ? 'indexpunkter'
+      : item.unit;
+  if (unit === 'personer' || unit === 'offer' || unit.startsWith('kr/')) {
+    return Math.round(value).toLocaleString('sv-SE') + ' ' + unit;
   }
-  return formatNumber(value, Math.abs(value) < 10 ? 2 : 1) + ' ' + item.unit;
+  return formatNumber(value, Math.abs(value) < 10 ? 2 : 1) + ' ' + unit;
 };
 
-const commonPairs = (left: LabSeries, right: LabSeries, start: number, end: number) => {
-  const rightByYear = new Map(right.points.map((point) => [point.year, point.value]));
-  return left.points
-    .filter((point) => point.year >= start && point.year <= end && rightByYear.has(point.year))
-    .map((point) => ({ year: point.year, x: point.value, y: rightByYear.get(point.year) as number }));
+const analysisPoints = (item: LabSeries, mode: AnalysisMode): Point[] => {
+  if (mode === 'level') return item.points;
+  const byYear = new Map(item.points.map((point) => [point.year, point.value]));
+  return item.points.flatMap((point) => {
+    const previous = byYear.get(point.year - 1);
+    return previous === undefined ? [] : [{ year: point.year, value: point.value - previous }];
+  });
 };
 
-const pearson = (values: { x: number; y: number }[]) => {
-  if (values.length < 3) return 0;
+const commonPairs = (
+  left: LabSeries,
+  right: LabSeries,
+  start: number,
+  end: number,
+  mode: AnalysisMode,
+  lag: number,
+) => {
+  const leftPoints = analysisPoints(left, mode);
+  const rightByYear = new Map(analysisPoints(right, mode).map((point) => [point.year, point.value]));
+  return leftPoints
+    .filter((point) => {
+      const rightYear = point.year + lag;
+      return point.year >= start && point.year <= end && rightYear >= start && rightYear <= end && rightByYear.has(rightYear);
+    })
+    .map((point) => {
+      const rightYear = point.year + lag;
+      return { year: point.year, rightYear, x: point.value, y: rightByYear.get(rightYear) as number };
+    });
+};
+
+const pearson = (values: { x: number; y: number }[]): number | null => {
+  if (values.length < 2) return null;
   const meanX = values.reduce((sum, value) => sum + value.x, 0) / values.length;
   const meanY = values.reduce((sum, value) => sum + value.y, 0) / values.length;
   const covariance = values.reduce((sum, value) => sum + (value.x - meanX) * (value.y - meanY), 0);
   const varianceX = values.reduce((sum, value) => sum + Math.pow(value.x - meanX, 2), 0);
   const varianceY = values.reduce((sum, value) => sum + Math.pow(value.y - meanY, 2), 0);
   const denominator = Math.sqrt(varianceX * varianceY);
-  return denominator ? covariance / denominator : 0;
+  return denominator > Number.EPSILON ? covariance / denominator : null;
 };
 
 const ranks = (values: number[]) => {
@@ -453,20 +485,25 @@ const ranks = (values: number[]) => {
   return result;
 };
 
-const spearman = (values: { x: number; y: number }[]) => {
+const spearman = (values: { x: number; y: number }[]): number | null => {
+  if (values.length < 2) return null;
   const xRanks = ranks(values.map((value) => value.x));
   const yRanks = ranks(values.map((value) => value.y));
   return pearson(xRanks.map((x, index) => ({ x, y: yRanks[index] })));
 };
 
+const formatCorrelation = (value: number | null) =>
+  value === null ? '—' : formatNumber(Math.abs(value) < .005 ? 0 : value, 2);
+
 const strengthLabel = (value: number) => {
   const absolute = Math.abs(value);
-  const direction = value >= 0 ? 'positivt' : 'negativt';
-  if (absolute < .2) return 'Mycket svagt ' + direction;
-  if (absolute < .4) return 'Svagt ' + direction;
-  if (absolute < .6) return 'Måttligt ' + direction;
-  if (absolute < .8) return 'Starkt ' + direction;
-  return 'Mycket starkt ' + direction;
+  if (absolute < .05) return 'Ingen tydlig linjär samvariation';
+  const direction = value > 0 ? 'positiv' : 'negativ';
+  if (absolute < .2) return 'Mycket svag ' + direction + ' samvariation';
+  if (absolute < .4) return 'Svag ' + direction + ' samvariation';
+  if (absolute < .6) return 'Måttlig ' + direction + ' samvariation';
+  if (absolute < .8) return 'Stark ' + direction + ' samvariation';
+  return 'Mycket stark ' + direction + ' samvariation';
 };
 
 function LabMiniChart({ item }: { item: LabSeries }) {
@@ -498,39 +535,56 @@ export function ElectionAgenda() {
         <a href="https://www.svt.se/nyheter/inrikes/lag-och-ordning-och-forsvar-allt-viktigare-for-valjarna" target="_blank" rel="noreferrer">SVT/Verian · januari 2026 ↗</a>
       </div>
       <div className="agenda-list">
-        {electionAgenda.map((item) => (
-          <a href={item.href} key={item.label}>
+        {electionAgenda.map((item) => {
+          const statusLabel = item.status === 'available' ? 'Data finns' : item.status === 'partial' ? 'Delvis täckt' : 'Planerad';
+          const content = (
+            <>
             <span>{String(item.rank).padStart(2, '0')}</span>
-            <strong>{item.label}</strong>
+            <strong>{item.label}<small data-status={item.status}>{statusLabel}</small></strong>
             <div><i style={{ width: item.value + '%' }} /></div>
             <b>{item.value} %</b>
-          </a>
-        ))}
+            </>
+          );
+          return item.href ? (
+            <a className="agenda-row" href={item.href} key={item.label}>{content}</a>
+          ) : (
+            <div className="agenda-row is-planned" key={item.label} aria-label={`${item.label}, ${item.value} procent, statistik planerad`}>{content}</div>
+          );
+        })}
       </div>
     </section>
   );
 }
 
 export function DataStudio() {
-  const [leftId, setLeftId] = useState('immigration');
-  const [rightId, setRightId] = useState('deadlyViolence');
+  const [leftId, setLeftId] = useState('policyRate');
+  const [rightId, setRightId] = useState('interestRatio');
   const [startYear, setStartYear] = useState(2000);
   const [endYear, setEndYear] = useState(2025);
+  const [mode, setMode] = useState<AnalysisMode>('level');
+  const [lag, setLag] = useState(0);
   const [view, setView] = useState<'timeline' | 'scatter'>('timeline');
   const [showEvents, setShowEvents] = useState(true);
   const [activeEventId, setActiveEventId] = useState('covid');
+  const [urlReady, setUrlReady] = useState(false);
+  const [copiedSignature, setCopiedSignature] = useState('');
+  const [copyFailedSignature, setCopyFailedSignature] = useState('');
 
   const left = seriesById[leftId];
   const right = seriesById[rightId];
   const pairs = useMemo(
-    () => commonPairs(left, right, startYear, endYear),
-    [left, right, startYear, endYear],
+    () => commonPairs(left, right, startYear, endYear, mode, lag),
+    [left, right, startYear, endYear, mode, lag],
   );
   const pearsonValue = pearson(pairs);
   const spearmanValue = spearman(pairs);
-  const availableEvents = worldEvents.filter((event) => event.year >= startYear && event.year <= endYear);
-  const activeEvent = availableEvents.find((event) => event.id === activeEventId) || availableEvents[0] || worldEvents[0];
-
+  const hasEnoughData = pairs.length >= MIN_CORRELATION_POINTS;
+  const canEstimate = hasEnoughData && pearsonValue !== null && spearmanValue !== null;
+  const correlationStatus = !hasEnoughData
+    ? `Minst ${MIN_CORRELATION_POINTS} observationspar krävs`
+    : pearsonValue === null
+      ? 'Kan inte beräknas – minst en serie saknar variation'
+      : strengthLabel(pearsonValue);
   const width = 900;
   const height = 350;
   const padLeft = 52;
@@ -541,6 +595,11 @@ export function DataStudio() {
   const plotHeight = height - padTop - padBottom;
   const minYear = pairs.length ? pairs[0].year : startYear;
   const maxYear = pairs.length ? pairs[pairs.length - 1].year : endYear;
+  const chartEvents = worldEvents.filter((event) => event.year >= minYear && event.year <= maxYear);
+  const activeEvent = chartEvents.find((event) => event.id === activeEventId) || chartEvents[0] || worldEvents[0];
+  const analysisSignature = [leftId, rightId, startYear, endYear, mode, lag, view, showEvents ? 1 : 0, activeEvent.id].join('|');
+  const linkCopied = copiedSignature === analysisSignature;
+  const copyFailed = copyFailedSignature === analysisSignature;
   const xForYear = (year: number) => padLeft + ((year - minYear) / Math.max(maxYear - minYear, 1)) * plotWidth;
   const leftValues = pairs.map((pair) => pair.x);
   const rightValues = pairs.map((pair) => pair.y);
@@ -549,7 +608,7 @@ export function DataStudio() {
   const rightMin = rightValues.length ? Math.min(...rightValues) : 0;
   const rightMax = rightValues.length ? Math.max(...rightValues) : 1;
   const normalize = (value: number, minimum: number, maximum: number) =>
-    ((value - minimum) / Math.max(maximum - minimum, 1)) * 100;
+    ((value - minimum) / Math.max(maximum - minimum, Number.EPSILON)) * 100;
   const yForNormalized = (value: number) => padTop + ((100 - value) / 100) * plotHeight;
   const leftLine = pairs.map((pair) => xForYear(pair.year) + ',' + yForNormalized(normalize(pair.x, leftMin, leftMax))).join(' ');
   const rightLine = pairs.map((pair) => xForYear(pair.year) + ',' + yForNormalized(normalize(pair.y, rightMin, rightMax))).join(' ');
@@ -566,6 +625,81 @@ export function DataStudio() {
   const regressionEnd = intercept + slope * leftMax;
   const clampToRightRange = (value: number) => Math.max(rightMin, Math.min(rightMax, value));
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedLeft = params.get('seriesA');
+    const nextLeft = requestedLeft && seriesById[requestedLeft] ? requestedLeft : 'policyRate';
+    const requestedRight = params.get('seriesB');
+    const nextRight = requestedRight && seriesById[requestedRight] && requestedRight !== nextLeft
+      ? requestedRight
+      : nextLeft === 'interestRatio' ? 'policyRate' : 'interestRatio';
+    const readYear = (name: string, fallback: number) => {
+      const raw = params.get(name);
+      const parsed = raw === null ? fallback : Number(raw);
+      return Number.isInteger(parsed) ? Math.min(2025, Math.max(2000, parsed)) : fallback;
+    };
+    const requestedFrom = readYear('from', 2000);
+    const requestedTo = readYear('to', 2025);
+    const requestedLag = Number(params.get('lag'));
+
+    // URL-parametrarna kan endast läsas efter montering; uppdateringarna batchas av React.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLeftId(nextLeft);
+    setRightId(nextRight);
+    setStartYear(Math.min(requestedFrom, requestedTo));
+    setEndYear(Math.max(requestedFrom, requestedTo));
+    setMode(params.get('measure') === 'change' ? 'change' : 'level');
+    setLag(Number.isInteger(requestedLag) ? Math.min(5, Math.max(-5, requestedLag)) : 0);
+    setView(params.get('view') === 'scatter' ? 'scatter' : 'timeline');
+    setShowEvents(params.get('events') !== '0');
+    const requestedEvent = params.get('event');
+    if (requestedEvent && worldEvents.some((item) => item.id === requestedEvent)) setActiveEventId(requestedEvent);
+    setUrlReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!urlReady) return;
+    const url = new URL(window.location.href);
+    const hasAnalysisParams = url.searchParams.has('seriesA');
+    const isDefaultView = leftId === 'policyRate' && rightId === 'interestRatio' && startYear === 2000 && endYear === 2025 && mode === 'level' && lag === 0 && view === 'timeline' && showEvents && activeEvent.id === 'covid';
+    if (!hasAnalysisParams && isDefaultView) return;
+
+    url.searchParams.set('seriesA', leftId);
+    url.searchParams.set('seriesB', rightId);
+    url.searchParams.set('from', String(startYear));
+    url.searchParams.set('to', String(endYear));
+    url.searchParams.set('measure', mode);
+    url.searchParams.set('lag', String(lag));
+    url.searchParams.set('view', view);
+    url.searchParams.set('events', showEvents ? '1' : '0');
+    url.searchParams.set('event', activeEvent.id);
+    url.hash = 'datastudio';
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [urlReady, leftId, rightId, startYear, endYear, mode, lag, view, showEvents, activeEvent.id]);
+
+  const copyShareLink = async () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('seriesA', leftId);
+    url.searchParams.set('seriesB', rightId);
+    url.searchParams.set('from', String(startYear));
+    url.searchParams.set('to', String(endYear));
+    url.searchParams.set('measure', mode);
+    url.searchParams.set('lag', String(lag));
+    url.searchParams.set('view', view);
+    url.searchParams.set('events', showEvents ? '1' : '0');
+    url.searchParams.set('event', activeEvent.id);
+    url.hash = 'datastudio';
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    try {
+      await navigator.clipboard.writeText(url.toString());
+      setCopiedSignature(analysisSignature);
+      setCopyFailedSignature('');
+    } catch {
+      setCopiedSignature('');
+      setCopyFailedSignature(analysisSignature);
+    }
+  };
+
   const presets = [
     { label: 'Invandring ↔ dödligt våld', left: 'immigration', right: 'deadlyViolence' },
     { label: 'Matpris ↔ köpkraft', left: 'foodPrices', right: 'economicStandard' },
@@ -579,17 +713,18 @@ export function DataStudio() {
       <div className="lab-heading">
         <div>
           <p className="section-kicker">Datastudion</p>
-          <h2>Testa ett samband.<br /><em>Behåll tvivlet.</em></h2>
+          <h2>Testa samvariation.<br /><em>Behåll tvivlet.</em></h2>
         </div>
-        <p>Välj två årsserier. Vi matchar bara år som finns i båda, visar två korrelationsmått och lägger omvärldshändelser som kontext — aldrig som automatisk förklaring.</p>
+        <p>Jämför nivåer eller årsvisa differenser och tidsförskjut serie B mot serie A. Resultatet är deskriptiv samvariation — aldrig en skattning av politisk effekt.</p>
       </div>
 
-      <div className="lab-presets" aria-label="Färdiga jämförelser">
+      <div className="lab-presets" role="group" aria-label="Färdiga jämförelser">
         {presets.map((preset) => (
           <button
             type="button"
             key={preset.label}
             className={leftId === preset.left && rightId === preset.right ? 'active' : ''}
+            aria-pressed={leftId === preset.left && rightId === preset.right}
             onClick={() => {
               setLeftId(preset.left);
               setRightId(preset.right);
@@ -619,6 +754,8 @@ export function DataStudio() {
         <div className="year-controls">
           <label><span>Från</span><select value={startYear} onChange={(event) => setStartYear(Math.min(Number(event.target.value), endYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
           <label><span>Till</span><select value={endYear} onChange={(event) => setEndYear(Math.max(Number(event.target.value), startYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
+          <label><span>Datatyp</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årsdifferens</option></select></label>
+          <label><span>Tidsförskjutning</span><select value={lag} onChange={(event) => setLag(Number(event.target.value))}>{Array.from({ length: 11 }, (_, index) => index - 5).map((value) => <option value={value} key={value}>{value === 0 ? 'Samma år' : `B ${Math.abs(value)} år ${value > 0 ? 'efter' : 'före'} A`}</option>)}</select></label>
         </div>
       </div>
 
@@ -626,18 +763,22 @@ export function DataStudio() {
         <div className="lab-chart-panel">
           <div className="lab-chart-toolbar">
             <div role="group" aria-label="Välj diagramtyp">
-              <button type="button" className={view === 'timeline' ? 'active' : ''} onClick={() => setView('timeline')}>Utveckling</button>
-              <button type="button" className={view === 'scatter' ? 'active' : ''} onClick={() => setView('scatter')}>Punktdiagram</button>
+              <button type="button" className={view === 'timeline' ? 'active' : ''} aria-pressed={view === 'timeline'} onClick={() => setView('timeline')}>Utveckling</button>
+              <button type="button" className={view === 'scatter' ? 'active' : ''} aria-pressed={view === 'scatter'} onClick={() => setView('scatter')}>Punktdiagram</button>
             </div>
-            <label className="event-toggle">
-              <input type="checkbox" checked={showEvents} onChange={(event) => setShowEvents(event.target.checked)} />
-              <span /> Visa världshändelser
-            </label>
+            <div className="lab-toolbar-actions">
+              <label className="event-toggle">
+                <input type="checkbox" checked={showEvents} onChange={(event) => setShowEvents(event.target.checked)} />
+                <span /> Visa världshändelser
+              </label>
+              <button type="button" className="lab-share-button" onClick={copyShareLink} aria-live="polite">{linkCopied ? 'Länk kopierad ✓' : copyFailed ? 'Kunde inte kopiera – försök igen' : 'Kopiera delbar länk'}</button>
+            </div>
           </div>
 
-          <div className="lab-chart-scroll">
+          <p className="chart-scroll-hint" aria-hidden="true">Svep åt sidan för fler år →</p>
+          <div className="lab-chart-scroll" tabIndex={0} role="region" aria-label={`Diagram: ${left.label} jämfört med ${right.label}`}>
             <div className="lab-chart-stage">
-              {pairs.length >= 3 ? (
+              {pairs.length >= 2 ? (
                 <svg className="lab-chart" viewBox={'0 0 ' + width + ' ' + height} role="img" aria-label={left.label + ' jämfört med ' + right.label}>
                   {[0, 25, 50, 75, 100].map((tick) => (
                     <g key={tick}>
@@ -647,8 +788,7 @@ export function DataStudio() {
                   ))}
                   {view === 'timeline' ? (
                     <>
-                      {showEvents && availableEvents.map((event, index) => {
-                        if (event.year < minYear || event.year > maxYear) return null;
+                      {showEvents && chartEvents.map((event, index) => {
                         const eventX = xForYear(event.year);
                         return (
                           <g key={event.id}>
@@ -662,18 +802,18 @@ export function DataStudio() {
                       <polyline points={rightLine} fill="none" stroke={right.color} className="lab-series-line second" />
                       {pairs.map((pair) => (
                         <g key={pair.year}>
-                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.x, leftMin, leftMax))} r="3.3" fill="#fff" stroke={left.color} strokeWidth="2"><title>{`${pair.year}: ${valueLabel(left, pair.x)}`}</title></circle>
-                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.y, rightMin, rightMax))} r="3.3" fill="#fff" stroke={right.color} strokeWidth="2"><title>{`${pair.year}: ${valueLabel(right, pair.y)}`}</title></circle>
+                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.x, leftMin, leftMax))} r="3.3" fill="#fff" stroke={left.color} strokeWidth="2"><title>{`${pair.year}: ${valueLabel(left, pair.x, mode)}`}</title></circle>
+                          <circle cx={xForYear(pair.year)} cy={yForNormalized(normalize(pair.y, rightMin, rightMax))} r="3.3" fill="#fff" stroke={right.color} strokeWidth="2"><title>{`${pair.rightYear}: ${valueLabel(right, pair.y, mode)}`}</title></circle>
                         </g>
                       ))}
                       {[minYear, Math.round((minYear + maxYear) / 2), maxYear].map((year) => <text key={year} x={xForYear(year)} y={height - 17} textAnchor="middle" className="lab-axis-label">{year}</text>)}
                     </>
                   ) : (
                     <>
-                      <line x1={scatterX(leftMin)} y1={scatterY(clampToRightRange(regressionStart))} x2={scatterX(leftMax)} y2={scatterY(clampToRightRange(regressionEnd))} className="regression-line" />
+                      {canEstimate && <line x1={scatterX(leftMin)} y1={scatterY(clampToRightRange(regressionStart))} x2={scatterX(leftMax)} y2={scatterY(clampToRightRange(regressionEnd))} className="regression-line" />}
                       {pairs.map((pair) => (
                         <circle key={pair.year} cx={scatterX(pair.x)} cy={scatterY(pair.y)} r="5" fill={left.color} opacity=".7" stroke="#fff" strokeWidth="1.5">
-                          <title>{`${pair.year}: ${valueLabel(left, pair.x)} · ${valueLabel(right, pair.y)}`}</title>
+                          <title>{`${pair.year}: ${valueLabel(left, pair.x, mode)} · ${pair.rightYear}: ${valueLabel(right, pair.y, mode)}`}</title>
                         </circle>
                       ))}
                       <text x={padLeft} y={height - 15} className="lab-axis-label">{left.shortLabel} →</text>
@@ -682,7 +822,7 @@ export function DataStudio() {
                   )}
                 </svg>
               ) : (
-                <div className="lab-no-overlap">Serierna har färre än tre gemensamma år i intervallet. Välj en bredare period.</div>
+                <div className="lab-no-overlap">Serierna har färre än två observationspar i intervallet. Välj en bredare period eller kortare tidsförskjutning.</div>
               )}
             </div>
           </div>
@@ -693,10 +833,20 @@ export function DataStudio() {
             {view === 'timeline' && <small>Normaliserad skala 0–100 inom vald period</small>}
           </div>
 
-          {showEvents && availableEvents.length > 0 && (
+          <details className="lab-data-table">
+            <summary>Visa observationsparen som tabell <span>+</span></summary>
+            <div tabIndex={0} role="region" aria-label="Datatabell för vald jämförelse">
+              <table>
+                <thead><tr><th scope="col">År A</th><th scope="col">{left.shortLabel}</th><th scope="col">År B</th><th scope="col">{right.shortLabel}</th></tr></thead>
+                <tbody>{pairs.map((pair) => <tr key={`${pair.year}-${pair.rightYear}`}><th scope="row">{pair.year}</th><td>{valueLabel(left, pair.x, mode)}</td><td>{pair.rightYear}</td><td>{valueLabel(right, pair.y, mode)}</td></tr>)}</tbody>
+              </table>
+            </div>
+          </details>
+
+          {showEvents && chartEvents.length > 0 && (
             <div className="world-event-row">
-              {availableEvents.map((event, index) => (
-                <button type="button" key={event.id} className={activeEvent.id === event.id ? 'active' : ''} onClick={() => setActiveEventId(event.id)}>
+              {chartEvents.map((event, index) => (
+                <button type="button" key={event.id} className={activeEvent.id === event.id ? 'active' : ''} aria-pressed={activeEvent.id === event.id} onClick={() => setActiveEventId(event.id)}>
                   <span>{index + 1}</span>{event.year} · {event.label}
                 </button>
               ))}
@@ -705,23 +855,24 @@ export function DataStudio() {
         </div>
 
         <aside className="lab-result-panel">
-          <span className="lab-result-kicker">Korrelation i vald period</span>
+          <span className="lab-result-kicker">Deskriptiv samvariation · {mode === 'level' ? 'nivåer' : 'årsdifferenser'}</span>
           <div className="correlation-number">
-            <strong>{pairs.length >= 3 ? formatNumber(pearsonValue, 2) : '—'}</strong>
+            <strong>{canEstimate ? formatCorrelation(pearsonValue) : '—'}</strong>
             <span>Pearson r</span>
           </div>
-          <p className="correlation-strength">{pairs.length >= 3 ? strengthLabel(pearsonValue) + ' samband' : 'För få gemensamma år'}</p>
+          <p className="correlation-strength">{correlationStatus}</p>
           <div className="correlation-meta">
-            <div><span>Spearman ρ</span><strong>{pairs.length >= 3 ? formatNumber(spearmanValue, 2) : '—'}</strong></div>
-            <div><span>Gemensamma år</span><strong>{pairs.length}</strong></div>
+            <div><span>Spearman ρ</span><strong>{canEstimate ? formatCorrelation(spearmanValue) : '—'}</strong></div>
+            <div><span>Observationspar</span><strong>{pairs.length}</strong></div>
             <div><span>Intervall</span><strong>{pairs.length ? pairs[0].year + '–' + pairs[pairs.length - 1].year : '—'}</strong></div>
+            <div><span>Förskjutning</span><strong>{lag === 0 ? 'Samma år' : `B ${Math.abs(lag)} år ${lag > 0 ? 'efter' : 'före'}`}</strong></div>
           </div>
           <p className="correlation-help">Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
           <div className="correlation-warning">
-            <strong>Korrelation är inte orsak.</strong>
-            <p>Gemensam trend, omvänd kausalitet, tredje faktorer och val av period kan skapa eller dölja samband.</p>
+            <strong>Samvariation — inte effekt.</strong>
+            <p>Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja ett samband. En tidsförskjutning visar tidsordning, men bevisar inte orsak.</p>
           </div>
-          {showEvents && availableEvents.length > 0 && (
+          {showEvents && chartEvents.length > 0 && (
             <div className="event-reading">
               <span>Vald omvärldshändelse · {activeEvent.year}</span>
               <strong>{activeEvent.label}</strong>
@@ -771,8 +922,8 @@ export function CrimeMigrationEvidence() {
               <h3>{mode === 'absolute' ? 'Andel registrerad som misstänkt' : 'Relativ risk mot referensgruppen'}</h3>
             </div>
             <div role="group" aria-label="Välj mått">
-              <button type="button" className={mode === 'absolute' ? 'active' : ''} onClick={() => setMode('absolute')}>Absolut andel</button>
-              <button type="button" className={mode === 'risk' ? 'active' : ''} onClick={() => setMode('risk')}>Relativ risk</button>
+              <button type="button" className={mode === 'absolute' ? 'active' : ''} aria-pressed={mode === 'absolute'} onClick={() => setMode('absolute')}>Absolut andel</button>
+              <button type="button" className={mode === 'risk' ? 'active' : ''} aria-pressed={mode === 'risk'} onClick={() => setMode('risk')}>Relativ risk</button>
             </div>
           </div>
           <div className="risk-legend">
@@ -967,7 +1118,7 @@ export function PromiseTracker() {
       <div className="tracker-layout">
         <div className="tracker-list">
           {promiseItems.map((item) => (
-            <button type="button" key={item.id} className={selected.id === item.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}>
+            <button type="button" key={item.id} className={selected.id === item.id ? 'active' : ''} aria-pressed={selected.id === item.id} onClick={() => setSelectedId(item.id)}>
               <span>{item.year}</span>
               <div><strong>{item.title}</strong><small>{item.owner}</small></div>
               <i className={'verdict-dot verdict-' + item.verdictTone} />

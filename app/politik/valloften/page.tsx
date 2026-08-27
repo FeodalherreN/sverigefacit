@@ -23,7 +23,7 @@ const promises = [
 
 export default function PromisesPage() {
   return (
-    <main className="guide-page">
+    <main className="guide-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <article>
         <header className="info-page-hero">

@@ -64,7 +64,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
   };
 
   return (
-    <main className="guide-page">
+    <main className="guide-page" id="guide-content" tabIndex={-1}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -111,13 +111,13 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
                   <p>{topic.observed}</p>
                 </article>
                 <article>
-                  <span>02 · Rimlig koppling</span>
+                  <span>02 · Möjlig policykoppling</span>
                   <h3>Det politiken kan påverka</h3>
                   <p>{topic.policy}</p>
                 </article>
                 <article>
-                  <span>03 · Inte bevisat</span>
-                  <h3>Gränsen för slutsatsen</h3>
+                  <span>03 · Kausal effekt</span>
+                  <h3>Inte belagd av denna tidsserie</h3>
                   <p>{topic.limitation}</p>
                 </article>
               </div>
@@ -145,12 +145,14 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
           </div>
 
           <aside className="topic-fact-panel">
-            <span>Om underlaget</span>
+            <span>Datapass</span>
             <dl>
               <div><dt>Geografi</dt><dd>Sverige</dd></div>
               <div><dt>Tidsperiod</dt><dd>{topic.temporalCoverage.replace('/', '–')}</dd></div>
-              <div><dt>Kontrollerat</dt><dd>27 aug 2026</dd></div>
+              <div><dt>Kontrollerat</dt><dd>{siteConfig.sourceChecked}</dd></div>
               <div><dt>Källtyp</dt><dd>Officiell statistik</dd></div>
+              <div><dt>Bearbetning</dt><dd>Återgiven utan prediktiv modell</dd></div>
+              <div><dt>Originalkällor</dt><dd>{topic.sources.length}</dd></div>
             </dl>
             <p>Serien återges för begriplig jämförelse. Originalkällans definition och revisionshistorik gäller alltid.</p>
             <Link href="/kallor">Alla källaktörer <span>↗</span></Link>

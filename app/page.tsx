@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import {
   CrimeMigrationEvidence,
   DataStudio,
@@ -9,6 +9,7 @@ import {
   PromiseTracker,
   WelfarePulse,
 } from './evidence-lab';
+import { siteConfig } from './site-config';
 
 type Point = { year: number; value: number };
 type SeriesId =
@@ -370,16 +371,14 @@ const seriesOrder: SeriesId[] = [
 ];
 
 const periods: Period[] = [
-  { id: 'reinfeldt', label: 'Reinfeldt', detail: 'M-ledd · 2006–14', start: 2006, end: 2014, color: '#79a9ee' },
-  { id: 'lofven', label: 'Löfven', detail: 'S-ledd · 2014–21', start: 2014, end: 2021, color: '#e68580' },
-  { id: 'andersson', label: 'Andersson', detail: 'S-ledd · 2021–22', start: 2021, end: 2022, color: '#d96863' },
-  { id: 'kristersson', label: 'Kristersson', detail: 'M-ledd · 2022–', start: 2022, end: 2025, color: '#447fd2' },
+  { id: 'persson', label: 'Persson', detail: 'S-ledd · 2000–06', start: 2000, end: 2006, color: '#e6aaa6' },
+  { id: 'reinfeldt', label: 'Reinfeldt', detail: 'M-ledd · 2007–14', start: 2007, end: 2014, color: '#79a9ee' },
+  { id: 'lofven', label: 'Löfven', detail: 'S-ledd · 2015–21', start: 2015, end: 2021, color: '#e68580' },
+  { id: 'andersson', label: 'Andersson', detail: 'S-ledd · 2022', start: 2022, end: 2022, color: '#d96863' },
+  { id: 'kristersson', label: 'Kristersson', detail: 'M-ledd · 2023–', start: 2023, end: 2025, color: '#447fd2' },
 ];
 
-const chartGovernments: Period[] = [
-  { id: 'persson', label: 'Persson', detail: 'S', start: 2000, end: 2006, color: '#e6aaa6' },
-  ...periods,
-];
+const chartGovernments: Period[] = periods;
 
 const timelineEvents: TimelineEvent[] = [
   {
@@ -460,6 +459,7 @@ const sourceHubs = [
   { name: 'Pensionsmyndigheten', detail: 'Pension · real utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
   { name: 'Naturvårdsverket', detail: 'Klimat · utsläpp', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
   { name: 'Regeringen', detail: 'Reformer · propositioner', url: 'https://www.regeringen.se/rattsliga-dokument/' },
+  { name: 'Riksdagen', detail: 'Lagar · beslut · dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
 ];
 
 const numberFormatter = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 });
@@ -506,6 +506,7 @@ function MiniSparkline({ item }: { item: Series }) {
 
 function DataChart({ item }: { item: Series }) {
   const [selected, setSelected] = useState<Point>(item.points[item.points.length - 1]);
+  const pointRefs = useRef<Map<number, SVGGElement>>(new Map());
   const width = 920;
   const height = 350;
   const left = 56;
@@ -530,24 +531,38 @@ function DataChart({ item }: { item: Series }) {
   const yTicks = Array.from({ length: 5 }, (_, index) => minValue + ((maxValue - minValue) * index) / 4);
   const selectedX = xFor(selected.year);
   const selectedY = yFor(selected.value);
+  const yearStep = plotWidth / Math.max(maxYear - minYear, 1);
+  const selectedIndex = item.points.findIndex((point) => point.year === selected.year);
+
+  const selectAdjacentPoint = (offset: number) => {
+    const next = item.points[Math.max(0, Math.min(item.points.length - 1, selectedIndex + offset))];
+    if (next) {
+      setSelected(next);
+      window.requestAnimationFrame(() => pointRefs.current.get(next.year)?.focus());
+    }
+  };
 
   return (
-    <div className="data-chart-shell">
-      <div className="government-key" aria-label="Regeringsperioder i grafen">
-        {chartGovernments.map((government) => (
-          <span key={government.id}>
-            <i style={{ background: government.color }} />
-            {government.label}
-          </span>
-        ))}
-      </div>
-      <div className="data-chart-stage">
+    <div className="data-chart-shell" role="region" aria-label={'Diagram och datatabell för ' + item.eyebrow}>
+      <div className="data-chart-scroll" tabIndex={0} role="region" aria-label={'Rullbart diagram för ' + item.eyebrow}>
+        <div className="government-key" role="group" aria-label="Regering som styrde flest dagar under kalenderåret">
+          {chartGovernments.map((government) => (
+            <span key={government.id}>
+              <i style={{ background: government.color }} />
+              {government.label}
+            </span>
+          ))}
+        </div>
+        <p className="chart-scroll-hint" aria-hidden="true">Svep åt sidan för fler år →</p>
+        <div className="data-chart-stage">
         <svg
           className="data-chart"
           viewBox={'0 0 ' + width + ' ' + height}
-          role="img"
-          aria-label={item.eyebrow + ' från ' + minYear + ' till ' + maxYear}
+          role="group"
+          aria-labelledby={'chart-title-' + item.id + ' chart-description-' + item.id}
         >
+          <title id={'chart-title-' + item.id}>{`${item.eyebrow} från ${minYear} till ${maxYear}`}</title>
+          <desc id={'chart-description-' + item.id}>Välj datapunkt med tabbtangenten och byt år med vänster eller höger pil. Tabellen efter diagrammet innehåller samtliga värden.</desc>
           <defs>
             <linearGradient id={'fill-' + item.id} x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor={item.accent} stopOpacity=".25" />
@@ -557,9 +572,10 @@ function DataChart({ item }: { item: Series }) {
           {chartGovernments.map((government) => {
             const startYear = Math.max(government.start, minYear);
             const endYear = Math.min(government.end, maxYear);
-            if (startYear >= endYear) return null;
-            const bandX = xFor(startYear);
-            const bandWidth = xFor(endYear) - bandX;
+            if (startYear > endYear) return null;
+            const bandX = Math.max(left, xFor(startYear) - yearStep / 2);
+            const bandRight = Math.min(width - right, xFor(endYear) + yearStep / 2);
+            const bandWidth = Math.max(0, bandRight - bandX);
             return (
               <g key={government.id}>
                 <rect x={bandX} y={top} width={bandWidth} height={plotHeight} fill={government.color} opacity=".07" />
@@ -582,21 +598,29 @@ function DataChart({ item }: { item: Series }) {
           {item.points.map((point) => (
             <g
               key={point.year}
+              ref={(node) => {
+                if (node) pointRefs.current.set(point.year, node);
+                else pointRefs.current.delete(point.year);
+              }}
               className="chart-point-hit"
               role="button"
-              tabIndex={0}
+              tabIndex={selected.year === point.year ? 0 : -1}
+              aria-pressed={selected.year === point.year}
               aria-label={point.year + ': ' + formatMetric(item, point.value)}
               onMouseEnter={() => setSelected(point)}
               onFocus={() => setSelected(point)}
               onClick={() => setSelected(point)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                  event.preventDefault();
+                  selectAdjacentPoint(event.key === 'ArrowLeft' ? -1 : 1);
+                } else if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault();
                   setSelected(point);
                 }
               }}
             >
-              <circle cx={xFor(point.year)} cy={yFor(point.value)} r="10" fill="transparent" />
+              <circle cx={xFor(point.year)} cy={yFor(point.value)} r="12" fill="transparent" />
               <circle
                 cx={xFor(point.year)}
                 cy={yFor(point.value)}
@@ -616,7 +640,7 @@ function DataChart({ item }: { item: Series }) {
         <div
           className="chart-tooltip"
           style={{
-            left: (selectedX / width) * 100 + '%',
+            left: `clamp(70px, ${(selectedX / width) * 100}%, calc(100% - 70px))`,
             top: (selectedY / height) * 100 + '%',
             borderColor: item.accent,
           }}
@@ -625,26 +649,57 @@ function DataChart({ item }: { item: Series }) {
           <span>{selected.year}</span>
           <strong>{formatMetric(item, selected.value)}</strong>
         </div>
+        </div>
       </div>
+      <label className="chart-year-control">
+        <span>Välj år i grafen</span>
+        <select
+          value={selected.year}
+          onChange={(event) => {
+            const next = item.points.find((point) => point.year === Number(event.target.value));
+            if (next) setSelected(next);
+          }}
+        >
+          {item.points.map((point) => <option key={point.year} value={point.year}>{point.year} · {formatMetric(item, point.value)}</option>)}
+        </select>
+      </label>
+      <details className="chart-data-table">
+        <summary>Visa data som tabell <span>+</span></summary>
+        <div tabIndex={0} role="region" aria-label={'Datatabell för ' + item.eyebrow}>
+          <table>
+            <thead><tr><th scope="col">År</th><th scope="col">Värde</th></tr></thead>
+            <tbody>{item.points.map((point) => <tr key={point.year}><th scope="row">{point.year}</th><td>{formatMetric(item, point.value)}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </details>
     </div>
   );
 }
 
 function getPeriodResult(item: Series, period: Period) {
   const available = item.points.filter((point) => point.year >= period.start && point.year <= period.end);
-  if (available.length < 2) return null;
+  if (!available.length) return null;
   const first = available[0];
   const last = available[available.length - 1];
+  if (available.length < 2) return { first, last, change: null, annualChange: null, observations: 1 };
   const rawChange = item.changeMode === 'points'
     ? last.value - first.value
     : ((last.value - first.value) / Math.abs(first.value)) * 100;
   const digits = Math.abs(rawChange) < 10 ? 1 : 0;
   const sign = rawChange > 0 ? '+' : '';
   const unit = item.changeMode === 'points' ? ' p.e.' : ' %';
+  const elapsedYears = Math.max(last.year - first.year, 1);
+  const annualRaw = item.changeMode === 'points'
+    ? rawChange / elapsedYears
+    : (Math.pow(last.value / first.value, 1 / elapsedYears) - 1) * 100;
+  const annualDigits = Math.abs(annualRaw) < 10 ? 1 : 0;
+  const annualSign = annualRaw > 0 ? '+' : '';
   return {
     first,
     last,
     change: sign + rawChange.toLocaleString('sv-SE', { maximumFractionDigits: digits, minimumFractionDigits: digits }) + unit,
+    annualChange: annualSign + annualRaw.toLocaleString('sv-SE', { maximumFractionDigits: annualDigits, minimumFractionDigits: annualDigits }) + unit + '/år',
+    observations: available.length,
   };
 }
 
@@ -692,10 +747,12 @@ function Comparison({
             <div className="period-result">
               <i style={{ background: entry.period.color }} />
               <div>
-                <strong>{entry.result ? entry.result.change : 'Saknar data'}</strong>
+                <strong>{entry.result?.annualChange || (entry.result ? formatMetric(item, entry.result.first.value) : 'Saknar data')}</strong>
                 <span>
-                  {entry.result
-                    ? formatMetric(item, entry.result.first.value) + ' → ' + formatMetric(item, entry.result.last.value)
+                  {entry.result?.change
+                    ? 'Totalt ' + entry.result.change + ' · ' + formatMetric(item, entry.result.first.value) + ' → ' + formatMetric(item, entry.result.last.value)
+                    : entry.result
+                      ? 'Endast ett kalenderår · inget förändringsmått'
                     : 'Perioden täcks inte av serien'}
                 </span>
               </div>
@@ -703,6 +760,7 @@ function Comparison({
           </div>
         ))}
       </div>
+      <p className="comparison-note">Övergångsår tilldelas regeringen som styrde flest dagar under kalenderåret. Jämförelsen är beskrivande och visar inte regeringens kausala effekt.</p>
     </div>
   );
 }
@@ -715,6 +773,9 @@ export default function Home() {
   const [selectedEventId, setSelectedEventId] = useState('migrationlaw');
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const searchDialogRef = useRef<HTMLDialogElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const activeSeries = series[activeId];
   const selectedEvent =
@@ -754,11 +815,27 @@ export default function Home() {
         event.preventDefault();
         setSearchOpen(true);
       }
-      if (event.key === 'Escape') setSearchOpen(false);
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
+
+  useEffect(() => {
+    const dialog = searchDialogRef.current;
+    if (!dialog) return;
+
+    if (searchOpen) {
+      if (!dialog.open) dialog.showModal();
+      document.documentElement.style.overflow = 'hidden';
+      window.requestAnimationFrame(() => searchInputRef.current?.focus());
+    } else if (dialog.open) {
+      dialog.close();
+    }
+
+    return () => {
+      document.documentElement.style.overflow = '';
+    };
+  }, [searchOpen]);
 
   const selectSearchResult = (id: string, type: string) => {
     if (type === 'Tidsserie') {
@@ -777,6 +854,7 @@ export default function Home() {
 
   return (
     <main>
+      <a className="skip-link" href="#top">Hoppa till huvudinnehållet</a>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Sverigefacit, startsida">
           <span className="brand-mark" aria-hidden="true"><i /><i /></span>
@@ -790,12 +868,12 @@ export default function Home() {
           <a href="#tidslinje">Tidslinje</a>
           <a href="#metod">Metod</a>
         </nav>
-        <button className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök i all data">
+        <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök i all data">
           <span>Sök i all data</span><kbd>⌘ K</kbd>
         </button>
       </header>
 
-      <section className="hero" id="top">
+      <section className="hero" id="top" tabIndex={-1}>
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
           <p className="eyebrow"><span /> Svensk statistik. Politisk kontext.</p>
@@ -811,16 +889,22 @@ export default function Home() {
         <aside className="hero-side">
           <div className="status-card">
             <span className="status-live"><i /> Källor kontrollerade</span>
-            <strong>27 aug 2026</strong>
+            <strong>{siteConfig.sourceChecked}</strong>
             <p>Officiella API:er och publicerade tabeller. Varje mått har metodnot och direktlänk.</p>
           </div>
-          <div className="hero-meta" aria-label="Om datan">
+          <div className="hero-meta" role="group" aria-label="Om datan">
             <div><strong>15</strong><span>tidsserier</span></div>
-            <div><strong>9</strong><span>källaktörer</span></div>
+            <div><strong>10</strong><span>källaktörer</span></div>
             <div><strong>2000–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
       </section>
+
+      <nav className="first-visit-guide" aria-label="Tre sätt att använda Sverigefacit">
+        <a href="#utfall"><span>01</span><strong>Vad hände?</strong><small>Se utfallet i officiella tidsserier.</small><i>↓</i></a>
+        <a href="#facit"><span>02</span><strong>Vad lovades och beslutades?</strong><small>Följ löftet från formulering till genomförande.</small><i>↓</i></a>
+        <a href="#metod"><span>03</span><strong>Vad kan kopplas till politiken?</strong><small>Skilj möjlig koppling från belagd effekt.</small><i>↓</i></a>
+      </nav>
 
       <ElectionAgenda />
 
@@ -890,13 +974,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="series-tabs" role="tablist" aria-label="Välj tidsserie">
+        <div className="series-tabs" role="group" aria-label="Välj tidsserie">
           {seriesOrder.map((id) => (
             <button
               type="button"
-              role="tab"
               key={id}
-              aria-selected={activeId === id}
+              aria-pressed={activeId === id}
               className={activeId === id ? 'active' : ''}
               onClick={() => setActiveId(id)}
             >
@@ -913,11 +996,21 @@ export default function Home() {
               <a href={activeSeries.sourceUrl} target="_blank" rel="noreferrer">{activeSeries.source} ↗</a>
             </div>
             <p className="source-note">{activeSeries.sourceNote}</p>
+            <details className="data-passport">
+              <summary>Datapass <span>+</span></summary>
+              <dl>
+                <div><dt>Exakt källa</dt><dd><a href={activeSeries.sourceUrl} target="_blank" rel="noreferrer">{activeSeries.source} ↗</a></dd></div>
+                <div><dt>Täckning</dt><dd>{activeSeries.points[0].year}–{activeSeries.points[activeSeries.points.length - 1].year} · {activeSeries.unit}</dd></div>
+                <div><dt>Bearbetning</dt><dd>Årsobservationer visas utan utjämning eller prediktiv modell.</dd></div>
+                <div><dt>Källkontroll</dt><dd>{siteConfig.sourceChecked}. {activeSeries.sourceNote}</dd></div>
+                <div><dt>Begränsning</dt><dd>{activeSeries.caveat}</dd></div>
+              </dl>
+            </details>
           </div>
 
           <aside className="evidence-panel" aria-label="Evidensbedömning">
             <div className={'evidence-level tone-' + activeSeries.evidenceTone}>
-              <span>Evidensnivå</span>
+              <span>Samlad evidensbedömning</span>
               <strong>{activeSeries.evidence}</strong>
             </div>
             <h3>Det här kan vi säga</h3>
@@ -928,11 +1021,11 @@ export default function Home() {
               </li>
               <li className="linked">
                 <span>02</span>
-                <div><strong>Rimlig koppling</strong><p>{activeSeries.linkage}</p></div>
+                <div><strong>Möjlig policykoppling</strong><p>{activeSeries.linkage}</p></div>
               </li>
               <li className="unproven">
                 <span>03</span>
-                <div><strong>Inte bevisat</strong><p>{activeSeries.uncertain}</p></div>
+                <div><strong>Kausal effekt · ej belagd</strong><p>{activeSeries.uncertain}</p></div>
               </li>
             </ol>
             <div className="context-box">
@@ -1012,6 +1105,7 @@ export default function Home() {
               type="button"
               key={value}
               className={timelineFilter === value ? 'active' : ''}
+              aria-pressed={timelineFilter === value}
               onClick={() => {
                 setTimelineFilter(value);
                 const firstMatch = value === 'alla' ? timelineEvents[0] : timelineEvents.find((event) => event.kind === value);
@@ -1059,7 +1153,7 @@ export default function Home() {
         <div className="method-heading">
           <p className="section-kicker">Metoden</p>
           <h2>Satslogik före slutsats.</h2>
-          <p>Varje facit bryts ned i tre nivåer. Styrkan bestäms inte av hur övertygande berättelsen låter, utan av vilket underlag som faktiskt finns.</p>
+          <p>Varje facit bryts ned i tre frågor. Styrkan bestäms inte av hur övertygande berättelsen låter, utan av vilket underlag som faktiskt finns.</p>
         </div>
         <div className="method-grid">
           <article>
@@ -1072,16 +1166,16 @@ export default function Home() {
           <article>
             <span className="method-number">02</span>
             <i className="method-signal signal-medium"><b /><b /><b /></i>
-            <h3>Rimlig policykoppling</h3>
+            <h3>Möjlig policykoppling</h3>
             <p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar vägs in.</p>
             <strong>Måttlig säkerhet</strong>
           </article>
           <article>
             <span className="method-number">03</span>
             <i className="method-signal signal-low"><b /><b /><b /></i>
-            <h3>Inte kausalt belagt</h3>
-            <p>Kurvorna rör sig samtidigt, men kontrafaktiskt underlag eller robust effektstudie saknas.</p>
-            <strong>Låg säkerhet</strong>
+            <h3>Kausalt belagd effekt</h3>
+            <p>En trovärdig kontrollgrupp, ett naturligt experiment eller robust effektstudie visar vad som sannolikt hänt utan insatsen.</p>
+            <strong>Kräver starkare underlag</strong>
           </article>
         </div>
         <div className="causal-checklist">
@@ -1122,37 +1216,54 @@ export default function Home() {
           <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
         </div>
         <div className="footer-summary">
-          <p>En neutral pilot för att göra offentlig svensk statistik, politiska beslut och evidensnivåer begripliga tillsammans.</p>
+          <p>En pilot som gör offentlig svensk statistik, politiska beslut och evidensnivåer begripliga tillsammans.</p>
           <nav aria-label="Genvägar till statistikområden">
             <Link href="/statistik/invandring-och-brott">Brott & migration</Link>
             <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
             <Link href="/politik/valloften">Vallöften</Link>
+            <Link href="/metod">Metod</Link>
+            <Link href="/kallor">Källor & rättelser</Link>
           </nav>
         </div>
         <div className="footer-meta">
-          <span>Källor verifierade 27 aug 2026</span>
+          <span>Senaste manuella källkontroll {siteConfig.sourceChecked}</span>
           <a href="#top">Till toppen ↑</a>
         </div>
       </footer>
 
-      {searchOpen && (
-        <div className="search-overlay" role="presentation" onMouseDown={(event) => {
+      <dialog
+        ref={searchDialogRef}
+        className="search-overlay"
+        aria-labelledby="search-title"
+        onCancel={(event) => {
+          event.preventDefault();
+          setSearchOpen(false);
+        }}
+        onClose={() => {
+          if (searchOpen) setSearchOpen(false);
+          searchButtonRef.current?.focus();
+        }}
+        onMouseDown={(event) => {
           if (event.target === event.currentTarget) setSearchOpen(false);
-        }}>
-          <section className="search-dialog" role="dialog" aria-modal="true" aria-label="Sök i Sverigefacit">
+        }}
+      >
+          <section className="search-dialog">
+            <h2 className="sr-only" id="search-title">Sök i Sverigefacit</h2>
             <div className="search-input-wrap">
               <span aria-hidden="true">⌕</span>
+              <label className="sr-only" htmlFor="site-search">Sök mått, reform eller år</label>
               <input
-                autoFocus
+                ref={searchInputRef}
+                id="site-search"
                 type="search"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Sök mått, reform eller år…"
               />
-              <button type="button" onClick={() => setSearchOpen(false)}>Esc</button>
+              <button type="button" onClick={() => setSearchOpen(false)} aria-label="Stäng sök">Esc</button>
             </div>
             <div className="search-results">
-              <p>{searchTerm ? 'Sökresultat' : 'Populärt just nu'}</p>
+              <p aria-live="polite">{searchTerm ? `${searchResults.length} sökresultat` : 'Populärt just nu'}</p>
               {searchResults.length ? searchResults.map((result) => (
                 <button
                   type="button"
@@ -1166,8 +1277,7 @@ export default function Home() {
               )) : <div className="empty-search">Inga träffar. Prova ett bredare ord.</div>}
             </div>
           </section>
-        </div>
-      )}
+      </dialog>
     </main>
   );
 }

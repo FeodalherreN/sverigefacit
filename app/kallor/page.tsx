@@ -21,12 +21,13 @@ const sources = [
   { name: 'Socialstyrelsen', detail: 'Hemtjänst, särskilt boende och äldreomsorg', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
   { name: 'Pensionsmyndigheten', detail: 'Allmän pension och fastprisberäknad utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
   { name: 'Naturvårdsverket', detail: 'Nationella växthusgasutsläpp och klimatdata', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
-  { name: 'Regeringen och riksdagen', detail: 'Propositioner, lagar, regeringsförklaringar och offentliga utredningar', url: 'https://www.regeringen.se/rattsliga-dokument/' },
+  { name: 'Regeringen', detail: 'Propositioner, regeringsförklaringar och offentliga utredningar', url: 'https://www.regeringen.se/rattsliga-dokument/' },
+  { name: 'Riksdagen', detail: 'Lagar, beslut, betänkanden och riksdagens dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
 ];
 
 export default function SourcesPage() {
   return (
-    <main className="guide-page">
+    <main className="guide-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <article>
         <header className="info-page-hero">
@@ -50,10 +51,12 @@ export default function SourcesPage() {
         <section className="source-principles">
           <div><p className="section-kicker">Källprinciper</p><h2>Ingen dold sammanvägning.</h2></div>
           <ul>
+            <li><strong>Katalog är inte datapass.</strong><span>Listan ovan visar källaktörer. Exakt tabell, rapport, enhet, period och bearbetning redovisas vid varje enskilt mått. Sverigefacit visar daterade utdrag, inte live-data.</span></li>
             <li><strong>Original före återberättande.</strong><span>Myndighetens tabell eller rapport används före en sekundär artikel.</span></li>
             <li><strong>Definition före rubrik.</strong><span>Misstanke, dom, invandring, asyl och ekonomisk standard hålls isär.</span></li>
             <li><strong>Period före jämförelse.</strong><span>Historiska kohorter kombineras inte med dagens befolkningsnämnare.</span></li>
             <li><strong>Revideringar får synas.</strong><span>Officiell statistik kan ändras när metoder eller underlag förbättras.</span></li>
+            <li><strong>Fel ska gå att rätta.</strong><span>Hittar du ett sakfel eller en bruten källa kan du <a href="https://github.com/FeodalherreN/sverigefacit/issues/new" target="_blank" rel="noreferrer">rapportera ett data- eller källfel ↗</a>. Ange sida, mått, avvikelse och originalkälla.</span></li>
           </ul>
         </section>
       </article>

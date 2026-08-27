@@ -3,6 +3,7 @@ import Link from 'next/link';
 export function GuideHeader() {
   return (
     <header className="guide-header">
+      <a className="skip-link" href="#guide-content">Hoppa till huvudinnehållet</a>
       <Link className="brand" href="/" aria-label="Sverigefacit, startsida">
         <span className="brand-mark" aria-hidden="true"><i /><i /></span>
         <span>Sverigefacit</span>

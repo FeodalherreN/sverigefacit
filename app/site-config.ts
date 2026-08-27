@@ -1,10 +1,4 @@
-const fallbackUrl = 'https://sverigefacit.olsson14.chatgpt.site';
-
-const configuredUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : fallbackUrl);
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sverigefacit.se';
 
 export const siteConfig = {
   name: 'Sverigefacit',
@@ -15,6 +9,7 @@ export const siteConfig = {
   locale: 'sv_SE',
   language: 'sv-SE',
   modified: '2026-08-27',
+  sourceChecked: '27 aug 2026',
 };
 
 export const topicLinks = [

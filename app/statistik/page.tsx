@@ -34,7 +34,7 @@ const structuredData = {
 
 export default function StatisticsIndexPage() {
   return (
-    <main className="guide-page">
+    <main className="guide-page" id="guide-content" tabIndex={-1}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
       <GuideHeader />
       <section className="catalog-hero">

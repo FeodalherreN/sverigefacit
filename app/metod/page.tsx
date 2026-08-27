@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Metod – så bedömer Sverigefacit politiska samband';
-const description = 'Läs hur Sverigefacit skiljer observerad statistik, rimliga policykopplingar och kausalt belagda effekter.';
+const description = 'Läs hur Sverigefacit skiljer observerad statistik, möjliga policykopplingar och kausalt belagda effekter.';
 
 export const metadata: Metadata = {
   title,
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function MethodPage() {
   return (
-    <main className="guide-page">
+    <main className="guide-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <article>
         <header className="info-page-hero">
@@ -24,9 +24,9 @@ export default function MethodPage() {
           <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Sverigefacit håller isär dem.</p>
         </header>
 
-        <section className="method-page-steps" aria-label="Tre evidensnivåer">
+        <section className="method-page-steps" aria-label="Tre led i evidensbedömningen">
           <article><span>01</span><strong>Observerat utfall</strong><p>En verifierbar förändring i offentlig statistik, med definition, tidsperiod, enhet och direktlänk till originalkällan.</p><i>Hög säkerhet för det definierade måttet</i></article>
-          <article><span>02</span><strong>Rimlig policykoppling</strong><p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar har identifierats.</p><i>Måttlig säkerhet</i></article>
+          <article><span>02</span><strong>Möjlig policykoppling</strong><p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar har identifierats.</p><i>Plausibilitet, inte effektbevis</i></article>
           <article><span>03</span><strong>Kausalt belagd effekt</strong><p>En trovärdig kontrollgrupp, naturligt experiment eller robust effektstudie visar vad som sannolikt hänt utan insatsen.</p><i>Kräver starkare underlag</i></article>
         </section>
 
@@ -52,6 +52,7 @@ export default function MethodPage() {
                 <article><strong>Spearman ρ</strong><p>Mäter om rangordningen rör sig åt samma håll. Det är mindre känsligt för vissa uteliggare men kontrollerar inte tredje faktorer.</p></article>
               </div>
               <p className="method-callout"><strong>Viktigast:</strong> Ett korrelationsmått beskriver samvariation i det valda intervallet. Det avgör inte riktning, mekanism eller orsak.</p>
+              <p className="method-callout"><strong>Evidensetiketterna:</strong> Kvalitativa metodbedömningar — inte sannolikheter eller automatiskt beräknade poäng. En kausalt belagd effekt kräver en trovärdig kontrafaktisk jämförelse.</p>
             </section>
 
             <section className="info-section">
@@ -62,7 +63,7 @@ export default function MethodPage() {
                 <li>Regeringsperioder och världshändelser visas som kontext, inte automatiska orsaker.</li>
                 <li>Vallöften delas upp i formulering, beslut, genomförande och samhällseffekt.</li>
                 <li>Historiska kohorter märks som historiska och kombineras inte med nya nämnare.</li>
-                <li>Underlag uppdateras när ansvarig myndighet reviderar eller publicerar ny statistik.</li>
+                <li>Kontrolldatum visas intill underlaget. Om myndigheten senare reviderar serien gäller originalkällan tills Sverigefacit har uppdaterats.</li>
               </ul>
             </section>
           </div>
