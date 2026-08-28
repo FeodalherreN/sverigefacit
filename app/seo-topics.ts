@@ -243,11 +243,11 @@ export const seoTopics: SeoTopic[] = [
     seoTitle: 'Invandring och brott – vad visar Brås statistik?',
     heading: 'Invandring och brott',
     description:
-      'Vad visar Brå om brott och migrationsbakgrund? Se observerade andelar, överrisk, standardisering och varför sambandet inte bevisar orsak.',
+      'Vad visar Brå om brott och migrationsbakgrund? Utforska 48 brottstyper efter födelseregion samt alla brott efter födelseland, med nivåer och justerade överrisker.',
     lead:
-      'Brås historiska registerstudie visar gruppskillnader i registrerad misstanke. Skillnaderna minskar när ålder, kön och socioekonomi likställs statistiskt, men studien kan inte avgöra varför de finns.',
+      'Brås historiska registerstudie visar gruppskillnader i registrerad misstanke. Sverigefacit redovisar både region × brottstyp och land × alla brott, men studien kan inte avgöra varför skillnaderna finns.',
     temporalCoverage: '2015/2018',
-    variableMeasured: ['Andel minst skäligen misstänkta', 'Observerad överrisk', 'Standardiserad överrisk'],
+    variableMeasured: ['Misstänkta per 1 000 efter födelseregion och brottstyp', 'Observerad överrisk', 'Standardiserad överrisk'],
     metrics: [
       { value: '8,0 %', label: 'utrikesfödda registrerade som misstänkta', period: '2015–2018' },
       { value: '3,2 %', label: 'referensgruppen registrerad som misstänkt', period: '2015–2018' },

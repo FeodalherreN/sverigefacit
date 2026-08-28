@@ -12,8 +12,8 @@ export const siteConfig = {
   url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',
-  modified: '2026-08-27',
-  sourceChecked: '27 aug 2026',
+  modified: '2026-08-28',
+  sourceChecked: '28 aug 2026',
 };
 
 export const topicLinks = [
