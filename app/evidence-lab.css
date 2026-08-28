@@ -18,6 +18,7 @@
 }
 
 .agenda-section h2,
+.lab-heading h1,
 .lab-heading h2,
 .crime-evidence-heading h2,
 .welfare-heading h2,
@@ -156,14 +157,12 @@
 
 .lab-section {
   width: min(1290px, calc(100% - 30px));
-  margin: 0 auto 115px;
+  margin: 30px auto 115px;
   padding: clamp(30px, 4vw, 50px);
   border: 1px solid #cdd1ce;
-  border-radius: 32px;
-  background:
-    radial-gradient(circle at 91% 5%, rgba(29, 103, 242, .09), transparent 24%),
-    var(--white);
-  box-shadow: 0 32px 90px rgba(23, 41, 58, .1);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 14px 42px rgba(23, 41, 58, .08);
 }
 
 .lab-heading {
@@ -185,10 +184,12 @@
   margin-bottom: 10px;
 }
 
+.lab-heading h1,
 .lab-heading h2 {
   font-size: clamp(48px, 5.4vw, 72px);
 }
 
+.lab-heading h1 em,
 .lab-heading h2 em {
   color: var(--blue);
   font-style: italic;
@@ -202,6 +203,7 @@
   line-height: 1.62;
 }
 
+.lab-heading-compact h1,
 .lab-heading-compact h2 { font-size: clamp(30px, 3.2vw, 42px); }
 .lab-heading-compact > p { max-width: 500px; }
 
@@ -2862,11 +2864,13 @@
     font-size: 42px;
   }
 
+  .lab-heading h1,
   .lab-heading h2,
   .tracker-heading h2 {
     font-size: 45px;
   }
 
+  .lab-heading-compact h1,
   .lab-heading-compact h2 { font-size: 32px; }
 
   .lab-section {

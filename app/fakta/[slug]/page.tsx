@@ -130,29 +130,28 @@ export default async function FactDetailPage({ params }: PageProps) {
         <FactBreakdownChart fact={fact} />
 
         <section className="fact-logic-section" aria-labelledby="fact-logic-heading">
-          <div><p className="section-kicker">Satslogiken</p><h2 id="fact-logic-heading">Vad går att säga?</h2></div>
+          <div><h2 id="fact-logic-heading">Tolkning</h2></div>
           <div className="fact-logic-grid">
-            <article><span>01 · Observerat</span><h3>Detta hände</h3><p>{fact.observed}</p></article>
-            <article><span>02 · Möjlig koppling</span><h3>Detta kan politiken påverka</h3><p>{fact.policy}</p></article>
-            <article><span>03 · Kausal effekt</span><h3>Detta är inte belagt</h3><p>{fact.limitation}</p></article>
+            <article><span>Utfall</span><h3>Vad visar statistiken?</h3><p>{fact.observed}</p></article>
+            <article><span>Politik</span><h3>Vad kan politiken påverka?</h3><p>{fact.policy}</p></article>
           </div>
         </section>
 
         <section className="fact-passport">
-          <div><p className="section-kicker">Datapass</p><h2>Kontrollera själv</h2><p>{fact.definition}</p></div>
+          <div><p className="section-kicker">Om måttet</p><h2>Källa och definition</h2><p>{fact.definition}</p></div>
           <dl>
             <div><dt>Geografi</dt><dd>{fact.geography?.label || 'Sverige'}</dd></div>
             <div><dt>Källa</dt><dd>{fact.sourceOrganization}</dd></div>
             <div><dt>Underlag</dt><dd><a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceName} ↗</a></dd></div>
             <div><dt>Period</dt><dd>{fact.period}</dd></div>
             <div><dt>Enhet</dt><dd>{fact.unit}</dd></div>
-            <div><dt>Evidens</dt><dd>{fact.evidence}</dd></div>
-            <div><dt>Kontrollerat</dt><dd>{fact.sourceChecked}</dd></div>
+            <div><dt>Tolkning</dt><dd>{fact.evidence}</dd></div>
+            <div><dt>Senast granskat</dt><dd>{fact.sourceChecked}</dd></div>
           </dl>
         </section>
 
         <section className="fact-related" aria-labelledby="related-facts-heading">
-          <div><p className="section-kicker">Fortsätt granska</p><h2 id="related-facts-heading">Relaterade facit</h2></div>
+          <div><h2 id="related-facts-heading">Relaterade faktasvar</h2></div>
           <div>{related.map((item) => <FactCard fact={item} compact key={item.slug} />)}</div>
         </section>
       </article>

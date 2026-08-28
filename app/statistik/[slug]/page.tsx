@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ClimateEnvironmentPage } from '../../climate-environment-page';
 import { TopicPage } from '../../topic-page';
 import { seoTopics, topicBySlug, topicPath } from '../../seo-topics';
 
@@ -25,13 +26,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: topicPath(slug),
       title: topic.seoTitle,
       description: topic.description,
-      images: [{ url: '/og.png', width: 1200, height: 630, alt: `${topic.heading} · Sverigefacit` }],
+      images: [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title: topic.seoTitle,
       description: topic.description,
-      images: ['/og.png'],
+      images: [],
     },
   };
 }
@@ -40,5 +41,6 @@ export default async function StatisticsTopicPage({ params }: PageProps) {
   const { slug } = await params;
   const topic = topicBySlug[slug];
   if (!topic) notFound();
+  if (slug === 'klimat-och-miljo') return <ClimateEnvironmentPage topic={topic} />;
   return <TopicPage topic={topic} />;
 }

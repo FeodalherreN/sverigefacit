@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { CrimeOriginExplorer } from './analys/brott-och-migration/crime-origin-explorer';
+import { environmentSeries } from './environment-data';
 
 type Point = { year: number; value: number };
 type AnalysisMode = 'level' | 'change';
@@ -384,18 +385,10 @@ const labSeries: LabSeries[] = [
     caveat: 'Råolja, kronkurs, skatt, reduktionsplikt, raffinaderimarginal och konkurrens påverkar samtidigt.',
     points: fromValues(2000, [15.4,14.9,14.4,14.2,15,16.6,17,16.9,17.6,17,18,19,20,19.4,19.1,17.8,17.4,18.3,19.6,19.7,17.6,19.9,23.1,20.7,18.2,16]),
   },
-  {
-    id: 'emissions',
-    group: 'Energi & klimat',
-    label: 'Nationella växthusgasutsläpp',
-    shortLabel: 'Utsläpp',
-    unit: 'Mt CO₂e',
-    color: '#548647',
-    source: 'SCB / Naturvårdsverket',
-    sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0107/TotaltUtslappN/',
-    caveat: 'Exklusive LULUCF och internationella transporter. Inventeringen revideras när metoder förbättras.',
-    points: fromValues(2000, [68.1,68.9,69.5,69.8,69.2,66.3,65.9,64.7,62.3,58.1,64.1,59.7,56.8,55.2,53.5,53.3,53.2,52.2,51.4,50.2,46,47.7,45.2,44.2,47.5]),
-  },
+  ...Object.values(environmentSeries).map((series) => ({
+    ...series,
+    group: 'Energi & klimat' as SeriesGroup,
+  })),
 ];
 
 const seriesById = Object.fromEntries(labSeries.map((item) => [item.id, item])) as Record<string, LabSeries>;
@@ -495,6 +488,15 @@ const worldEvents: WorldEvent[] = [
     sourceUrl: 'https://regeringen.se/regeringens-politik/sverige-i-nato/sveriges-och-natos-historia/',
     relevantSeries: [],
   },
+  {
+    id: 'reduction-obligation-2024',
+    year: 2024,
+    label: 'Reduktionsplikten sänks',
+    short: 'Nya nivåer började gälla 1 januari 2024',
+    detail: 'Naturvårdsverket anger den lägre inblandningen av biodrivmedel som huvudförklaring till att utsläppen från transporter och arbetsmaskiner ökade 2024. Markeringen visar när beslutet började gälla.',
+    sourceUrl: 'https://www.naturvardsverket.se/data-och-statistik/klimat/sveriges-utslapp-och-upptag-av-vaxthusgaser/',
+    relevantSeries: ['fuel', 'emissions', 'transportEmissions'],
+  },
 ];
 
 const electionAgenda: { rank: number; label: string; value: number; status: AgendaStatus; href?: string }[] = [
@@ -502,10 +504,10 @@ const electionAgenda: { rank: number; label: string; value: number; status: Agen
   { rank: 2, label: 'Lag & ordning', value: 48, status: 'partial', href: '/statistik/brottslighet' },
   { rank: 3, label: 'Skola', value: 42, status: 'planned' },
   { rank: 4, label: 'Försvar', value: 34, status: 'planned' },
-  { rank: 5, label: 'Klimat', value: 31, status: 'available', href: '/#utfall' },
+  { rank: 5, label: 'Klimat', value: 31, status: 'available', href: '/statistik/klimat-och-miljo' },
   { rank: 6, label: 'Äldreomsorg', value: 30, status: 'available', href: '/statistik/aldreomsorg' },
   { rank: 7, label: 'Invandring', value: 28, status: 'available', href: '/statistik/migration' },
-  { rank: 8, label: 'Energi', value: 27, status: 'partial', href: '/datastudio' },
+  { rank: 8, label: 'Energi', value: 27, status: 'available', href: '/statistik/klimat-och-miljo' },
   { rank: 9, label: 'Landets ekonomi', value: 27, status: 'partial', href: '/statistik/privatekonomi' },
   { rank: 10, label: 'Utrikespolitik', value: 23, status: 'planned' },
 ];
@@ -685,13 +687,8 @@ const formatCorrelation = (value: number | null) =>
 
 const strengthLabel = (value: number) => {
   const absolute = Math.abs(value);
-  if (absolute < .05) return 'Ingen tydlig linjär samvariation';
-  const direction = value > 0 ? 'positiv' : 'negativ';
-  if (absolute < .2) return 'Mycket svag ' + direction + ' samvariation';
-  if (absolute < .4) return 'Svag ' + direction + ' samvariation';
-  if (absolute < .6) return 'Måttlig ' + direction + ' samvariation';
-  if (absolute < .8) return 'Stark ' + direction + ' samvariation';
-  return 'Mycket stark ' + direction + ' samvariation';
+  if (absolute < .05) return 'Inget tydligt linjärt samband';
+  return value > 0 ? 'Positivt linjärt samband' : 'Negativt linjärt samband';
 };
 
 function LabMiniChart({ item }: { item: LabSeries }) {
@@ -913,11 +910,10 @@ export function DataStudio() {
 
   const presets = [
     { label: 'Inflation ↔ reallön', left: 'inflation', right: 'realWageGrowth', mode: 'level' as AnalysisMode },
-    { label: 'Invandring ↔ utvandring', left: 'immigration', right: 'emigration', mode: 'change' as AnalysisMode },
     { label: 'Styrränta ↔ räntebörda', left: 'policyRate', right: 'interestRatio', mode: 'change' as AnalysisMode },
     { label: 'Otrygghet ↔ dödligt våld', left: 'insecurity', right: 'deadlyViolence', mode: 'change' as AnalysisMode },
-    { label: 'Rökning ↔ snusning', left: 'dailySmoking', right: 'dailySnus', mode: 'level' as AnalysisMode },
-    { label: 'Fruktsamhet ↔ ekonomisk standard', left: 'fertility', right: 'economicStandard', mode: 'change' as AnalysisMode },
+    { label: 'Bensinpris ↔ transportutsläpp', left: 'fuel', right: 'transportEmissions', mode: 'change' as AnalysisMode },
+    { label: 'Territoriella ↔ konsumtionsutsläpp', left: 'emissions', right: 'consumptionEmissions', mode: 'change' as AnalysisMode },
   ];
   const renderSeriesOptions = (disabledId: string) => seriesGroupOrder.map((group) => (
     <optgroup label={group} key={group}>
@@ -931,10 +927,9 @@ export function DataStudio() {
     <section className="lab-section" id="datastudio">
       <div className="lab-heading lab-heading-compact">
         <div>
-          <p className="section-kicker">Börja med ett färdigt exempel eller välj själv</p>
-          <h2>Välj två serier.</h2>
+          <h1>Jämför två tidsserier</h1>
         </div>
-        <p>{labSeries.length} verifierade tidsserier i sju ämnesgrupper. Period, datatyp och tidsförskjutning finns under fler inställningar.</p>
+        <p>{labSeries.length} tidsserier med originalkälla i sju ämnesgrupper. Välj mått, period och visning. Diagrammet visar samband i valda år, inte orsak.</p>
       </div>
 
       <div className="lab-presets" role="group" aria-label="Färdiga jämförelser">
@@ -987,11 +982,11 @@ export function DataStudio() {
       </div>
 
       <details className="lab-advanced-controls">
-        <summary><span>Fler inställningar</span><small>Period · datatyp · tidsförskjutning</small><i>+</i></summary>
+        <summary><span>Fler inställningar</span><small>Period · visning · tidsförskjutning</small><i>+</i></summary>
         <div className="year-controls">
           <label><span>Från</span><select value={startYear} onChange={(event) => setStartYear(Math.min(Number(event.target.value), endYear))}>{labYears.map((year) => <option key={year}>{year}</option>)}</select></label>
           <label><span>Till</span><select value={endYear} onChange={(event) => setEndYear(Math.max(Number(event.target.value), startYear))}>{labYears.map((year) => <option key={year}>{year}</option>)}</select></label>
-          <label><span>Datatyp</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årlig förändring</option></select></label>
+          <label><span>Visning</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årlig förändring</option></select></label>
           <label><span>Tidsförskjutning</span><select value={lag} onChange={(event) => {
             const nextLag = Number(event.target.value);
             setLag(nextLag);
@@ -1013,7 +1008,7 @@ export function DataStudio() {
             <div className="lab-toolbar-actions">
               <label className="event-toggle">
                 <input type="checkbox" checked={showEvents} disabled={!eventsEligible} onChange={(event) => setShowEvents(event.target.checked)} />
-                <span /> {eventsEligible ? 'Visa relevanta världshändelser' : 'Händelser kräver samma år och tidslinje'}
+                <span /> {eventsEligible ? 'Visa relevanta händelser' : 'Händelser kräver samma år och tidslinje'}
               </label>
               <button type="button" className="lab-share-button" onClick={shareAnalysis} aria-live="polite">{linkCopied ? 'Klart ✓' : copyFailed ? 'Kunde inte dela – försök igen' : 'Dela diagram'}</button>
             </div>
@@ -1099,7 +1094,7 @@ export function DataStudio() {
         </div>
 
         <aside className="lab-result-panel">
-          <span className="lab-result-kicker">Deskriptiv samvariation · {mode === 'level' ? 'nivåer' : 'årlig förändring'}</span>
+          <span className="lab-result-kicker">Samband i valda år · {mode === 'level' ? 'nivåer' : 'årlig förändring'}</span>
           <div className="correlation-number">
             <strong>{canEstimate ? formatCorrelation(pearsonValue) : '—'}</strong>
             <span>Pearson r</span>
@@ -1119,11 +1114,11 @@ export function DataStudio() {
           <details className="correlation-explanation">
             <summary>Så tolkar du resultatet <span>+</span></summary>
             <p>Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
-            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årlig förändring minskar trendrisken, men bevisar inte orsak. Vid glapp mäts båda serierna över samma gemensamma intervall och divideras med antalet år, utan interpolation. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
+            <p>r gäller bara de valda åren. Gemensam trend, en tredje faktor, omvänd riktning eller periodval kan ge ett högt värde. Årlig förändring minskar trendrisken men bevisar inte orsak. Vid glapp jämförs samma observationsintervall utan att mellanår fylls i. Använd resultatet som en fråga att undersöka vidare, inte som ett bevis.</p>
           </details>
           {showEvents && eventsEligible && chartEvents.length > 0 && (
             <div className="event-reading">
-              <span>Vald omvärldshändelse · {activeEvent.year}</span>
+              <span>Vald händelse · {activeEvent.year}</span>
               <strong>{activeEvent.label}</strong>
               <p>{activeEvent.detail}</p>
               <a href={activeEvent.sourceUrl} target="_blank" rel="noreferrer">Källa ↗</a>
@@ -1154,16 +1149,16 @@ export function CrimeMigrationEvidence() {
     <section className="crime-evidence-section" id="brott-migration">
       <div className="crime-evidence-heading">
         <div>
-          <p className="section-kicker">Börja med helhetsbilden</p>
-          <h2>Så ser registermåttet ut.</h2>
+          <p className="section-kicker">Registrerad misstanke i Brås historiska kohort</p>
+          <h2>Vad visar registerstudien?</h2>
         </div>
-        <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. Skillnaderna minskar tydligt när gruppernas ålder, kön och socioekonomi likställs statistiskt — men studien kan inte visa varför skillnaden finns.</p>
+        <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. När Brå standardiserar för ålder, kön, inkomst, utbildning och kommuntyp minskar skillnaden — men studien kan inte visa varför den finns.</p>
       </div>
 
       <div className="crime-study-note">
         <span>Historisk kohort</span>
         <strong>8 066 363 folkbokförda personer, 15+ år</strong>
-        <p>Population fryst 31 dec 2014 · utfall: minst skäligen misstänkt för minst ett brott begånget 2015–2018.</p>
+        <p>Population: folkbokförda den 31 december 2014 · utfall: minst skäligen misstänkt för minst ett brott begånget 2015–2018.</p>
       </div>
 
       <div className="crime-evidence-grid">
@@ -1209,7 +1204,7 @@ export function CrimeMigrationEvidence() {
 
         <aside className="crime-reading-card">
           <span className="evidence-chip">Officiellt registerutfall</span>
-          <h3>Vad är ett korrekt facit?</h3>
+          <h3>Vad visar tabellen?</h3>
           <p>I den historiska kohorten registrerades 8,0 procent av utrikesfödda som minst skäligen misstänkta, jämfört med 3,2 procent i referensgruppen.</p>
           <div className="crime-big-shift">
             <div><span>Rå relativ skillnad</span><strong>2,51×</strong></div>
@@ -1231,8 +1226,8 @@ export function CrimeMigrationEvidence() {
 
       <div className="victimization-note">
         <div>
-          <span>En viktig motbild</span>
-          <h3>Utsatthet måste visas bredvid misstanke.</h3>
+          <span>Kompletterande statistik</span>
+          <h3>Brå har också studerat utsatthet för brott</h3>
         </div>
         <p>Brås NTU-analys 2017–2023 visar också högre självrapporterad utsatthet för bland annat misshandel och hot bland flera grupper med utländsk bakgrund. Definitionen är bredare än i registerstudien, så nivåerna kan inte slås ihop direkt.</p>
         <a href="https://bra.se/rapporter/arkiv/2024-05-21-utsatthet-for-brott-bland-personer-med-utlandsk-bakgrund" target="_blank" rel="noreferrer">Brå 2/2024 ↗</a>

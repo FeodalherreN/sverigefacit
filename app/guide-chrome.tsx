@@ -39,7 +39,7 @@ export function GuideFooter() {
         <span className="brand-mark" aria-hidden="true"><i /><i /></span>
         <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
       </div>
-      <p>Offentlig statistik med svensk relevans, politisk kontext och tydliga evidensnivåer.</p>
+          <p>Svensk offentlig statistik med originalkällor, politisk kontext och förklaringar.</p>
       <div><a href="/feed.xml">RSS</a><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
     </footer>
   );

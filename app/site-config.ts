@@ -8,7 +8,7 @@ export const siteConfig = {
   name: 'Sverigefacit',
   title: 'Sverigefacit – svensk statistik bakom politiken',
   description:
-    'Opartiskt underlag för datadriven politik: jämför officiell svensk statistik och relevant EU-data om brott, migration, trygghet, hälsa, jobb, priser och välfärd.',
+    'Partipolitiskt obundet underlag för datadriven politik: jämför svensk statistik och relevant EU-data om brott, migration, hälsa, ekonomi, välfärd, klimat och miljö.',
   url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',
@@ -24,6 +24,7 @@ export const topicLinks = [
   { name: 'Brottslighet i Sverige', href: '/statistik/brottslighet' },
   { name: 'Terroristattacker i EU enligt Europol', href: '/fakta/terrorism-i-eu-2025' },
   { name: 'Brott och migrationsbakgrund', href: '/statistik/invandring-och-brott' },
+  { name: 'Klimat, utsläpp, energi och skyddad natur', href: '/statistik/klimat-och-miljo' },
   { name: 'Pension, äldreomsorg och privatekonomi', href: '/statistik/privatekonomi' },
   { name: 'Vallöften och politiskt facit', href: '/politik/valloften' },
 ];

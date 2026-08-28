@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Metod – så bedömer Sverigefacit politiska samband';
-const description = 'Läs hur Sverigefacit skiljer observerad statistik, möjliga policykopplingar och kausalt belagda effekter.';
+const description = 'Läs hur Sverigefacit skiljer observerad statistik, möjlig påverkan från politiska beslut och kausalt belagda effekter.';
 
 export const metadata: Metadata = {
   title,
@@ -19,14 +19,13 @@ export default function MethodPage() {
       <article>
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Metod</strong></nav>
-          <p className="section-kicker">Så fungerar facit</p>
-          <h1>Satslogik före<br />{' '}politisk slutsats.</h1>
-          <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Sverigefacit håller isär dem.</p>
+          <h1>Så skiljer vi samband från orsak</h1>
+          <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Vi använder ordet satslogik för den enkla kontrollen att premisserna faktiskt räcker till slutsatsen.</p>
         </header>
 
         <section className="method-page-steps" aria-label="Tre led i evidensbedömningen">
           <article><span>01</span><strong>Observerat utfall</strong><p>En verifierbar förändring i offentlig statistik, med definition, tidsperiod, enhet och direktlänk till originalkällan.</p><i>Hög säkerhet för det definierade måttet</i></article>
-          <article><span>02</span><strong>Möjlig policykoppling</strong><p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar har identifierats.</p><i>Plausibilitet, inte effektbevis</i></article>
+          <article><span>02</span><strong>Möjlig påverkan från beslut</strong><p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar har identifierats.</p><i>Rimlig förklaring, men inte bevisad effekt</i></article>
           <article><span>03</span><strong>Kausalt belagd effekt</strong><p>En trovärdig kontrollgrupp, naturligt experiment eller robust effektstudie visar vad som sannolikt hänt utan insatsen.</p><i>Kräver starkare underlag</i></article>
         </section>
 

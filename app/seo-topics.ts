@@ -238,6 +238,81 @@ export const seoTopics: SeoTopic[] = [
     related: ['pensioner', 'privatekonomi', 'arbetsloshet'],
   },
   {
+    slug: 'klimat-och-miljo',
+    category: 'Klimat & miljö',
+    seoTitle: 'Klimat och miljö i Sverige – utsläpp, energi och natur',
+    heading: 'Klimat och miljö i Sverige',
+    description:
+      'Följ Sveriges utsläpp, transportsektor, konsumtionsutsläpp, elproduktion, kolsänka och skyddad natur med aktuella originalkällor.',
+    lead:
+      'Miljöutvecklingen ryms inte i ett enda betyg. Här hålls utsläpp inom Sverige, svensk konsumtion, elproduktion, markens kolsänka och naturens tillstånd isär.',
+    temporalCoverage: '2000/2025',
+    variableMeasured: [
+      'Territoriella växthusgasutsläpp',
+      'Utsläpp från inrikes transporter',
+      'Konsumtionsbaserade utsläpp per person',
+      'Nettoupptag i mark och skog',
+      'Fossilfri andel av elproduktionen',
+      'Formellt skyddad natur',
+    ],
+    metrics: [
+      { value: '46,7 Mt', label: 'territoriella utsläpp, preliminärt', period: '2025' },
+      { value: '−2,8 %', label: 'förändring mot året före', period: '2024–2025' },
+      { value: '15,7 %', label: 'formellt skyddad totalareal', period: '2025' },
+    ],
+    observed:
+      'De territoriella utsläppen var preliminärt 46,7 miljoner ton koldioxidekvivalenter 2025, knappt tre procent lägre än 2024. Transportutsläppen minskade med fyra procent.',
+    policy:
+      'Naturvårdsverket anger den höjda reduktionsplikten som en huvudförklaring till minskningen 2025. Skatter, EU-regler, elektrifiering, energi- och naturvårdsbeslut kan också påverka olika mått.',
+    limitation:
+      'Konjunktur, väder, produktion, energipriser och teknikutveckling ändras samtidigt. Utsläpp, biologisk mångfald och vattenstatus kan därför inte sammanfattas i ett kausalt miljöbetyg.',
+    definition:
+      'Territoriella utsläpp avser utsläpp inom Sveriges gränser och exkluderar LULUCF och internationella transporter. Konsumtionsutsläpp inkluderar även utsläpp utomlands från svensk konsumtion.',
+    sources: [
+      {
+        name: 'Sveriges utsläpp och upptag av växthusgaser',
+        organization: 'Naturvårdsverket',
+        url: 'https://www.naturvardsverket.se/data-och-statistik/klimat/sveriges-utslapp-och-upptag-av-vaxthusgaser/',
+      },
+      {
+        name: 'Konsumtionsbaserade växthusgasutsläpp per person',
+        organization: 'Naturvårdsverket / SCB',
+        url: 'https://www.naturvardsverket.se/data-och-statistik/konsumtion/vaxthusgaser-konsumtionsbaserade-utslapp-per-person/',
+      },
+      {
+        name: 'Energiindikator: fossilfri elproduktion',
+        organization: 'Energimyndigheten',
+        url: 'https://pxexternal.energimyndigheten.se/pxweb/sv/Energimyndighetens_statistikdatabas/Energimyndighetens_statistikdatabas__Energiindikatorer__6__6.1/EN_IND6-1A.px/',
+      },
+      {
+        name: 'Formellt skyddad natur',
+        organization: 'Statistiska centralbyrån',
+        url: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0603__MI0603D/ArealSkydd/',
+      },
+      {
+        name: 'Klimatindikatorn temperatur',
+        organization: 'SMHI',
+        url: 'https://www.smhi.se/klimat/klimatet-da-och-nu/klimatindikatorer/temperatur',
+      },
+      {
+        name: 'Rödlistade arter i Sverige 2025',
+        organization: 'SLU Artdatabanken',
+        url: 'https://www.slu.se/artdatabanken/publikationer/rodlistor/rodlista-2025/',
+      },
+      {
+        name: 'Kommunalt avfall',
+        organization: 'Naturvårdsverket',
+        url: 'https://www.naturvardsverket.se/data-och-statistik/avfall/kommunalt-avfall/',
+      },
+      {
+        name: 'Levande sjöar och vattendrag – fördjupad utvärdering',
+        organization: 'Havs- och vattenmyndigheten',
+        url: 'https://www.havochvatten.se/download/18.beb19a418366a19e1cac9bc/1664802617668/rapport-2022-17-levande-sjoar-och-vattendrag-fu-23.pdf',
+      },
+    ],
+    related: ['privatekonomi', 'arbetsloshet', 'migration'],
+  },
+  {
     slug: 'invandring-och-brott',
     category: 'Fördjupning',
     seoTitle: 'Invandring och brott – vad visar Brås statistik?',

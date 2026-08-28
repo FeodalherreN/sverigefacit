@@ -3,9 +3,8 @@ export function FollowSverigefacit({ context }: { context: string }) {
   return (
     <section className="follow-sverigefacit" aria-labelledby={headingId}>
       <div>
-        <p className="section-kicker">Missa inget nytt facit</p>
-        <h2 id={headingId}>Följ siffrorna fram till valet.</h2>
-        <p>Nya datapass publiceras när myndigheterna släpper uppdaterad statistik. Välj hur du vill följa dem.</p>
+        <h2 id={headingId}>Få uppdateringar</h2>
+        <p>Nya siffror publiceras när myndigheterna uppdaterar underlagen. Följ via RSS eller Google.</p>
       </div>
       <nav aria-label="Följ Sverigefacit">
         <a href="https://www.google.com/preferences/source?q=www.sverigefacit.se" target="_blank" rel="noreferrer">Välj oss som källa i Google <span>↗</span></a>

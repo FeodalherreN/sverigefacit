@@ -18,9 +18,8 @@ export default function FactsIndexPage() {
     <main className="guide-page facts-index" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <header className="facts-index-hero">
-        <p className="section-kicker">Valet 2026 · verifierbara svar</p>
-        <h1>En fråga.<br />{' '}Ett tydligt facit.</h1>
-        <p>Varje kort skiljer på vad som hände, vad politiken kan ha påverkat och vad statistiken inte kan bevisa.</p>
+        <h1>Korta svar med källor</h1>
+        <p>Öppna en fråga för att se utfallet, originalkällan och vad statistiken inte kan avgöra.</p>
       </header>
       <FactsBrowser />
       <FollowSverigefacit context="fakta" />

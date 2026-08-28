@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { FactCard } from './fakta/fact-card';
 import { featuredFacts } from './fakta/facts';
+import { environmentSeries } from './environment-data';
 import { siteConfig, topicLinks } from './site-config';
 
 type Point = { year: number; value: number };
@@ -271,7 +272,7 @@ const series: Record<SeriesId, Series> = {
       'Sänkt reduktionsplikt och skatteförändringar har en tydlig mekanism till pumppriset.',
     uncertain:
       'Hela prisfallet kan inte tillskrivas politiken eftersom råoljepris och kronkurs också ändrades.',
-    evidence: 'Måttlig policykoppling',
+    evidence: 'Möjlig påverkan från politiska beslut',
     evidenceTone: 'medium',
     changeMode: 'percent',
     contextTags: ['Råolja', 'Kronkurs', 'Skatt', 'Reduktionsplikt'],
@@ -325,38 +326,29 @@ const series: Record<SeriesId, Series> = {
     id: 'emissions',
     number: '08',
     label: 'Klimat',
-    eyebrow: 'Nationella växthusgasutsläpp',
-    latestDisplay: '47,5 Mt',
-    latestYear: 2024,
-    trend: '+7,4 % från 2023',
+    eyebrow: 'Territoriella växthusgasutsläpp',
+    latestDisplay: '46,7 Mt',
+    latestYear: 2025,
+    trend: '−2,8 % från 2024',
     unit: 'Mt CO₂e',
     accent: '#548647',
-    source: 'SCB / Naturvårdsverket · Nationella utsläpp',
-    sourceShort: 'SCB / NV',
-    sourceUrl:
-      'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0107/TotaltUtslappN/',
-    sourceNote: 'Exklusive LULUCF och internationella transporter. Uppdaterad 16 december 2025.',
+    source: 'Naturvårdsverket · Sveriges utsläpp och upptag',
+    sourceShort: 'Naturvårdsverket',
+    sourceUrl: environmentSeries.emissions.sourceUrl,
+    sourceNote: '2025 är preliminärt. Exklusive LULUCF och internationella transporter. Granskad 17 juni 2026.',
     caveat:
-      'Inventeringen revideras när underlag och metoder förbättras. Utsläppen anges som territoriella, inte konsumtionsbaserade.',
+      environmentSeries.emissions.caveat,
     fact:
-      'De nationella utsläppen ökade från 44,2 till 47,5 miljoner ton koldioxidekvivalenter 2023–2024.',
+      'De territoriella utsläppen minskade från reviderade 48,1 till preliminära 46,7 miljoner ton koldioxidekvivalenter 2024–2025.',
     linkage:
-      'Transportutsläppens uppgång sammanfaller med sänkt reduktionsplikt och har en rimlig, dokumenterad mekanism.',
+      'Naturvårdsverket anger höjd reduktionsplikt, tillsammans med elektrifiering, som viktiga förklaringar till transportminskningen 2025.',
     uncertain:
       'En exakt reformeffekt kräver ett kontrafaktiskt scenario; tidsserien visar inte hur utsläppen annars hade utvecklats.',
-    evidence: 'Måttlig policykoppling',
+    evidence: 'Beslut och utfall kan kopplas, exakt effekt är okänd',
     evidenceTone: 'medium',
     changeMode: 'percent',
     contextTags: ['Konjunktur', 'Energimix', 'Reduktionsplikt', 'Metodrevision'],
-    points: toPoints([
-      [2000, 68.1], [2001, 68.9], [2002, 69.5], [2003, 69.8],
-      [2004, 69.2], [2005, 66.3], [2006, 65.9], [2007, 64.7],
-      [2008, 62.3], [2009, 58.1], [2010, 64.1], [2011, 59.7],
-      [2012, 56.8], [2013, 55.2], [2014, 53.5], [2015, 53.3],
-      [2016, 53.2], [2017, 52.2], [2018, 51.4], [2019, 50.2],
-      [2020, 46.0], [2021, 47.7], [2022, 45.2], [2023, 44.2],
-      [2024, 47.5],
-    ]),
+    points: environmentSeries.emissions.points,
   },
 };
 
@@ -453,6 +445,9 @@ const sourceHubs = [
   { name: 'Socialstyrelsen', detail: 'Äldreomsorg · socialtjänst', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
   { name: 'Pensionsmyndigheten', detail: 'Pension · real utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
   { name: 'Naturvårdsverket', detail: 'Klimat · utsläpp', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
+  { name: 'SMHI', detail: 'Klimat · väder · indikatorer', url: 'https://www.smhi.se/klimat' },
+  { name: 'SLU Artdatabanken', detail: 'Arter · biologisk mångfald', url: 'https://www.slu.se/artdatabanken/' },
+  { name: 'Havs- och vattenmyndigheten', detail: 'Sjöar · vattendrag · hav', url: 'https://www.havochvatten.se/data-kartor-och-rapporter.html' },
   { name: 'Regeringen', detail: 'Reformer · propositioner', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar · beslut · dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
   { name: 'Europol', detail: 'Terrorism i EU · TE-SAT', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
@@ -464,9 +459,9 @@ const seriesTopicPaths: Record<SeriesId, string> = {
   work: '/statistik/arbetsloshet',
   prosperity: '/statistik/privatekonomi',
   rate: '/statistik/privatekonomi',
-  fuel: '/statistik',
-  electricity: '/statistik',
-  emissions: '/statistik',
+  fuel: '/statistik/klimat-och-miljo',
+  electricity: '/statistik/klimat-och-miljo',
+  emissions: '/statistik/klimat-och-miljo',
 };
 
 const numberFormatter = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 });
@@ -932,22 +927,22 @@ export default function Home() {
           <p className="eyebrow"><span /> Datadriven politik</p>
           <h1>Sverige i siffror.<br />{' '}Vad blev facit?</h1>
           <p className="hero-lead">
-            Vi visualiserar officiell statistik som ett enkelt, opartiskt underlag för debatt. Etablerade metoder och tydlig logik visar vilka slutsatser datan stödjer — och vad som fortfarande är osäkert.
+            Vi samlar offentlig statistik med originalkällor och förklarar vad siffrorna visar, vad politiken kan ha påverkat och vad som fortfarande är osäkert. Samma metod används oavsett parti.
           </p>
           <div className="hero-actions">
             <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
-            <Link className="text-link" href="/datastudio#datastudio" aria-label="Öppna Datastudion och jämför 28 verifierade tidsserier">Öppna Datastudion <span>↗</span></Link>
+            <Link className="text-link" href="/datastudio#datastudio" aria-label="Öppna Datastudion och jämför 33 tidsserier med originalkällor">Öppna Datastudion <span>↗</span></Link>
           </div>
         </div>
         <aside className="hero-side">
           <div className="status-card">
-            <span className="status-live"><i /> Källor kontrollerade</span>
+            <span className="status-live">Källor senast granskade</span>
             <strong>{siteConfig.sourceChecked}</strong>
-            <p>Officiella API:er och publicerade tabeller. Varje mått har metodnot och direktlänk.</p>
+            <p>Myndigheternas tabeller och rapporter. Källa och definition visas vid varje mått.</p>
           </div>
           <div className="hero-meta" role="group" aria-label="Om datan">
-            <div><strong>28</strong><span>tidsserier</span></div>
-            <div><strong>11</strong><span>källaktörer</span></div>
+            <div><strong>33</strong><span>tidsserier</span></div>
+            <div><strong>14</strong><span>källor</span></div>
             <div><strong>1970–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
@@ -964,7 +959,7 @@ export default function Home() {
         <div className="home-facts-grid">
           {featuredFacts.slice(0, 4).map((fact) => <FactCard fact={fact} compact key={fact.slug} />)}
         </div>
-        <Link className="home-facts-more" href="/fakta">Se alla verifierade facit <span>→</span></Link>
+        <Link className="home-facts-more" href="/fakta">Se alla faktasvar <span>→</span></Link>
       </section>
 
       <section className="explorer-intro-section" aria-labelledby="explorer-overview-heading">
@@ -1019,7 +1014,7 @@ export default function Home() {
             <p className="source-note">{activeSeries.sourceNote}</p>
             <p className="source-note government-period-note">Regeringsfärgen visar den regering som styrde flest dagar under kalenderåret. Den är politisk kontext, inte en effektbedömning.</p>
             <details className="data-passport">
-              <summary>Datapass <span>+</span></summary>
+              <summary>Källa och definition <span>+</span></summary>
               <dl>
                 <div><dt>Exakt källa</dt><dd><a href={activeSeries.sourceUrl} target="_blank" rel="noreferrer">{activeSeries.source} ↗</a></dd></div>
                 <div><dt>Täckning</dt><dd>{activeSeries.points[0].year}–{activeSeries.points[activeSeries.points.length - 1].year} · {activeSeries.unit}</dd></div>
@@ -1032,22 +1027,22 @@ export default function Home() {
 
           <aside className="evidence-panel" aria-label="Evidensbedömning">
             <div className={'evidence-level tone-' + activeSeries.evidenceTone}>
-              <span>Samlad evidensbedömning</span>
+              <span>Tolkning</span>
               <strong>{activeSeries.evidence}</strong>
             </div>
             <h3>Det här kan vi säga</h3>
             <ol className="logic-chain">
               <li className="observed">
                 <span>01</span>
-                <div><strong>Observerat</strong><p>{activeSeries.fact}</p></div>
+                <div><strong>Vad visar statistiken?</strong><p>{activeSeries.fact}</p></div>
               </li>
               <li className="linked">
                 <span>02</span>
-                <div><strong>Möjlig policykoppling</strong><p>{activeSeries.linkage}</p></div>
+                <div><strong>Vad kan politiken påverka?</strong><p>{activeSeries.linkage}</p></div>
               </li>
               <li className="unproven">
                 <span>03</span>
-                <div><strong>Kausal effekt · ej belagd</strong><p>{activeSeries.uncertain}</p></div>
+                <div><strong>Vad avgör serien inte?</strong><p>{activeSeries.uncertain}</p></div>
               </li>
             </ol>
             <div className="context-box">
@@ -1196,21 +1191,16 @@ export default function Home() {
 
       <section className="trust-section" id="metod" aria-labelledby="trust-heading">
         <div className="trust-intro">
-          <p className="section-kicker">Opartisk metod</p>
-          <h2 id="trust-heading">Fakta först.<br />{' '}Slutsats med måtta.</h2>
-          <p>Vi visar vad data belägger, vad som bara samvarierar och vad som ännu inte går att veta. Samma krav på källor, metod och bevis gäller oavsett parti.</p>
+          <p className="section-kicker">Metod</p>
+          <h2 id="trust-heading">Så drar vi slutsatser</h2>
+          <p>Vi visar vad statistiken beskriver, vad som bara samvarierar och vad som kräver en effektstudie. Samma krav på källor och metod gäller oavsett parti.</p>
           <div className="trust-actions">
             <Link href="/metod">Läs metoden <span>→</span></Link>
             <Link href="/kallor">Källor & rättelser <span>→</span></Link>
           </div>
         </div>
-        <ol className="trust-steps">
-          <li><span>01</span><div><strong>Vad hände?</strong><p>Verifierat utfall med period, enhet och källa.</p></div></li>
-          <li><span>02</span><div><strong>Vad kan politiken ha påverkat?</strong><p>Tidsordning, mekanism och andra förklaringar vägs in.</p></div></li>
-          <li><span>03</span><div><strong>Vad kan inte bevisas?</strong><p>Korrelation markeras tydligt och kallas aldrig automatiskt orsak.</p></div></li>
-        </ol>
         <details className="source-disclosure">
-          <summary><span>11 kontrollerade källaktörer</span><small>Visa listan</small><i>+</i></summary>
+          <summary><span>14 myndigheter och organisationer</span><small>Visa listan</small><i>+</i></summary>
           <div>
             {sourceHubs.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
@@ -1227,10 +1217,11 @@ export default function Home() {
           <div><strong>Sverigefacit</strong><small>Datadriven politik · utan partifärg</small></div>
         </div>
         <div className="footer-summary">
-          <p>En opartisk pilot som gör offentlig statistik, politiska beslut och evidensnivåer begripliga som underlag för debatt.</p>
+          <p>Målet är ett partipolitiskt obundet underlag där offentlig statistik, politiska beslut och metodgränser går att kontrollera.</p>
           <nav aria-label="Genvägar till statistikområden">
             <Link href="/statistik/invandring-och-brott">Brott & migration</Link>
             <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
+            <Link href="/statistik/klimat-och-miljo">Klimat & miljö</Link>
             <Link href="/politik/valloften">Vallöften</Link>
             <Link href="/metod">Metod</Link>
             <Link href="/kallor">Källor & rättelser</Link>

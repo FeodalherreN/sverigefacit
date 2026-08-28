@@ -28,19 +28,18 @@ export default function PromisesPage() {
       <article>
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Vallöften</strong></nav>
-          <p className="section-kicker">Löfte → beslut → effekt</p>
-          <h1>Svenska vallöften.<br />{' '}Vad blev utfallet?</h1>
+          <h1>Så följs vallöften upp</h1>
           <p>Ett löfte kan leda till ett beslut utan att vara fullt genomfört. En genomförd reform kan samtidigt sakna belagd samhällseffekt. Därför bedöms varje led separat.</p>
         </header>
 
         <section className="promise-benchmark">
           <div><span>Historisk forskningsjämförelse</span><strong>78 %</strong><p>218 av 279 löften i Alliansens gemensamma valmanifest 2010 bedömdes helt uppfyllda.</p></div>
-          <p>Det är en historisk jämförelse, inte ett aktuellt regeringsbetyg. En ny total procentsats kräver ett komplett och förregistrerat urval av jämförbara löften.</p>
+          <p>Det är en historisk jämförelse, inte ett aktuellt regeringsbetyg. En ny total procentsats kräver ett komplett urval med urvalsregler fastställda i förväg.</p>
           <a href="https://academic.oup.com/pa/article/73/3/477/5368143" target="_blank" rel="noreferrer">Läs forskningsstudien ↗</a>
         </section>
 
         <section className="promise-guide-list" aria-labelledby="promise-list-heading">
-          <div className="promise-guide-heading"><p className="section-kicker">Piloturval</p><h2 id="promise-list-heading">Sex löften, bedömda var för sig</h2></div>
+          <div className="promise-guide-heading"><p className="section-kicker">Urvalet på den här sidan</p><h2 id="promise-list-heading">Sex löften, bedömda var för sig</h2></div>
           <div>
             {promises.map((promise, index) => (
               <article key={promise.title}>
@@ -53,7 +52,7 @@ export default function PromisesPage() {
         </section>
 
         <section className="promise-method-note">
-          <div><p className="section-kicker">Rätt nämnare</p><h2>Varför ingen aktuell totalprocent?</h2></div>
+          <div><h2>Varför visar vi ingen totalprocent?</h2></div>
           <p>Manifest, regeringsavtal och senare regeringsmål är olika dokument. En rättvis procentsats måste avgränsas per parti, dokument och mandatperiod, och bara innehålla bedömbara löften vars tidsfrist passerat.</p>
           <Link href="/metod">Läs hela metoden <span>↗</span></Link>
         </section>

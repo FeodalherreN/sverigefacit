@@ -6,6 +6,7 @@ import { siteConfig } from './site-config';
 import './globals.css';
 import './evidence-lab.css';
 import './seo-pages.css';
+import './climate-environment.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   keywords: [
     'svensk statistik',
     'datadriven politik',
-    'opartisk politisk statistik',
+    'partipolitiskt obunden statistik',
     'brottslighet statistik',
     'migration Sverige',
     'arbetslöshet Sverige',
@@ -38,6 +39,10 @@ export const metadata: Metadata = {
     'inflation Sverige',
     'löner Sverige',
     'folkhälsa statistik',
+    'klimat Sverige statistik',
+    'växthusgasutsläpp Sverige',
+    'miljöpolitik statistik',
+    'skyddad natur Sverige',
     'trygghet statistik',
     'politiska vallöften',
     'regeringar Sverige',

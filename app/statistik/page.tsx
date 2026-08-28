@@ -5,7 +5,7 @@ import { siteConfig } from '../site-config';
 import { seoTopics, topicPath } from '../seo-topics';
 
 const title = 'Svensk statistik om politik och samhälle';
-const description = 'Utforska officiell svensk statistik om brott, migration, arbetslöshet, privatekonomi, pension och äldreomsorg.';
+const description = 'Utforska svensk statistik om brott, migration, arbetslöshet, privatekonomi, pension, äldreomsorg, klimat och miljö.';
 
 export const metadata: Metadata = {
   title,
@@ -38,9 +38,8 @@ export default function StatisticsIndexPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
       <GuideHeader />
       <section className="catalog-hero">
-        <p className="section-kicker">Datakatalog</p>
-        <h1>Sverige i siffror,<br />{' '}område för område.</h1>
-        <p>Varje ämnessida har ett definierat mått, senaste verifierade utfall, originalkälla och en tydlig gräns för vad statistiken kan bevisa.</p>
+        <h1>Statistik efter område</h1>
+        <p>Välj ett ämne för att se mått, period, originalkälla och vad statistiken inte kan avgöra.</p>
       </section>
       <section className="catalog-grid" aria-label="Statistikområden">
         {seoTopics.map((topic, index) => (

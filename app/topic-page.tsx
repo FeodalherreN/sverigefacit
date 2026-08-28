@@ -83,7 +83,6 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
             <Link href="/statistik">Statistik</Link><span>/</span>
             <strong>{topic.category}</strong>
           </nav>
-          <p className="section-kicker">Officiell tidsserie · {topic.category}</p>
           <h1>{topic.heading}</h1>
           <p>{topic.lead}</p>
           <div className="topic-page-actions">
@@ -93,9 +92,9 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
         </header>
 
         <section className="topic-metrics" aria-label="Nyckeltal">
-          {topic.metrics.map((metric, index) => (
+          {topic.metrics.map((metric) => (
             <div key={metric.value + metric.label}>
-              <span>{String(index + 1).padStart(2, '0')} · {metric.period}</span>
+              <span>{metric.period}</span>
               <strong>{metric.value}</strong>
               <p>{metric.label}</p>
             </div>
@@ -105,36 +104,33 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
         <div className="topic-page-layout">
           <div className="topic-main-copy">
             <section aria-labelledby="reading-heading">
-              <p className="section-kicker">Satslogiken</p>
               <h2 id="reading-heading">Vad går att säga?</h2>
               <div className="topic-logic-grid">
                 <article>
-                  <span>01 · Observerat</span>
-                  <h3>Det statistiken visar</h3>
+                  <span>Utfall</span>
+                  <h3>Vad visar statistiken?</h3>
                   <p>{topic.observed}</p>
                 </article>
                 <article>
-                  <span>02 · Möjlig policykoppling</span>
-                  <h3>Det politiken kan påverka</h3>
+                  <span>Politik</span>
+                  <h3>Vad kan politiken påverka?</h3>
                   <p>{topic.policy}</p>
                 </article>
                 <article>
-                  <span>03 · Kausal effekt</span>
-                  <h3>Inte belagd av denna tidsserie</h3>
+                  <span>Begränsning</span>
+                  <h3>Vad avgör serien inte?</h3>
                   <p>{topic.limitation}</p>
                 </article>
               </div>
             </section>
 
             <section className="topic-definition" aria-labelledby="definition-heading">
-              <p className="section-kicker">Definition</p>
               <h2 id="definition-heading">Så är måttet avgränsat</h2>
               <p>{topic.definition}</p>
             </section>
 
             <section className="topic-source-section" aria-labelledby="sources-heading">
-              <p className="section-kicker">Originalkällor</p>
-              <h2 id="sources-heading">Följ siffrorna till myndigheten</h2>
+              <h2 id="sources-heading">Originalkällor</h2>
               <div>
                 {topic.sources.map((source, index) => (
                   <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
@@ -148,24 +144,23 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
           </div>
 
           <aside className="topic-fact-panel">
-            <span>Datapass</span>
+            <span>Om måttet</span>
             <dl>
               <div><dt>Geografi</dt><dd>Sverige</dd></div>
               <div><dt>Tidsperiod</dt><dd>{topic.temporalCoverage.replace('/', '–')}</dd></div>
-              <div><dt>Kontrollerat</dt><dd>{siteConfig.sourceChecked}</dd></div>
-              <div><dt>Källtyp</dt><dd>Officiell statistik</dd></div>
+              <div><dt>Senast granskat</dt><dd>{siteConfig.sourceChecked}</dd></div>
+              <div><dt>Källtyp</dt><dd>Myndighetsstatistik</dd></div>
               <div><dt>Bearbetning</dt><dd>Återgiven utan prediktiv modell</dd></div>
               <div><dt>Originalkällor</dt><dd>{topic.sources.length}</dd></div>
             </dl>
             <p>Serien återges för begriplig jämförelse. Originalkällans definition och revisionshistorik gäller alltid.</p>
-            <Link href="/kallor">Alla källaktörer <span>↗</span></Link>
+            <Link href="/kallor">Alla källor <span>↗</span></Link>
           </aside>
         </div>
 
         <section className="related-topics" aria-labelledby="related-heading">
           <div>
-            <p className="section-kicker">Relaterad statistik</p>
-            <h2 id="related-heading">Fortsätt granska</h2>
+            <h2 id="related-heading">Relaterade ämnen</h2>
           </div>
           <nav aria-label="Relaterade statistikområden">
             {topic.related.map((slug) => {

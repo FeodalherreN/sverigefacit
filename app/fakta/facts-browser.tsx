@@ -31,7 +31,7 @@ export function FactsBrowser() {
   return (
     <section className="facts-browser" aria-labelledby="facts-browser-heading">
       <div className="facts-filter-bar">
-        <div><span>Välj område</span><strong id="facts-browser-heading">{visibleFacts.length} verifierade facit</strong></div>
+        <div><span>Välj område</span><strong id="facts-browser-heading">{visibleFacts.length} faktasvar med källor</strong></div>
         <div role="group" aria-label="Filtrera faktakort">
           {filters.map((filter) => (
             <button type="button" key={filter.id} className={activeFilter === filter.id ? 'active' : ''} aria-pressed={activeFilter === filter.id} onClick={() => setActiveFilter(filter.id)}>{filter.label}</button>

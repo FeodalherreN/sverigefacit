@@ -1135,13 +1135,14 @@ main { min-height: 100vh; overflow: clip; }
   margin-bottom: 86px;
   padding: 42px;
   display: grid;
-  grid-template-columns: 340px minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 28px 56px;
   border: 1px solid #cfd4d1;
   border-radius: 26px;
   background: rgba(255, 254, 250, .72);
   box-shadow: 0 22px 60px rgba(23, 41, 58, .07);
 }
+.trust-intro { max-width: 760px; }
 .trust-intro h2 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 47px; font-weight: 500; line-height: 1; letter-spacing: -.055em; }
 .trust-intro > p:last-of-type { margin: 17px 0 0; color: #536477; font-size: 12px; line-height: 1.6; }
 .trust-actions { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 18px; }

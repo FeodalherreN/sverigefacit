@@ -21,6 +21,9 @@ const sources = [
   { name: 'Socialstyrelsen', detail: 'Hemtjänst, särskilt boende och äldreomsorg', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
   { name: 'Pensionsmyndigheten', detail: 'Allmän pension och fastprisberäknad utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
   { name: 'Naturvårdsverket', detail: 'Nationella växthusgasutsläpp och klimatdata', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
+  { name: 'SMHI', detail: 'Klimatindikatorer, temperatur, nederbörd och väderobservationer', url: 'https://www.smhi.se/klimat' },
+  { name: 'SLU Artdatabanken', detail: 'Rödlistning, arter och biologisk mångfald', url: 'https://www.slu.se/artdatabanken/' },
+  { name: 'Havs- och vattenmyndigheten', detail: 'Miljötillstånd i sjöar, vattendrag och hav', url: 'https://www.havochvatten.se/data-kartor-och-rapporter.html' },
   { name: 'Regeringen', detail: 'Propositioner, regeringsförklaringar och offentliga utredningar', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar, beslut, betänkanden och riksdagens dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
   { name: 'Europol', detail: 'Terrorism i EU, medlemsstaternas rapportering och årliga TE-SAT-rapporter', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
@@ -33,12 +36,11 @@ export default function SourcesPage() {
       <article>
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Källor</strong></nav>
-          <p className="section-kicker">Spårbart hela vägen</p>
-          <h1>Från myndighet<br />{' '}till begriplig graf.</h1>
-          <p>Sverigefacit prioriterar officiella tidsserier, publicerade tabeller och rättsliga dokument från Sverige och relevant EU-kontext. Varje analys länkar tillbaka till det underlag som bär siffran.</p>
+          <h1>Källor och bearbetning</h1>
+          <p>Varje diagram länkar till tabellen eller rapporten som siffran kommer från. Här ser du vilka myndigheter och organisationer som används.</p>
         </header>
 
-        <section className="source-directory" aria-label="Källaktörer">
+        <section className="source-directory" aria-label="Källor">
           {sources.map((source, index) => (
             <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
               <span>{String(index + 1).padStart(2, '0')}</span>
@@ -50,14 +52,13 @@ export default function SourcesPage() {
         </section>
 
         <section className="source-principles">
-          <div><p className="section-kicker">Källprinciper</p><h2>Ingen dold sammanvägning.</h2></div>
+          <div><h2>Så arbetar vi med källor</h2></div>
           <ul>
-            <li><strong>Katalog är inte datapass.</strong><span>Listan ovan visar källaktörer. Exakt tabell, rapport, enhet, period och bearbetning redovisas vid varje enskilt mått. Sverigefacit visar daterade utdrag, inte live-data.</span></li>
-            <li><strong>Original före återberättande.</strong><span>Myndighetens tabell eller rapport används före en sekundär artikel.</span></li>
-            <li><strong>Definition före rubrik.</strong><span>Misstanke, dom, invandring, asyl och ekonomisk standard hålls isär.</span></li>
-            <li><strong>Period före jämförelse.</strong><span>Historiska kohorter kombineras inte med dagens befolkningsnämnare.</span></li>
-            <li><strong>Revideringar får synas.</strong><span>Officiell statistik kan ändras när metoder eller underlag förbättras.</span></li>
-            <li><strong>Fel ska gå att rätta.</strong><span>Hittar du ett sakfel eller en bruten källa kan du <a href="https://github.com/FeodalherreN/sverigefacit/issues/new" target="_blank" rel="noreferrer">rapportera ett data- eller källfel ↗</a>. Ange sida, mått, avvikelse och originalkälla.</span></li>
+            <li><strong>Vi använder originalet.</strong><span>Myndighetens tabell eller rapport används i första hand. Exakt källa, period, enhet och bearbetning visas vid måttet.</span></li>
+            <li><strong>Vi håller isär definitioner.</strong><span>Misstanke är inte dom, invandring är inte asyl och prisnivå är inte inflationstakt.</span></li>
+            <li><strong>Vi jämför samma population och period.</strong><span>Historiska kohorter kombineras inte med dagens befolkningsnämnare.</span></li>
+            <li><strong>Vi uppdaterar när källan revideras.</strong><span>Officiell statistik kan ändras när myndigheten får bättre underlag eller byter metod.</span></li>
+            <li><strong>Fel ska gå att rätta.</strong><span>Hittar du ett sakfel eller en bruten källa kan du <a href="https://github.com/FeodalherreN/sverigefacit/issues/new" target="_blank" rel="noreferrer">rapportera det här ↗</a>. Ange sida, mått, avvikelse och originalkälla.</span></li>
           </ul>
         </section>
       </article>

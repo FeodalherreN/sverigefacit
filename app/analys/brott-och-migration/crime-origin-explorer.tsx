@@ -223,7 +223,7 @@ export function CrimeOriginExplorer() {
                     {measure === 'rate' ? (
                       <b>{svNumber(rate)} <small>per 1 000</small></b>
                     ) : (
-                      <b>{svNumber(rawRisk)}× <small>rå</small><em>{svNumber(adjustedRisk)}× justerad</em></b>
+                      <b>{svNumber(rawRisk)}× <small>rå</small><em>{svNumber(adjustedRisk)}× standardiserad</em></b>
                     )}
                   </div>
                   <div className="region-track" aria-hidden="true">
@@ -241,7 +241,7 @@ export function CrimeOriginExplorer() {
           )}
 
           <div className="origin-caveat">
-            <strong>Vad datan faktiskt säger</strong>
+            <strong>Vad statistiken visar</strong>
             <p>Registrerad misstanke är inte samma sak som begånget brott eller fällande dom. Skillnaderna påverkas också av anmälan, upptäckt, polisens kontroller och möjligheten att identifiera en misstänkt.</p>
           </div>
 
@@ -259,8 +259,8 @@ export function CrimeOriginExplorer() {
       ) : (
         <div className="country-view-panel">
           <div className="country-intro">
-            <span>Fördjupning · exakt födelseland</span>
-            <h3>Alla brott sammantaget.</h3>
+            <span>Födelseland · alla brott sammantaget</span>
+            <h3>Större födelseländer i Brås kohort</h3>
             <p>Brå särredovisar större födelseländer i 2014 års befolkning. B10 och B11 publicerar råa och standardiserade andelar respektive överrisker. Det finns ingen offentlig korsning mellan exakt land och enskild brottstyp.</p>
           </div>
           <div className="country-control">
@@ -278,7 +278,7 @@ export function CrimeOriginExplorer() {
           </div>
           <div className="country-warning">
             <strong>Historisk avgränsning</strong>
-            <p>Folk­bokförda 2014, registrerade misstankar 2015–2018 och alla brott sammantaget. Födelseland är inte medborgarskap, etnicitet eller ett mått på en individ.</p>
+            <p>Folk­bokförda 2014, registrerade misstankar 2015–2018 och alla brott sammantaget. Födelseland är inte medborgarskap eller etnicitet. Resultaten gäller grupper och säger inget om en enskild person.</p>
             <a href={crimeRegionSourceUrl} target="_blank" rel="noreferrer">Brå tabell B10–B11 ↗</a>
           </div>
           <div className="origin-share country-share">

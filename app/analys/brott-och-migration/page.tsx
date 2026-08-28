@@ -18,13 +18,13 @@ export default function CrimeMigrationPage() {
     <main className="guide-page tool-route" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <header className="tool-route-hero">
-        <p className="section-kicker">Känsligt samband · historisk kohort</p>
-        <h1>Brott och bakgrund.</h1>
+        <p className="section-kicker">Brås historiska registerstudie</p>
+        <h1>Brottsmisstankar efter födelseregion</h1>
         <p>Välj bland 48 brottstyper och jämför Brås publicerade nivåer och överrisker efter födelseregion. Exakta födelseländer visas separat och endast för alla brott sammantaget.</p>
         <nav className="analysis-levels" aria-label="Fördjupningsnivå">
-          <Link href="/fakta/migration-och-brott">01 · Kort svar</Link>
-          <Link href="/statistik/invandring-och-brott">02 · Ämnesöversikt</Link>
-          <span aria-current="page">03 · Interaktiv analys</span>
+          <Link href="/fakta/migration-och-brott">Kort svar</Link>
+          <Link href="/statistik/invandring-och-brott">Ämnesöversikt</Link>
+          <span aria-current="page">Interaktiv analys</span>
         </nav>
       </header>
       <CrimeMigrationEvidence />

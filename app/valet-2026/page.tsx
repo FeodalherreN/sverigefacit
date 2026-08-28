@@ -23,6 +23,7 @@ const electionTopics = [
   { label: 'Migration', href: '/fakta/invandringen-2025' },
   { label: 'Pension', href: '/fakta/pensionens-ersattningsgrad' },
   { label: 'Äldreomsorg', href: '/fakta/aldreomsorg-2025' },
+  { label: 'Klimat & miljö', href: '/statistik/klimat-och-miljo' },
 ];
 
 const electionHighlights = [
@@ -40,7 +41,7 @@ export default function Election2026Page() {
       <GuideHeader />
       <header className="election-hero">
         <p className="section-kicker">Valdagen · 13 september 2026</p>
-        <h1>Valfrågorna.<br />{' '}I verifierbara siffror.</h1>
+        <h1>Valfrågorna i siffror</h1>
         <p>Förtidsröstningen pågår. Här får du korta svar från myndigheternas senaste data och kan öppna hela underlaget bakom varje tal.</p>
         <div><Link href="/fakta">Se alla facit</Link><a href="https://www.val.se/kommande-val/val-2026---riksdag-region-och-kommun" target="_blank" rel="noreferrer">Praktisk valinformation ↗</a></div>
       </header>
@@ -64,7 +65,7 @@ export default function Election2026Page() {
         <aside>
           <span>Kommande valresultat</span>
           <strong>Preliminärt ≠ slutligt</strong>
-          <p>På valnatten kommer preliminära resultat. Sverigefacit kommer alltid märka tidsstämpel, rapporteringsgrad och om resultatet är preliminärt eller slutligt.</p>
+          <p>När resultaten publiceras märks de med tidsstämpel, rapporteringsgrad och status som preliminära eller slutliga.</p>
           <a href="https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026" target="_blank" rel="noreferrer">Valmyndighetens rådata ↗</a>
         </aside>
       </section>
