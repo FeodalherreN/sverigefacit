@@ -1,5 +1,5 @@
 .environment-page {
-  --environment-width: min(1160px, calc(100% - 48px));
+  --environment-width: var(--layout-width);
   background: var(--paper);
 }
 
@@ -15,11 +15,11 @@
 }
 
 .environment-hero {
-  padding: 42px 0 68px;
+  padding: var(--hero-padding-top) 0 var(--hero-padding-bottom);
 }
 
 .environment-hero .breadcrumbs {
-  margin-bottom: 46px;
+  margin-bottom: var(--breadcrumb-gap);
 }
 
 .environment-hero-grid {
@@ -602,9 +602,9 @@
 }
 
 @media (max-width: 700px) {
-  .environment-page { --environment-width: calc(100% - 32px); }
-  .environment-hero { padding: 35px 0 48px; }
-  .environment-hero .breadcrumbs { margin-bottom: 28px; }
+  .environment-page { --environment-width: var(--layout-width); }
+  .environment-hero { padding: var(--hero-padding-top) 0 var(--hero-padding-bottom); }
+  .environment-hero .breadcrumbs { margin-bottom: var(--breadcrumb-gap); }
   .environment-hero-grid { gap: 36px; }
   .environment-hero h1 { font-size: clamp(49px, 15vw, 68px); }
   .environment-hero-grid > div > p:last-of-type { font-size: 15px; line-height: 1.6; }

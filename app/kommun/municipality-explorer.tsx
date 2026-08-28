@@ -105,7 +105,22 @@ export function MunicipalityExplorer() {
           {data && <small>Data kontrollerad {new Date(data.checkedAt).toLocaleDateString('sv-SE')}</small>}
         </div>
 
-        {loading && <div className="municipality-message"><strong>Hämtar kommunens siffror…</strong><span>Det brukar bara ta ett ögonblick.</span></div>}
+        {loading && (
+          <>
+            <p className="sr-only">Hämtar kommunens siffror…</p>
+            <div className="municipality-metric-grid municipality-loading-grid" aria-hidden="true">
+              {['Befolkning', 'Gymnasiebehörighet', 'Skuldsättning', 'Anmälda våldsbrott'].map((label) => (
+                <article key={label}>
+                  <header><span>{label}</span><small>Hämtar period</small></header>
+                  <i className="municipality-skeleton municipality-skeleton-title" />
+                  <i className="municipality-skeleton municipality-skeleton-value" />
+                  <i className="municipality-skeleton municipality-skeleton-chart" />
+                  <i className="municipality-skeleton municipality-skeleton-footer" />
+                </article>
+              ))}
+            </div>
+          </>
+        )}
         {!loading && error && <div className="municipality-message error"><strong>Något gick fel</strong><span>{error}</span><a href="https://www.kolada.se/verktyg/jamforaren/" target="_blank" rel="noreferrer">Öppna Koladas jämförelseverktyg ↗</a></div>}
 
         {!loading && !error && data && (
