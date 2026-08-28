@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { FactCard } from './fakta/fact-card';
 import { featuredFacts } from './fakta/facts';
 import { environmentSeries } from './environment-data';
+import { homepageSeriesById as canonicalSeries } from './data/homepage-series';
 import { siteConfig, topicLinks } from './site-config';
 
 type Point = { year: number; value: number };
@@ -67,9 +68,6 @@ type TimelineEvent = {
   sourceUrl: string;
 };
 
-const toPoints = (values: [number, number][]): Point[] =>
-  values.map(([year, value]) => ({ year, value }));
-
 const series: Record<SeriesId, Series> = {
   crime: {
     id: 'crime',
@@ -98,13 +96,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'low',
     changeMode: 'percent',
     contextTags: ['Demografi', 'Polisresurser', 'Vapenmarknad', 'Enskilda händelser'],
-    points: toPoints([
-      [2002, 98], [2003, 81], [2004, 102], [2005, 83], [2006, 91],
-      [2007, 111], [2008, 82], [2009, 93], [2010, 91], [2011, 81],
-      [2012, 68], [2013, 87], [2014, 87], [2015, 112], [2016, 106],
-      [2017, 113], [2018, 108], [2019, 111], [2020, 124], [2021, 113],
-      [2022, 116], [2023, 121], [2024, 92], [2025, 84],
-    ]),
+    points: canonicalSeries.deadlyViolence.points,
   },
   migration: {
     id: 'migration',
@@ -133,15 +125,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'medium',
     changeMode: 'percent',
     contextTags: ['EU-regler', 'Krig', 'Arbetskraft', 'Folkbokföring'],
-    points: toPoints([
-      [2000, 58659], [2001, 60795], [2002, 64087], [2003, 63795],
-      [2004, 62028], [2005, 65229], [2006, 95750], [2007, 99485],
-      [2008, 101171], [2009, 102280], [2010, 98801], [2011, 96467],
-      [2012, 103059], [2013, 115845], [2014, 126966], [2015, 134240],
-      [2016, 163005], [2017, 144489], [2018, 132602], [2019, 115805],
-      [2020, 82518], [2021, 90631], [2022, 102436], [2023, 94514],
-      [2024, 116197], [2025, 89434],
-    ]),
+    points: canonicalSeries.immigration.points,
   },
   work: {
     id: 'work',
@@ -170,13 +154,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'low',
     changeMode: 'points',
     contextTags: ['Konjunktur', 'Ränta', 'Kompetensmatchning', 'Demografi'],
-    points: toPoints([
-      [2001, 6.0], [2002, 6.1], [2003, 6.7], [2004, 7.5], [2005, 7.9],
-      [2006, 7.2], [2007, 6.3], [2008, 6.3], [2009, 8.4], [2010, 8.7],
-      [2011, 7.9], [2012, 8.1], [2013, 8.1], [2014, 8.0], [2015, 7.5],
-      [2016, 7.1], [2017, 6.8], [2018, 6.5], [2019, 6.9], [2020, 8.5],
-      [2021, 8.9], [2022, 7.5], [2023, 7.7], [2024, 8.4], [2025, 8.8],
-    ]),
+    points: canonicalSeries.unemployment.points,
   },
   prosperity: {
     id: 'prosperity',
@@ -205,13 +183,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'low',
     changeMode: 'percent',
     contextTags: ['Produktivitet', 'Export', 'Investeringar', 'Globala kriser'],
-    points: toPoints([
-      [2000, 390], [2001, 394], [2002, 402], [2003, 408], [2004, 423],
-      [2005, 433], [2006, 451], [2007, 462], [2008, 454], [2009, 431],
-      [2010, 452], [2011, 463], [2012, 458], [2013, 459], [2014, 465],
-      [2015, 480], [2016, 484], [2017, 487], [2018, 490], [2019, 497],
-      [2020, 484], [2021, 506], [2022, 508], [2023, 503], [2024, 511],
-    ]),
+    points: canonicalSeries.gdpPerCapita.points,
   },
   rate: {
     id: 'rate',
@@ -240,14 +212,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'context',
     changeMode: 'points',
     contextTags: ['Inflation', 'Riksbanken', 'Kronkurs', 'Efterfrågan'],
-    points: toPoints([
-      [2000, 4.0], [2001, 3.75], [2002, 3.75], [2003, 2.75],
-      [2004, 2.0], [2005, 1.5], [2006, 3.0], [2007, 4.0], [2008, 2.0],
-      [2009, 0.25], [2010, 1.25], [2011, 1.75], [2012, 1.0],
-      [2013, 0.75], [2014, 0.0], [2015, -0.35], [2016, -0.5],
-      [2017, -0.5], [2018, -0.5], [2019, -0.25], [2020, 0.0],
-      [2021, 0.0], [2022, 2.5], [2023, 4.0], [2024, 2.75], [2025, 1.75],
-    ]),
+    points: canonicalSeries.policyRate.points,
   },
   fuel: {
     id: 'fuel',
@@ -276,15 +241,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'medium',
     changeMode: 'percent',
     contextTags: ['Råolja', 'Kronkurs', 'Skatt', 'Reduktionsplikt'],
-    points: toPoints([
-      [2000, 15.4], [2001, 14.9], [2002, 14.4], [2003, 14.2],
-      [2004, 15.0], [2005, 16.6], [2006, 17.0], [2007, 16.9],
-      [2008, 17.6], [2009, 17.0], [2010, 18.0], [2011, 19.0],
-      [2012, 20.0], [2013, 19.4], [2014, 19.1], [2015, 17.8],
-      [2016, 17.4], [2017, 18.3], [2018, 19.6], [2019, 19.7],
-      [2020, 17.6], [2021, 19.9], [2022, 23.1], [2023, 20.7],
-      [2024, 18.2], [2025, 16.0],
-    ]),
+    points: canonicalSeries.fuel.points,
   },
   electricity: {
     id: 'electricity',
@@ -313,14 +270,7 @@ const series: Record<SeriesId, Series> = {
     evidenceTone: 'low',
     changeMode: 'percent',
     contextTags: ['Väder', 'Elområde', 'Nätavgift', 'Europamarknad'],
-    points: toPoints([
-      [2000, 141], [2001, 143], [2002, 160], [2003, 186], [2004, 183],
-      [2005, 176], [2006, 196], [2007, 211], [2008, 230], [2009, 241],
-      [2010, 249], [2011, 250], [2012, 238], [2013, 238], [2014, 233],
-      [2015, 235], [2016, 244], [2017, 248], [2018, 259], [2019, 270],
-      [2020, 256], [2021, 291], [2022, 374], [2023, 287], [2024, 279],
-      [2025, 295],
-    ]),
+    points: canonicalSeries.electricity.points,
   },
   emissions: {
     id: 'emissions',

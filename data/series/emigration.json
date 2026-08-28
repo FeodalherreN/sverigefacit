@@ -1,0 +1,123 @@
+{
+  "id": "emigration",
+  "group": "Migration & befolkning",
+  "label": "Registrerade utvandringar",
+  "shortLabel": "Utvandring",
+  "unit": "personer",
+  "color": "#9a4f87",
+  "caveat": "Folkbokförda varaktiga flyttningar. Eftersläpande anmälningar och registerrensning påverkar särskilt 2023–2025; från 2025 används en ny röjandeskyddsmetod.",
+  "source": {
+    "label": "SCB · In- och utvandring",
+    "organization": "SCB",
+    "dataset": "In- och utvandring",
+    "datasetId": "ImmiEmiFlyttN",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101J/ImmiEmiFlyttN/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 34091
+    },
+    {
+      "year": 2001,
+      "value": 32141
+    },
+    {
+      "year": 2002,
+      "value": 33009
+    },
+    {
+      "year": 2003,
+      "value": 35023
+    },
+    {
+      "year": 2004,
+      "value": 36586
+    },
+    {
+      "year": 2005,
+      "value": 38118
+    },
+    {
+      "year": 2006,
+      "value": 44908
+    },
+    {
+      "year": 2007,
+      "value": 45418
+    },
+    {
+      "year": 2008,
+      "value": 45294
+    },
+    {
+      "year": 2009,
+      "value": 39240
+    },
+    {
+      "year": 2010,
+      "value": 48853
+    },
+    {
+      "year": 2011,
+      "value": 51179
+    },
+    {
+      "year": 2012,
+      "value": 51747
+    },
+    {
+      "year": 2013,
+      "value": 50715
+    },
+    {
+      "year": 2014,
+      "value": 51237
+    },
+    {
+      "year": 2015,
+      "value": 55830
+    },
+    {
+      "year": 2016,
+      "value": 45878
+    },
+    {
+      "year": 2017,
+      "value": 45620
+    },
+    {
+      "year": 2018,
+      "value": 46981
+    },
+    {
+      "year": 2019,
+      "value": 47718
+    },
+    {
+      "year": 2020,
+      "value": 48937
+    },
+    {
+      "year": 2021,
+      "value": 48284
+    },
+    {
+      "year": 2022,
+      "value": 50592
+    },
+    {
+      "year": 2023,
+      "value": 73434
+    },
+    {
+      "year": 2024,
+      "value": 86449
+    },
+    {
+      "year": 2025,
+      "value": 77483
+    }
+  ]
+}

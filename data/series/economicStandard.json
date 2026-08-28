@@ -1,0 +1,75 @@
+{
+  "id": "economicStandard",
+  "group": "Privatekonomi",
+  "label": "Median ekonomisk standard",
+  "shortLabel": "Ekonomisk standard",
+  "unit": "tkr/konsumtionsenhet, 2024 års priser",
+  "color": "#1f8265",
+  "caveat": "Median disponibel inkomst per konsumtionsenhet, exklusive kapitalvinster. Måttet tar hänsyn till hushållets storlek.",
+  "source": {
+    "label": "SCB · Hushållens ekonomi",
+    "organization": "SCB",
+    "dataset": "Hushållens ekonomi",
+    "datasetId": "TabVX1DispInkN",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__HE__HE0110__HE0110F/TabVX1DispInkN/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2011,
+      "value": 279.7
+    },
+    {
+      "year": 2012,
+      "value": 287.4
+    },
+    {
+      "year": 2013,
+      "value": 292.3
+    },
+    {
+      "year": 2014,
+      "value": 300.7
+    },
+    {
+      "year": 2015,
+      "value": 310.2
+    },
+    {
+      "year": 2016,
+      "value": 314.2
+    },
+    {
+      "year": 2017,
+      "value": 316
+    },
+    {
+      "year": 2018,
+      "value": 319.3
+    },
+    {
+      "year": 2019,
+      "value": 321.9
+    },
+    {
+      "year": 2020,
+      "value": 323.7
+    },
+    {
+      "year": 2021,
+      "value": 331.2
+    },
+    {
+      "year": 2022,
+      "value": 322.2
+    },
+    {
+      "year": 2023,
+      "value": 319.1
+    },
+    {
+      "year": 2024,
+      "value": 324.9
+    }
+  ]
+}

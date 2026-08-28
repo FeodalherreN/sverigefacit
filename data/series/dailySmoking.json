@@ -1,0 +1,91 @@
+{
+  "id": "dailySmoking",
+  "group": "Hälsa & levnadsvanor",
+  "label": "Daglig tobaksrökning",
+  "shortLabel": "Daglig rökning",
+  "unit": "procent",
+  "color": "#826b63",
+  "caveat": "Åldersstandardiserad självrapport bland 16–84-åringar. Frågor ändrades 2016; svarsfrekvensen har sjunkit och saknade år efter 2016 har inte interpolerats.",
+  "source": {
+    "label": "Folkhälsomyndigheten · Hälsa på lika villkor",
+    "organization": "Folkhälsomyndigheten",
+    "dataset": "Hälsa på lika villkor",
+    "datasetId": "tobakdagaald.px",
+    "url": "https://fohm-app.folkhalsomyndigheten.se/Folkhalsodata/pxweb/sv/A_Folkhalsodata/A_Folkhalsodata__A_Mo8__6_Levanor__01Begrans__06.01tobakdag/tobakdagaald.px/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2004,
+      "value": 16
+    },
+    {
+      "year": 2005,
+      "value": 14.5
+    },
+    {
+      "year": 2006,
+      "value": 13.9
+    },
+    {
+      "year": 2007,
+      "value": 14.3
+    },
+    {
+      "year": 2008,
+      "value": 12.5
+    },
+    {
+      "year": 2009,
+      "value": 12.3
+    },
+    {
+      "year": 2010,
+      "value": 12.4
+    },
+    {
+      "year": 2011,
+      "value": 11.2
+    },
+    {
+      "year": 2012,
+      "value": 11.2
+    },
+    {
+      "year": 2013,
+      "value": 10.9
+    },
+    {
+      "year": 2014,
+      "value": 10.1
+    },
+    {
+      "year": 2015,
+      "value": 9.7
+    },
+    {
+      "year": 2016,
+      "value": 8.6
+    },
+    {
+      "year": 2018,
+      "value": 7.1
+    },
+    {
+      "year": 2020,
+      "value": 6.7
+    },
+    {
+      "year": 2021,
+      "value": 6
+    },
+    {
+      "year": 2022,
+      "value": 5.7
+    },
+    {
+      "year": 2024,
+      "value": 5.3
+    }
+  ]
+}

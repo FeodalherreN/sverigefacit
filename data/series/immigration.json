@@ -1,0 +1,123 @@
+{
+  "id": "immigration",
+  "group": "Migration & befolkning",
+  "label": "Registrerade invandringar",
+  "shortLabel": "Invandring",
+  "unit": "personer",
+  "color": "#7857d8",
+  "caveat": "Invandring är folkbokförda varaktiga flyttningar, inte asylansökningar. Återinvandrade svenskfödda ingår.",
+  "source": {
+    "label": "SCB · Befolkningsutvecklingen",
+    "organization": "SCB",
+    "dataset": "Befolkningsutvecklingen",
+    "datasetId": "BefUtvKon1749",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101G/BefUtvKon1749/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 58659
+    },
+    {
+      "year": 2001,
+      "value": 60795
+    },
+    {
+      "year": 2002,
+      "value": 64087
+    },
+    {
+      "year": 2003,
+      "value": 63795
+    },
+    {
+      "year": 2004,
+      "value": 62028
+    },
+    {
+      "year": 2005,
+      "value": 65229
+    },
+    {
+      "year": 2006,
+      "value": 95750
+    },
+    {
+      "year": 2007,
+      "value": 99485
+    },
+    {
+      "year": 2008,
+      "value": 101171
+    },
+    {
+      "year": 2009,
+      "value": 102280
+    },
+    {
+      "year": 2010,
+      "value": 98801
+    },
+    {
+      "year": 2011,
+      "value": 96467
+    },
+    {
+      "year": 2012,
+      "value": 103059
+    },
+    {
+      "year": 2013,
+      "value": 115845
+    },
+    {
+      "year": 2014,
+      "value": 126966
+    },
+    {
+      "year": 2015,
+      "value": 134240
+    },
+    {
+      "year": 2016,
+      "value": 163005
+    },
+    {
+      "year": 2017,
+      "value": 144489
+    },
+    {
+      "year": 2018,
+      "value": 132602
+    },
+    {
+      "year": 2019,
+      "value": 115805
+    },
+    {
+      "year": 2020,
+      "value": 82518
+    },
+    {
+      "year": 2021,
+      "value": 90631
+    },
+    {
+      "year": 2022,
+      "value": 102436
+    },
+    {
+      "year": 2023,
+      "value": 94514
+    },
+    {
+      "year": 2024,
+      "value": 116197
+    },
+    {
+      "year": 2025,
+      "value": 89434
+    }
+  ]
+}

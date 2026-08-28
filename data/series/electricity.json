@@ -1,0 +1,123 @@
+{
+  "id": "electricity",
+  "group": "Energi & klimat",
+  "label": "Slutligt elpris, hushållsel",
+  "shortLabel": "Elpris",
+  "unit": "öre/kWh, 2025 års priser",
+  "color": "#d7a600",
+  "caveat": "Riksgenomsnittet döljer elområden och avtalsformer. Skatt och moms ingår.",
+  "source": {
+    "label": "Energimyndigheten",
+    "organization": "Energimyndigheten",
+    "dataset": null,
+    "datasetId": "EN_IND12-4A_cont.px",
+    "url": "https://pxexternal.energimyndigheten.se/pxweb/sv/Energimyndighetens_statistikdatabas/Energimyndighetens_statistikdatabas__Energiindikatorer__12__12.4/EN_IND12-4A_cont.px/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 141
+    },
+    {
+      "year": 2001,
+      "value": 143
+    },
+    {
+      "year": 2002,
+      "value": 160
+    },
+    {
+      "year": 2003,
+      "value": 186
+    },
+    {
+      "year": 2004,
+      "value": 183
+    },
+    {
+      "year": 2005,
+      "value": 176
+    },
+    {
+      "year": 2006,
+      "value": 196
+    },
+    {
+      "year": 2007,
+      "value": 211
+    },
+    {
+      "year": 2008,
+      "value": 230
+    },
+    {
+      "year": 2009,
+      "value": 241
+    },
+    {
+      "year": 2010,
+      "value": 249
+    },
+    {
+      "year": 2011,
+      "value": 250
+    },
+    {
+      "year": 2012,
+      "value": 238
+    },
+    {
+      "year": 2013,
+      "value": 238
+    },
+    {
+      "year": 2014,
+      "value": 233
+    },
+    {
+      "year": 2015,
+      "value": 235
+    },
+    {
+      "year": 2016,
+      "value": 244
+    },
+    {
+      "year": 2017,
+      "value": 248
+    },
+    {
+      "year": 2018,
+      "value": 259
+    },
+    {
+      "year": 2019,
+      "value": 270
+    },
+    {
+      "year": 2020,
+      "value": 256
+    },
+    {
+      "year": 2021,
+      "value": 291
+    },
+    {
+      "year": 2022,
+      "value": 374
+    },
+    {
+      "year": 2023,
+      "value": 287
+    },
+    {
+      "year": 2024,
+      "value": 279
+    },
+    {
+      "year": 2025,
+      "value": 295
+    }
+  ]
+}

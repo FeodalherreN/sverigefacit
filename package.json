@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "data:validate": "node scripts/validate-series.mjs",
+    "build": "npm run data:validate && vinext build",
+    "build:vercel": "npm run data:validate && next build",
     "start": "vinext start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "indexnow": "node scripts/submit-indexnow.mjs"

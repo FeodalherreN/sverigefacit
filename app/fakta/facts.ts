@@ -1,3 +1,5 @@
+import { factSeriesById as seriesById } from '../data/fact-series';
+
 export type FactPoint = {
   year: number;
   value: number;
@@ -58,6 +60,19 @@ export type FactEntry = {
   breakdown?: FactBreakdown;
   related: string[];
 };
+
+const pointsFromSeries = (
+  seriesId: string,
+  firstYear: number,
+  display: (value: number) => string,
+): FactPoint[] => seriesById[seriesId].points
+  .filter((point) => point.year >= firstYear)
+  .map((point) => ({ ...point, display: display(point.value) }));
+
+const decimal = (value: number, digits: number) => value.toLocaleString('sv-SE', {
+  minimumFractionDigits: digits,
+  maximumFractionDigits: digits,
+});
 
 export const facts: FactEntry[] = [
   {
@@ -208,16 +223,7 @@ export const facts: FactEntry[] = [
     sourceOrganization: 'Brottsförebyggande rådet',
     sourceUrl: 'https://bra.se/statistik/statistik-om-rattsvasendet/konstaterade-fall-av-dodligt-vald',
     sourceChecked: '27 augusti 2026',
-    points: [
-      { year: 2018, value: 108, display: '108 offer' },
-      { year: 2019, value: 111, display: '111 offer' },
-      { year: 2020, value: 124, display: '124 offer' },
-      { year: 2021, value: 113, display: '113 offer' },
-      { year: 2022, value: 116, display: '116 offer' },
-      { year: 2023, value: 121, display: '121 offer' },
-      { year: 2024, value: 92, display: '92 offer' },
-      { year: 2025, value: 84, display: '84 offer' },
-    ],
+    points: pointsFromSeries('deadlyViolence', 2018, (value) => `${value.toLocaleString('sv-SE')} offer`),
     related: ['skjutningar-2026', 'terrorism-i-eu-2025', 'migration-och-brott'],
   },
   {
@@ -241,16 +247,7 @@ export const facts: FactEntry[] = [
     sourceOrganization: 'Statistiska centralbyrån',
     sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101G/BefUtvKon1749/',
     sourceChecked: '27 augusti 2026',
-    points: [
-      { year: 2018, value: 132602, display: '132 602' },
-      { year: 2019, value: 115805, display: '115 805' },
-      { year: 2020, value: 82518, display: '82 518' },
-      { year: 2021, value: 90631, display: '90 631' },
-      { year: 2022, value: 102436, display: '102 436' },
-      { year: 2023, value: 94514, display: '94 514' },
-      { year: 2024, value: 116197, display: '116 197' },
-      { year: 2025, value: 89434, display: '89 434' },
-    ],
+    points: pointsFromSeries('immigration', 2018, (value) => value.toLocaleString('sv-SE')),
     related: ['migration-och-brott', 'arbetslosheten-2025', 'valet-2026'],
   },
   {
@@ -274,16 +271,7 @@ export const facts: FactEntry[] = [
     sourceOrganization: 'Statistiska centralbyrån',
     sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__AM__AM0401__AM0401A/AKURLBefAr/',
     sourceChecked: '27 augusti 2026',
-    points: [
-      { year: 2018, value: 6.5, display: '6,5 %' },
-      { year: 2019, value: 6.9, display: '6,9 %' },
-      { year: 2020, value: 8.5, display: '8,5 %' },
-      { year: 2021, value: 8.9, display: '8,9 %' },
-      { year: 2022, value: 7.5, display: '7,5 %' },
-      { year: 2023, value: 7.7, display: '7,7 %' },
-      { year: 2024, value: 8.4, display: '8,4 %' },
-      { year: 2025, value: 8.8, display: '8,8 %' },
-    ],
+    points: pointsFromSeries('unemployment', 2018, (value) => `${decimal(value, 1)} %`),
     related: ['hushallens-ekonomi-2024', 'invandringen-2025', 'gymnasiebehorighet-2025'],
   },
   {
@@ -307,16 +295,7 @@ export const facts: FactEntry[] = [
     sourceOrganization: 'Statistiska centralbyrån',
     sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__HE__HE0110__HE0110F/TabVX1DispInkN/',
     sourceChecked: '27 augusti 2026',
-    points: [
-      { year: 2017, value: 316, display: '316,0 tkr' },
-      { year: 2018, value: 319.3, display: '319,3 tkr' },
-      { year: 2019, value: 321.9, display: '321,9 tkr' },
-      { year: 2020, value: 323.7, display: '323,7 tkr' },
-      { year: 2021, value: 331.2, display: '331,2 tkr' },
-      { year: 2022, value: 322.2, display: '322,2 tkr' },
-      { year: 2023, value: 319.1, display: '319,1 tkr' },
-      { year: 2024, value: 324.9, display: '324,9 tkr' },
-    ],
+    points: pointsFromSeries('economicStandard', 2017, (value) => `${decimal(value, 1)} tkr`),
     related: ['arbetslosheten-2025', 'pensionens-ersattningsgrad', 'aldreomsorg-2025'],
   },
   {
@@ -369,16 +348,7 @@ export const facts: FactEntry[] = [
     sourceOrganization: 'Socialstyrelsen',
     sourceUrl: 'https://www.socialstyrelsen.se/publikationer/statistik-om-socialtjanstinsatser-till-aldre-2025-2026-4-10218/',
     sourceChecked: '27 augusti 2026',
-    points: [
-      { year: 2018, value: 10.91, display: '10,91 %' },
-      { year: 2019, value: 10.92, display: '10,92 %' },
-      { year: 2020, value: 10.47, display: '10,47 %' },
-      { year: 2021, value: 10.34, display: '10,34 %' },
-      { year: 2022, value: 10.43, display: '10,43 %' },
-      { year: 2023, value: 10.40, display: '10,40 %' },
-      { year: 2024, value: 10.29, display: '10,29 %' },
-      { year: 2025, value: 10.22, display: '10,22 %' },
-    ],
+    points: pointsFromSeries('homeCare', 2018, (value) => `${decimal(value, 2)} %`),
     related: ['pensionens-ersattningsgrad', 'vardgarantin-2026', 'hushallens-ekonomi-2024'],
   },
   {

@@ -1,0 +1,83 @@
+{
+  "id": "consumptionEmissions",
+  "group": "Energi & klimat",
+  "label": "Konsumtionsbaserade utsläpp per person",
+  "shortLabel": "Konsumtionsutsläpp",
+  "unit": "ton CO₂e per person",
+  "color": "#9a5c3b",
+  "caveat": "Modellberäknat mått som inkluderar utsläpp i andra länder från svensk konsumtion. Det är mer osäkert än territoriell statistik, särskilt för importerade varor och detaljerade delområden.",
+  "source": {
+    "label": "Naturvårdsverket / SCB · Konsumtionsbaserade utsläpp",
+    "organization": "Naturvårdsverket och SCB",
+    "dataset": "Konsumtionsbaserade utsläpp",
+    "datasetId": "vaxthusgaser-konsumtionsbaserade-utslapp-per-person",
+    "url": "https://www.naturvardsverket.se/data-och-statistik/konsumtion/vaxthusgaser-konsumtionsbaserade-utslapp-per-person/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2008,
+      "value": 11.92
+    },
+    {
+      "year": 2009,
+      "value": 9.97
+    },
+    {
+      "year": 2010,
+      "value": 11.26
+    },
+    {
+      "year": 2011,
+      "value": 11.75
+    },
+    {
+      "year": 2012,
+      "value": 10.78
+    },
+    {
+      "year": 2013,
+      "value": 10.69
+    },
+    {
+      "year": 2014,
+      "value": 9.94
+    },
+    {
+      "year": 2015,
+      "value": 9.73
+    },
+    {
+      "year": 2016,
+      "value": 9.69
+    },
+    {
+      "year": 2017,
+      "value": 9.35
+    },
+    {
+      "year": 2018,
+      "value": 9.36
+    },
+    {
+      "year": 2019,
+      "value": 8.73
+    },
+    {
+      "year": 2020,
+      "value": 7.77
+    },
+    {
+      "year": 2021,
+      "value": 8.21
+    },
+    {
+      "year": 2022,
+      "value": 8.46
+    },
+    {
+      "year": 2023,
+      "value": 7.62
+    }
+  ]
+}

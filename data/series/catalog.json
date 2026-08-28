@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "cataloguedAt": "2026-08-28",
+  "storage": "versioned-snapshot",
+  "updatePolicy": "Källvärden uppdateras kontrollerat, valideras och versionshanteras före publicering.",
+  "relationships": [
+    {
+      "ids": ["inflation", "realWageGrowth"],
+      "kind": "mathematical-overlap",
+      "warning": "Reallöneutvecklingen beräknas genom att justera den nominella löneutvecklingen med KPIF. Serierna är därför matematiskt kopplade och korrelationen är inte ett oberoende fynd."
+    },
+    {
+      "ids": ["nominalWageGrowth", "realWageGrowth"],
+      "kind": "mathematical-overlap",
+      "warning": "Reallöneutvecklingen beräknas från nominell löneutveckling justerad med KPIF. Serierna är därför matematiskt kopplade och korrelationen är inte ett oberoende fynd."
+    },
+    {
+      "ids": ["immigration", "migrationBalance"],
+      "kind": "mathematical-overlap",
+      "warning": "Migrationsnetto definieras som invandring minus utvandring. Serierna delar därför data och korrelationen är inte ett oberoende fynd."
+    },
+    {
+      "ids": ["emigration", "migrationBalance"],
+      "kind": "mathematical-overlap",
+      "warning": "Migrationsnetto definieras som invandring minus utvandring. Serierna delar därför data och korrelationen är inte ett oberoende fynd."
+    }
+  ],
+  "order": [
+    "immigration",
+    "emigration",
+    "migrationBalance",
+    "fertility",
+    "deadlyViolence",
+    "insecurity",
+    "dailySmoking",
+    "dailySnus",
+    "alcoholRisk",
+    "cannabisPastYear",
+    "antidepressantUse",
+    "cancerMortality",
+    "unemployment",
+    "gdpPerCapita",
+    "policyRate",
+    "inflation",
+    "nominalWageGrowth",
+    "realWageGrowth",
+    "foodPrices",
+    "economicStandard",
+    "realPension",
+    "homeCare",
+    "specialHousing",
+    "debtRatio",
+    "interestRatio",
+    "electricity",
+    "fuel",
+    "emissions",
+    "transportEmissions",
+    "consumptionEmissions",
+    "carbonSink",
+    "protectedNature",
+    "fossilFreeElectricity"
+  ]
+}

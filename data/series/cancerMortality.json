@@ -1,0 +1,239 @@
+{
+  "id": "cancerMortality",
+  "group": "Hälsa & levnadsvanor",
+  "label": "Dödlighet i all cancer",
+  "shortLabel": "Cancerdödlighet",
+  "unit": "döda per 100 000",
+  "color": "#7f607e",
+  "caveat": "Åldersstandardiserat trendmått för all cancer, riket och båda könen. Det gör år mer jämförbara men visar inte det faktiska antalet avlidna.",
+  "source": {
+    "label": "Socialstyrelsen · Cancer i Sverige",
+    "organization": "Socialstyrelsen",
+    "dataset": "Cancer i Sverige",
+    "datasetId": "CiS_insjuknande_dodlighet",
+    "url": "https://dataanalys.socialstyrelsen.se/superset/dashboard/CiS_insjuknande_dodlighet/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 1970,
+      "value": 309.35
+    },
+    {
+      "year": 1971,
+      "value": 328.26
+    },
+    {
+      "year": 1972,
+      "value": 342.3
+    },
+    {
+      "year": 1973,
+      "value": 340
+    },
+    {
+      "year": 1974,
+      "value": 345.49
+    },
+    {
+      "year": 1975,
+      "value": 347.1
+    },
+    {
+      "year": 1976,
+      "value": 343.77
+    },
+    {
+      "year": 1977,
+      "value": 345.58
+    },
+    {
+      "year": 1978,
+      "value": 340.36
+    },
+    {
+      "year": 1979,
+      "value": 339.03
+    },
+    {
+      "year": 1980,
+      "value": 332.92
+    },
+    {
+      "year": 1981,
+      "value": 309.6
+    },
+    {
+      "year": 1982,
+      "value": 301.95
+    },
+    {
+      "year": 1983,
+      "value": 298.04
+    },
+    {
+      "year": 1984,
+      "value": 300.83
+    },
+    {
+      "year": 1985,
+      "value": 302.17
+    },
+    {
+      "year": 1986,
+      "value": 295.23
+    },
+    {
+      "year": 1987,
+      "value": 297.29
+    },
+    {
+      "year": 1988,
+      "value": 303.07
+    },
+    {
+      "year": 1989,
+      "value": 295.1
+    },
+    {
+      "year": 1990,
+      "value": 297.56
+    },
+    {
+      "year": 1991,
+      "value": 295.18
+    },
+    {
+      "year": 1992,
+      "value": 293.51
+    },
+    {
+      "year": 1993,
+      "value": 294.42
+    },
+    {
+      "year": 1994,
+      "value": 284.67
+    },
+    {
+      "year": 1995,
+      "value": 289.23
+    },
+    {
+      "year": 1996,
+      "value": 288.33
+    },
+    {
+      "year": 1997,
+      "value": 296.86
+    },
+    {
+      "year": 1998,
+      "value": 293.67
+    },
+    {
+      "year": 1999,
+      "value": 291.01
+    },
+    {
+      "year": 2000,
+      "value": 288.58
+    },
+    {
+      "year": 2001,
+      "value": 292.96
+    },
+    {
+      "year": 2002,
+      "value": 286.64
+    },
+    {
+      "year": 2003,
+      "value": 289.3
+    },
+    {
+      "year": 2004,
+      "value": 287.6
+    },
+    {
+      "year": 2005,
+      "value": 285.83
+    },
+    {
+      "year": 2006,
+      "value": 284.47
+    },
+    {
+      "year": 2007,
+      "value": 278.34
+    },
+    {
+      "year": 2008,
+      "value": 273.65
+    },
+    {
+      "year": 2009,
+      "value": 270.17
+    },
+    {
+      "year": 2010,
+      "value": 266.54
+    },
+    {
+      "year": 2011,
+      "value": 265.02
+    },
+    {
+      "year": 2012,
+      "value": 267.4
+    },
+    {
+      "year": 2013,
+      "value": 262.86
+    },
+    {
+      "year": 2014,
+      "value": 261.17
+    },
+    {
+      "year": 2015,
+      "value": 258.28
+    },
+    {
+      "year": 2016,
+      "value": 255.15
+    },
+    {
+      "year": 2017,
+      "value": 254.02
+    },
+    {
+      "year": 2018,
+      "value": 245.58
+    },
+    {
+      "year": 2019,
+      "value": 240.4
+    },
+    {
+      "year": 2020,
+      "value": 236.59
+    },
+    {
+      "year": 2021,
+      "value": 228.15
+    },
+    {
+      "year": 2022,
+      "value": 226.8
+    },
+    {
+      "year": 2023,
+      "value": 224.51
+    },
+    {
+      "year": 2024,
+      "value": 217.13
+    }
+  ]
+}

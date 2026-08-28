@@ -1,0 +1,67 @@
+{
+  "id": "specialHousing",
+  "group": "Välfärd & utbildning",
+  "label": "Andel 65+ i särskilt boende",
+  "shortLabel": "Särskilt boende",
+  "unit": "procent",
+  "color": "#6b7e9a",
+  "caveat": "Mäter beviljad insats, inte uppskattat behov eller kvalitet. Befolkningen 65+ har vuxit under perioden.",
+  "source": {
+    "label": "Socialstyrelsen · Äldreomsorg 2025",
+    "organization": "Socialstyrelsen",
+    "dataset": "Äldreomsorg 2025",
+    "datasetId": "statistik-om-socialtjanstinsatser-till-aldre-2025-2026-4-10218",
+    "url": "https://www.socialstyrelsen.se/publikationer/statistik-om-socialtjanstinsatser-till-aldre-2025-2026-4-10218/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2014,
+      "value": 5.73
+    },
+    {
+      "year": 2015,
+      "value": 5.68
+    },
+    {
+      "year": 2016,
+      "value": 5.65
+    },
+    {
+      "year": 2017,
+      "value": 5.49
+    },
+    {
+      "year": 2018,
+      "value": 5.51
+    },
+    {
+      "year": 2019,
+      "value": 5.36
+    },
+    {
+      "year": 2020,
+      "value": 5.24
+    },
+    {
+      "year": 2021,
+      "value": 5.04
+    },
+    {
+      "year": 2022,
+      "value": 5.23
+    },
+    {
+      "year": 2023,
+      "value": 5.14
+    },
+    {
+      "year": 2024,
+      "value": 5.13
+    },
+    {
+      "year": 2025,
+      "value": 5.11
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "fuel",
+  "group": "Energi & klimat",
+  "label": "Bensin E5, realt pumppris",
+  "shortLabel": "Bensinpris",
+  "unit": "kr/liter, 2025 års priser",
+  "color": "#ca5a2b",
+  "caveat": "Råolja, kronkurs, skatt, reduktionsplikt, raffinaderimarginal och konkurrens påverkar samtidigt.",
+  "source": {
+    "label": "Energimyndigheten",
+    "organization": "Energimyndigheten",
+    "dataset": null,
+    "datasetId": "EN_IND12-7A_Cont.px",
+    "url": "https://pxexternal.energimyndigheten.se/pxweb/sv/Energimyndighetens_statistikdatabas/Energimyndighetens_statistikdatabas__Energiindikatorer__12__12.7/EN_IND12-7A_Cont.px/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 15.4
+    },
+    {
+      "year": 2001,
+      "value": 14.9
+    },
+    {
+      "year": 2002,
+      "value": 14.4
+    },
+    {
+      "year": 2003,
+      "value": 14.2
+    },
+    {
+      "year": 2004,
+      "value": 15
+    },
+    {
+      "year": 2005,
+      "value": 16.6
+    },
+    {
+      "year": 2006,
+      "value": 17
+    },
+    {
+      "year": 2007,
+      "value": 16.9
+    },
+    {
+      "year": 2008,
+      "value": 17.6
+    },
+    {
+      "year": 2009,
+      "value": 17
+    },
+    {
+      "year": 2010,
+      "value": 18
+    },
+    {
+      "year": 2011,
+      "value": 19
+    },
+    {
+      "year": 2012,
+      "value": 20
+    },
+    {
+      "year": 2013,
+      "value": 19.4
+    },
+    {
+      "year": 2014,
+      "value": 19.1
+    },
+    {
+      "year": 2015,
+      "value": 17.8
+    },
+    {
+      "year": 2016,
+      "value": 17.4
+    },
+    {
+      "year": 2017,
+      "value": 18.3
+    },
+    {
+      "year": 2018,
+      "value": 19.6
+    },
+    {
+      "year": 2019,
+      "value": 19.7
+    },
+    {
+      "year": 2020,
+      "value": 17.6
+    },
+    {
+      "year": 2021,
+      "value": 19.9
+    },
+    {
+      "year": 2022,
+      "value": 23.1
+    },
+    {
+      "year": 2023,
+      "value": 20.7
+    },
+    {
+      "year": 2024,
+      "value": 18.2
+    },
+    {
+      "year": 2025,
+      "value": 16
+    }
+  ]
+}

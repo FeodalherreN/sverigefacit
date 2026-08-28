@@ -1,0 +1,123 @@
+{
+  "id": "realWageGrowth",
+  "group": "Ekonomi & arbete",
+  "label": "Reallöneutveckling efter KPIF",
+  "shortLabel": "Reallön",
+  "unit": "procent per år",
+  "color": "#168067",
+  "caveat": "Årlig löneutveckling justerad med KPIF. En sammanvägd serie för hela ekonomin, inte köpkraften för varje hushåll eller individ.",
+  "source": {
+    "label": "Medlingsinstitutet · Hela ekonomin",
+    "organization": "Medlingsinstitutet",
+    "dataset": "Hela ekonomin",
+    "datasetId": "Realloner_arsdata.px",
+    "url": "https://www.mi.se/PXWeb/pxweb/sv/Konjunkturl%C3%B6nestatistik/Konjunkturl%C3%B6nestatistik__Reall%C3%B6neutveckling/Realloner_arsdata.px/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 2.7
+    },
+    {
+      "year": 2001,
+      "value": 1.9
+    },
+    {
+      "year": 2002,
+      "value": 1.9
+    },
+    {
+      "year": 2003,
+      "value": 1
+    },
+    {
+      "year": 2004,
+      "value": 2.2
+    },
+    {
+      "year": 2005,
+      "value": 2
+    },
+    {
+      "year": 2006,
+      "value": 1.7
+    },
+    {
+      "year": 2007,
+      "value": 1.8
+    },
+    {
+      "year": 2008,
+      "value": 1.6
+    },
+    {
+      "year": 2009,
+      "value": 1.7
+    },
+    {
+      "year": 2010,
+      "value": 0.6
+    },
+    {
+      "year": 2011,
+      "value": 1
+    },
+    {
+      "year": 2012,
+      "value": 2
+    },
+    {
+      "year": 2013,
+      "value": 1.6
+    },
+    {
+      "year": 2014,
+      "value": 2.3
+    },
+    {
+      "year": 2015,
+      "value": 1.5
+    },
+    {
+      "year": 2016,
+      "value": 1
+    },
+    {
+      "year": 2017,
+      "value": 0.3
+    },
+    {
+      "year": 2018,
+      "value": 0.5
+    },
+    {
+      "year": 2019,
+      "value": 0.9
+    },
+    {
+      "year": 2020,
+      "value": 1.6
+    },
+    {
+      "year": 2021,
+      "value": 0.2
+    },
+    {
+      "year": 2022,
+      "value": -5
+    },
+    {
+      "year": 2023,
+      "value": -2.3
+    },
+    {
+      "year": 2024,
+      "value": 2.2
+    },
+    {
+      "year": 2025,
+      "value": 1
+    }
+  ]
+}

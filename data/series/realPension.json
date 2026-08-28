@@ -1,0 +1,103 @@
+{
+  "id": "realPension",
+  "group": "Välfärd & utbildning",
+  "label": "Real allmän pension",
+  "shortLabel": "Real pension",
+  "unit": "kr/månad, 2023 års priser",
+  "color": "#8d5b9e",
+  "caveat": "Genomsnitt före skatt. Resultatet påverkas av vilka årskullar som kommer in och lämnar pensionärskollektivet.",
+  "source": {
+    "label": "Pensionsmyndigheten",
+    "organization": "Pensionsmyndigheten",
+    "dataset": null,
+    "datasetId": "Fastprisberaknad-pension-2024",
+    "url": "https://www.pensionsmyndigheten.se/statistik/publikationer/Fastprisberaknad-pension-2024/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2003,
+      "value": 13880
+    },
+    {
+      "year": 2004,
+      "value": 14207
+    },
+    {
+      "year": 2005,
+      "value": 14363
+    },
+    {
+      "year": 2006,
+      "value": 14454
+    },
+    {
+      "year": 2007,
+      "value": 14515
+    },
+    {
+      "year": 2008,
+      "value": 14545
+    },
+    {
+      "year": 2009,
+      "value": 15377
+    },
+    {
+      "year": 2010,
+      "value": 14925
+    },
+    {
+      "year": 2011,
+      "value": 14174
+    },
+    {
+      "year": 2012,
+      "value": 14633
+    },
+    {
+      "year": 2013,
+      "value": 15291
+    },
+    {
+      "year": 2014,
+      "value": 15096
+    },
+    {
+      "year": 2015,
+      "value": 15346
+    },
+    {
+      "year": 2016,
+      "value": 15856
+    },
+    {
+      "year": 2017,
+      "value": 16076
+    },
+    {
+      "year": 2018,
+      "value": 16008
+    },
+    {
+      "year": 2019,
+      "value": 16049
+    },
+    {
+      "year": 2020,
+      "value": 16530
+    },
+    {
+      "year": 2021,
+      "value": 16701
+    },
+    {
+      "year": 2022,
+      "value": 16375
+    },
+    {
+      "year": 2023,
+      "value": 15713
+    }
+  ]
+}

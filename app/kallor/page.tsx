@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { seriesCatalogMetadata } from '../data/series-core';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Källor – SCB, Brå, Eurostat och offentlig statistik';
@@ -31,6 +32,12 @@ const sources = [
   { name: 'Europeiska miljöbyrån', detail: 'Europeiska utsläppsinventeringar, miljödata och metodunderlag', url: 'https://www.eea.europa.eu/en/datahub' },
 ];
 
+const cataloguedDate = new Intl.DateTimeFormat('sv-SE', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(new Date(`${seriesCatalogMetadata.cataloguedAt}T12:00:00Z`));
+
 export default function SourcesPage() {
   return (
     <main className="guide-page" id="guide-content" tabIndex={-1}>
@@ -51,6 +58,16 @@ export default function SourcesPage() {
               <i>↗</i>
             </a>
           ))}
+        </section>
+
+        <section className="source-principles" aria-labelledby="data-storage-heading">
+          <div><h2 id="data-storage-heading">Så lagras siffrorna</h2></div>
+          <ul>
+            <li><strong>Datastudions {seriesCatalogMetadata.seriesCount} svenska tidsserier är versionsatta.</strong><span>De ligger i en gemensam datakatalog i projektet. Besökaren är därför inte beroende av att ett myndighets-API svarar just då.</span></li>
+            <li><strong>Uppdateringar granskas före publicering.</strong><span>Nya värden jämförs med originalkällan, valideras och blir en synlig ändring i versionshistoriken. Katalogen strukturerades senast {cataloguedDate}.</span></li>
+            <li><strong>Eurostat är undantaget.</strong><span>Internationella jämförelser försöker hämta harmoniserad data direkt från Eurostat och visar kontrollerade reservvärden om tjänsten inte kan nås.</span></li>
+            <li><strong>Öppen och maskinläsbar.</strong><span><a href="/data/series.json">Öppna hela tidsseriekatalogen som JSON ↗</a></span></li>
+          </ul>
         </section>
 
         <section className="source-principles">

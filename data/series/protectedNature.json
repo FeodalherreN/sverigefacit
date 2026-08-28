@@ -1,0 +1,51 @@
+{
+  "id": "protectedNature",
+  "group": "Energi & klimat",
+  "label": "Formellt skyddad natur",
+  "shortLabel": "Skyddad natur",
+  "unit": "procent av Sveriges totalareal",
+  "color": "#7a6b37",
+  "caveat": "Överlapp mellan skyddsformer är borträknade. Från 2023 används ett nytt geografiskt underlag för totalarealen, vilket påverkar jämförbarheten något.",
+  "source": {
+    "label": "SCB · Formellt skyddad natur",
+    "organization": "SCB",
+    "dataset": "Formellt skyddad natur",
+    "datasetId": "ArealSkydd",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0603__MI0603D/ArealSkydd/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2018,
+      "value": 14.7
+    },
+    {
+      "year": 2019,
+      "value": 14.8
+    },
+    {
+      "year": 2020,
+      "value": 14.9
+    },
+    {
+      "year": 2021,
+      "value": 15
+    },
+    {
+      "year": 2022,
+      "value": 15
+    },
+    {
+      "year": 2023,
+      "value": 15
+    },
+    {
+      "year": 2024,
+      "value": 15.3
+    },
+    {
+      "year": 2025,
+      "value": 15.7
+    }
+  ]
+}

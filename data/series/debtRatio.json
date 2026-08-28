@@ -1,0 +1,123 @@
+{
+  "id": "debtRatio",
+  "group": "Privatekonomi",
+  "label": "Hushållens skuldkvot",
+  "shortLabel": "Skuldkvot",
+  "unit": "procent av disponibel inkomst, Q4",
+  "color": "#4557a9",
+  "caveat": "Aggregat för alla hushåll. Det beskriver inte skulden för ett typiskt bolånehushåll.",
+  "source": {
+    "label": "SCB · Nationalräkenskaperna",
+    "organization": "SCB",
+    "dataset": "Nationalräkenskaperna",
+    "datasetId": "SektorENS2010KvKeyIn",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__NR__NR0103__NR0103C/SektorENS2010KvKeyIn/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 111.2
+    },
+    {
+      "year": 2001,
+      "value": 112.2
+    },
+    {
+      "year": 2002,
+      "value": 113.9
+    },
+    {
+      "year": 2003,
+      "value": 121
+    },
+    {
+      "year": 2004,
+      "value": 131.2
+    },
+    {
+      "year": 2005,
+      "value": 139.6
+    },
+    {
+      "year": 2006,
+      "value": 145.6
+    },
+    {
+      "year": 2007,
+      "value": 148.3
+    },
+    {
+      "year": 2008,
+      "value": 151
+    },
+    {
+      "year": 2009,
+      "value": 156.9
+    },
+    {
+      "year": 2010,
+      "value": 162
+    },
+    {
+      "year": 2011,
+      "value": 162.2
+    },
+    {
+      "year": 2012,
+      "value": 161.7
+    },
+    {
+      "year": 2013,
+      "value": 164.6
+    },
+    {
+      "year": 2014,
+      "value": 168.2
+    },
+    {
+      "year": 2015,
+      "value": 174.6
+    },
+    {
+      "year": 2016,
+      "value": 180.5
+    },
+    {
+      "year": 2017,
+      "value": 184.6
+    },
+    {
+      "year": 2018,
+      "value": 186.6
+    },
+    {
+      "year": 2019,
+      "value": 187.4
+    },
+    {
+      "year": 2020,
+      "value": 197.5
+    },
+    {
+      "year": 2021,
+      "value": 198
+    },
+    {
+      "year": 2022,
+      "value": 189.1
+    },
+    {
+      "year": 2023,
+      "value": 179.9
+    },
+    {
+      "year": 2024,
+      "value": 174.4
+    },
+    {
+      "year": 2025,
+      "value": 172.7
+    }
+  ]
+}

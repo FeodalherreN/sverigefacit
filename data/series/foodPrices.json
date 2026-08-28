@@ -1,0 +1,123 @@
+{
+  "id": "foodPrices",
+  "group": "Privatekonomi",
+  "label": "Prisnivå för livsmedel",
+  "shortLabel": "Matpriser",
+  "unit": "KPI-index, 1980=100",
+  "color": "#d36937",
+  "caveat": "Detta är prisnivån, inte inflationstakten. Lägre inflation betyder normalt att priserna fortsätter stiga, fast långsammare.",
+  "source": {
+    "label": "SCB · KPI, COICOP 01",
+    "organization": "SCB",
+    "dataset": "KPI, COICOP 01",
+    "datasetId": "KPICOI80Ar",
+    "url": "https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__PR__PR0101__PR0101L/KPICOI80Ar/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 225.98
+    },
+    {
+      "year": 2001,
+      "value": 232.47
+    },
+    {
+      "year": 2002,
+      "value": 240.02
+    },
+    {
+      "year": 2003,
+      "value": 240.79
+    },
+    {
+      "year": 2004,
+      "value": 239.74
+    },
+    {
+      "year": 2005,
+      "value": 238.09
+    },
+    {
+      "year": 2006,
+      "value": 239.91
+    },
+    {
+      "year": 2007,
+      "value": 244.77
+    },
+    {
+      "year": 2008,
+      "value": 261.69
+    },
+    {
+      "year": 2009,
+      "value": 269.25
+    },
+    {
+      "year": 2010,
+      "value": 273.15
+    },
+    {
+      "year": 2011,
+      "value": 276.65
+    },
+    {
+      "year": 2012,
+      "value": 280.76
+    },
+    {
+      "year": 2013,
+      "value": 286.96
+    },
+    {
+      "year": 2014,
+      "value": 288.02
+    },
+    {
+      "year": 2015,
+      "value": 294.73
+    },
+    {
+      "year": 2016,
+      "value": 297.84
+    },
+    {
+      "year": 2017,
+      "value": 304.22
+    },
+    {
+      "year": 2018,
+      "value": 311.45
+    },
+    {
+      "year": 2019,
+      "value": 320.19
+    },
+    {
+      "year": 2020,
+      "value": 327.02
+    },
+    {
+      "year": 2021,
+      "value": 328.36
+    },
+    {
+      "year": 2022,
+      "value": 365.51
+    },
+    {
+      "year": 2023,
+      "value": 409.87
+    },
+    {
+      "year": 2024,
+      "value": 415.79
+    },
+    {
+      "year": 2025,
+      "value": 433.51
+    }
+  ]
+}

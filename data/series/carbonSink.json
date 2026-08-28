@@ -1,0 +1,119 @@
+{
+  "id": "carbonSink",
+  "group": "Energi & klimat",
+  "label": "Nettoupptag i mark och skog",
+  "shortLabel": "Nettoupptag",
+  "unit": "Mt CO₂e",
+  "color": "#66833f",
+  "caveat": "Här visas upptaget som ett positivt tal för läsbarhet. I originalstatistiken redovisas nettoupptag som negativa utsläpp. Senaste slutliga år är 2024.",
+  "source": {
+    "label": "Naturvårdsverket · Markanvändning och skogsbruk",
+    "organization": "Naturvårdsverket",
+    "dataset": "Markanvändning och skogsbruk",
+    "datasetId": "vaxthusgaser-nettoutslapp-och-nettoupptag-fran-markanvandning",
+    "url": "https://www.naturvardsverket.se/data-och-statistik/klimat/vaxthusgaser-nettoutslapp-och-nettoupptag-fran-markanvandning/",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2000,
+      "value": 61.21
+    },
+    {
+      "year": 2001,
+      "value": 62.2
+    },
+    {
+      "year": 2002,
+      "value": 61.97
+    },
+    {
+      "year": 2003,
+      "value": 60.27
+    },
+    {
+      "year": 2004,
+      "value": 56.74
+    },
+    {
+      "year": 2005,
+      "value": 58.07
+    },
+    {
+      "year": 2006,
+      "value": 63.13
+    },
+    {
+      "year": 2007,
+      "value": 63.99
+    },
+    {
+      "year": 2008,
+      "value": 61.93
+    },
+    {
+      "year": 2009,
+      "value": 61.47
+    },
+    {
+      "year": 2010,
+      "value": 61.13
+    },
+    {
+      "year": 2011,
+      "value": 61.49
+    },
+    {
+      "year": 2012,
+      "value": 59.69
+    },
+    {
+      "year": 2013,
+      "value": 59.57
+    },
+    {
+      "year": 2014,
+      "value": 58.21
+    },
+    {
+      "year": 2015,
+      "value": 55.6
+    },
+    {
+      "year": 2016,
+      "value": 52.58
+    },
+    {
+      "year": 2017,
+      "value": 46.67
+    },
+    {
+      "year": 2018,
+      "value": 40.19
+    },
+    {
+      "year": 2019,
+      "value": 40.65
+    },
+    {
+      "year": 2020,
+      "value": 39.84
+    },
+    {
+      "year": 2021,
+      "value": 39.85
+    },
+    {
+      "year": 2022,
+      "value": 43.15
+    },
+    {
+      "year": 2023,
+      "value": 46.05
+    },
+    {
+      "year": 2024,
+      "value": 54.24
+    }
+  ]
+}

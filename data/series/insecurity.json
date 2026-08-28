@@ -1,0 +1,95 @@
+{
+  "id": "insecurity",
+  "group": "Brott & trygghet",
+  "label": "Otrygg vid sen utevistelse",
+  "shortLabel": "Upplevd otrygghet",
+  "unit": "procent",
+  "color": "#c65b55",
+  "caveat": "Självrapporterad otrygghet bland 16–84-åringar, inte ett mått på brottsnivån. Brås nationella serie är omräknad för metodbytet 2017.",
+  "source": {
+    "label": "Brå · Nationella trygghetsundersökningen",
+    "organization": "Brå",
+    "dataset": "Nationella trygghetsundersökningen",
+    "datasetId": "otrygghet-och-oro-for-brott",
+    "url": "https://bra.se/statistik/statistik-fran-enkatundersokningar/nationella-trygghetsundersokningen/otrygghet-och-oro-for-brott",
+    "secondary": null
+  },
+  "points": [
+    {
+      "year": 2007,
+      "value": 25
+    },
+    {
+      "year": 2008,
+      "value": 25
+    },
+    {
+      "year": 2009,
+      "value": 23
+    },
+    {
+      "year": 2010,
+      "value": 22
+    },
+    {
+      "year": 2011,
+      "value": 23
+    },
+    {
+      "year": 2012,
+      "value": 22
+    },
+    {
+      "year": 2013,
+      "value": 21
+    },
+    {
+      "year": 2014,
+      "value": 22
+    },
+    {
+      "year": 2015,
+      "value": 22
+    },
+    {
+      "year": 2016,
+      "value": 28
+    },
+    {
+      "year": 2017,
+      "value": 28
+    },
+    {
+      "year": 2018,
+      "value": 28
+    },
+    {
+      "year": 2019,
+      "value": 28
+    },
+    {
+      "year": 2020,
+      "value": 30
+    },
+    {
+      "year": 2021,
+      "value": 28
+    },
+    {
+      "year": 2022,
+      "value": 27
+    },
+    {
+      "year": 2023,
+      "value": 26
+    },
+    {
+      "year": 2024,
+      "value": 24
+    },
+    {
+      "year": 2025,
+      "value": 25
+    }
+  ]
+}

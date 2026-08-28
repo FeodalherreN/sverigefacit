@@ -1,0 +1,102 @@
+{
+  "id": "antidepressantUse",
+  "group": "Hälsa & levnadsvanor",
+  "label": "Uttag av antidepressiva läkemedel",
+  "shortLabel": "Antidepressiva uttag",
+  "unit": "personer per 1 000",
+  "color": "#5270a0",
+  "caveat": "Beräknat som summerat patientantal dividerat med summerad befolkning × 1 000. Ej åldersstandardiserat all-åldersmått för minst ett N06A-uttag — inte kontinuerlig användning eller depressiondiagnos. Åldersstruktur, diagnospraxis, behandlingslängd och andra indikationer påverkar.",
+  "source": {
+    "label": "Socialstyrelsen · patientantal för N06A",
+    "organization": "Socialstyrelsen",
+    "dataset": "patientantal för N06A",
+    "datasetId": "3",
+    "url": "https://sdb.socialstyrelsen.se/api/v1/sv/lakemedel/resultat/matt/1/atc/N06A/region/0/kon/3?per_sida=1000",
+    "secondary": {
+      "label": "Socialstyrelsen · befolkningsunderlag",
+      "url": "https://sdb.socialstyrelsen.se/api/v1/sv/lakemedel/resultat/matt/9/atc/N06A/region/0/kon/3?per_sida=1000"
+    }
+  },
+  "points": [
+    {
+      "year": 2006,
+      "value": 79.68
+    },
+    {
+      "year": 2007,
+      "value": 80.46
+    },
+    {
+      "year": 2008,
+      "value": 80.34
+    },
+    {
+      "year": 2009,
+      "value": 79.92
+    },
+    {
+      "year": 2010,
+      "value": 81.08
+    },
+    {
+      "year": 2011,
+      "value": 83.25
+    },
+    {
+      "year": 2012,
+      "value": 85.27
+    },
+    {
+      "year": 2013,
+      "value": 87.54
+    },
+    {
+      "year": 2014,
+      "value": 90.92
+    },
+    {
+      "year": 2015,
+      "value": 97.25
+    },
+    {
+      "year": 2016,
+      "value": 99.29
+    },
+    {
+      "year": 2017,
+      "value": 97.57
+    },
+    {
+      "year": 2018,
+      "value": 99.25
+    },
+    {
+      "year": 2019,
+      "value": 101.87
+    },
+    {
+      "year": 2020,
+      "value": 103.34
+    },
+    {
+      "year": 2021,
+      "value": 106.9
+    },
+    {
+      "year": 2022,
+      "value": 111.01
+    },
+    {
+      "year": 2023,
+      "value": 114.1
+    },
+    {
+      "year": 2024,
+      "value": 117.28
+    },
+    {
+      "year": 2025,
+      "value": 119.06
+    }
+  ]
+}
