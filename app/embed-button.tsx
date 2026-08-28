@@ -1,12 +1,7 @@
 'use client';
 
+import { track } from '@vercel/analytics';
 import { useState } from 'react';
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
 
 export function EmbedButton({ embedUrl, title, itemId }: { embedUrl: string; title: string; itemId: string }) {
   const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
@@ -16,7 +11,7 @@ export function EmbedButton({ embedUrl, title, itemId }: { embedUrl: string; tit
     try {
       await navigator.clipboard.writeText(code);
       setStatus('copied');
-      window.gtag?.('event', 'share', { method: 'embed_code', content_type: 'fact', item_id: itemId });
+      track('share', { method: 'embed_code', content_type: 'fact', item_id: itemId });
     } catch {
       setStatus('failed');
     }

@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import { GuideFooter, GuideHeader } from './guide-chrome';
+import { InternationalReference } from './international-reference';
+import { topicBenchmarkIds } from './international-reference-data';
 import { siteConfig } from './site-config';
 import { topicBySlug, topicPath, type SeoTopic } from './seo-topics';
 
 export function TopicPage({ topic }: { topic: SeoTopic }) {
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
+  const benchmarkIds = topicBenchmarkIds[topic.slug];
   const primaryAction = topic.slug === 'invandring-och-brott'
     ? { href: '/analys/brott-och-migration', label: 'Öppna den interaktiva brottsanalysen' }
     : { href: '/datastudio', label: 'Jämför serien i Datastudion' };
@@ -100,6 +103,10 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
             </div>
           ))}
         </section>
+
+        {benchmarkIds && (
+          <InternationalReference benchmarkIds={benchmarkIds} />
+        )}
 
         <div className="topic-page-layout">
           <div className="topic-main-copy">

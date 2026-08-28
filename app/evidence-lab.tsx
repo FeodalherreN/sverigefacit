@@ -1,5 +1,6 @@
 'use client';
 
+import { track } from '@vercel/analytics';
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { CrimeOriginExplorer } from './analys/brott-och-migration/crime-origin-explorer';
 import { environmentSeries } from './environment-data';
@@ -891,7 +892,7 @@ export function DataStudio() {
         });
         setCopiedSignature(analysisSignature);
         setCopyFailedSignature('');
-        window.gtag?.('event', 'share', { method: 'native', content_type: 'data_analysis' });
+        track('share', { method: 'native', content_type: 'data_analysis' });
         return;
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') return;
@@ -901,7 +902,7 @@ export function DataStudio() {
       await navigator.clipboard.writeText(shareUrl.toString());
       setCopiedSignature(analysisSignature);
       setCopyFailedSignature('');
-      window.gtag?.('event', 'share', { method: 'copy_link', content_type: 'data_analysis' });
+      track('share', { method: 'copy_link', content_type: 'data_analysis' });
     } catch {
       setCopiedSignature('');
       setCopyFailedSignature(analysisSignature);

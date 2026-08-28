@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 export const metadata: Metadata = {
-  title: 'Integritet och statistikcookies',
-  description: 'Så använder Sverigefacit lokal lagring och Google Analytics.',
+  title: 'Integritet och anonym besöksstatistik',
+  description: 'Så använder Sverigefacit Vercel Web Analytics och webbläsarens delningsfunktion.',
   alternates: { canonical: '/integritet' },
 };
 
@@ -13,11 +13,9 @@ export default function PrivacyPage() {
       <GuideHeader />
       <article className="privacy-page">
         <p className="section-kicker">Transparens</p>
-        <h1>Integritet och cookies</h1>
-        <p>Sverigefacit ska gå att använda utan att acceptera statistikcookies.</p>
-        <section><h2>Nödvändig lokal lagring</h2><p>Vi sparar ditt val om statistikcookies i webbläsarens lokala lagring. Det behövs för att komma ihåg om du tackat ja eller nej.</p></section>
-        <section><h2>Google Analytics</h2><p>Om du aktivt godkänner statistik laddas Google Analytics med mät-id G-V1G0VLNPB3. Det hjälper oss förstå vilka sidor och funktioner som används. Skriptet laddas inte innan samtycke.</p></section>
-        <section><h2>Ändra ditt val</h2><p>Knappen ”Cookie-inställningar” finns på alla sidor. Där kan du när som helst göra ett nytt val. Att tacka nej påverkar inte sajtens innehåll eller funktioner.</p></section>
+        <h1>Integritet och besöksstatistik</h1>
+        <p>Sverigefacit använder ingen Google Analytics-tagg och sätter inga egna statistikcookies.</p>
+        <section><h2>Vercel Web Analytics</h2><p>Vi använder Vercel Web Analytics för anonym, sammanställd statistik om exempelvis besökta sidor, hänvisande webbplats, land, enhet och webbläsare. Tjänsten använder inte tredjepartscookies och ska inte identifiera en person eller följa samma besökare mellan olika webbplatser eller dagar.</p><p><a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noreferrer">Läs Vercels beskrivning av datainsamlingen ↗</a></p></section>
         <section><h2>Delning</h2><p>När du trycker på Dela används telefonens eller webbläsarens delningsfunktion. Sverigefacit får inte veta vilken person eller app du delar länken med.</p></section>
       </article>
       <GuideFooter />

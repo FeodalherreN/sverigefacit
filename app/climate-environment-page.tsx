@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { environmentSeries, type EnvironmentPoint } from './environment-data';
 import { GuideFooter, GuideHeader } from './guide-chrome';
+import { InternationalReference } from './international-reference';
 import { siteConfig } from './site-config';
 import { topicPath, type SeoTopic } from './seo-topics';
 
@@ -210,6 +211,11 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
             <a href={environmentSeries.emissions.sourceUrl} target="_blank" rel="noreferrer">Öppna originalserien ↗</a>
           </div>
         </section>
+
+        <InternationalReference
+          benchmarkIds={['territorialEmissionsPerCapita']}
+          heading="Sveriges utsläpp i europeisk kontext"
+        />
 
         <section className="environment-split-section" aria-labelledby="sectors-heading">
           <div>

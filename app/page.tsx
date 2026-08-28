@@ -451,6 +451,8 @@ const sourceHubs = [
   { name: 'Regeringen', detail: 'Reformer · propositioner', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar · beslut · dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
   { name: 'Europol', detail: 'Terrorism i EU · TE-SAT', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
+  { name: 'Eurostat', detail: 'Harmoniserad EU-statistik', url: 'https://ec.europa.eu/eurostat/' },
+  { name: 'Europeiska miljöbyrån', detail: 'Utsläpp · europeisk miljödata', url: 'https://www.eea.europa.eu/en/datahub' },
 ];
 
 const seriesTopicPaths: Record<SeriesId, string> = {
@@ -942,7 +944,7 @@ export default function Home() {
           </div>
           <div className="hero-meta" role="group" aria-label="Om datan">
             <div><strong>33</strong><span>tidsserier</span></div>
-            <div><strong>14</strong><span>källor</span></div>
+            <div><strong>16</strong><span>källor</span></div>
             <div><strong>1970–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
@@ -1200,7 +1202,7 @@ export default function Home() {
           </div>
         </div>
         <details className="source-disclosure">
-          <summary><span>14 myndigheter och organisationer</span><small>Visa listan</small><i>+</i></summary>
+          <summary><span>16 myndigheter och organisationer</span><small>Visa listan</small><i>+</i></summary>
           <div>
             {sourceHubs.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>

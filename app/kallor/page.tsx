@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
-const title = 'Källor – SCB, Brå, Europol och offentlig statistik';
-const description = 'Se myndigheterna och originalkällorna bakom Sverigefacits statistik om brott, migration, ekonomi, pension, energi och svensk EU-kontext.';
+const title = 'Källor – SCB, Brå, Eurostat och offentlig statistik';
+const description = 'Se myndigheterna och originalkällorna bakom Sverigefacits statistik om brott, migration, ekonomi, pension, energi, miljö och europeiska jämförelser.';
 
 export const metadata: Metadata = {
   title,
@@ -27,6 +27,8 @@ const sources = [
   { name: 'Regeringen', detail: 'Propositioner, regeringsförklaringar och offentliga utredningar', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar, beslut, betänkanden och riksdagens dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
   { name: 'Europol', detail: 'Terrorism i EU, medlemsstaternas rapportering och årliga TE-SAT-rapporter', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
+  { name: 'Eurostat', detail: 'Harmoniserade landsjämförelser för arbete, priser, ekonomi, energi och klimat', url: 'https://ec.europa.eu/eurostat/' },
+  { name: 'Europeiska miljöbyrån', detail: 'Europeiska utsläppsinventeringar, miljödata och metodunderlag', url: 'https://www.eea.europa.eu/en/datahub' },
 ];
 
 export default function SourcesPage() {

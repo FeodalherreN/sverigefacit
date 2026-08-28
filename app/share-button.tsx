@@ -1,12 +1,7 @@
 'use client';
 
+import { track } from '@vercel/analytics';
 import { useState } from 'react';
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
 
 export function ShareButton({ title, text, itemId, url }: { title: string; text: string; itemId: string; url: string }) {
   const [status, setStatus] = useState<'idle' | 'shared' | 'copied' | 'failed'>('idle');
@@ -22,18 +17,18 @@ export function ShareButton({ title, text, itemId, url }: { title: string; text:
       if (navigator.share) {
         await navigator.share({ title, text, url: shareUrl });
         setStatus('shared');
-        window.gtag?.('event', 'share', { method: 'web_share', content_type: 'fact', item_id: itemId });
+        track('share', { method: 'web_share', content_type: 'fact', item_id: itemId });
       } else {
         await navigator.clipboard.writeText(shareUrl);
         setStatus('copied');
-        window.gtag?.('event', 'share', { method: 'copy_link', content_type: 'fact', item_id: itemId });
+        track('share', { method: 'copy_link', content_type: 'fact', item_id: itemId });
       }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return;
       try {
         await navigator.clipboard.writeText(shareUrl);
         setStatus('copied');
-        window.gtag?.('event', 'share', { method: 'copy_fallback', content_type: 'fact', item_id: itemId });
+        track('share', { method: 'copy_fallback', content_type: 'fact', item_id: itemId });
       } catch {
         setStatus('failed');
       }

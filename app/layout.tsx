@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
-import { AnalyticsConsent } from './analytics-consent';
 import { MobileBottomNav } from './mobile-bottom-nav';
 import { siteConfig } from './site-config';
 import './globals.css';
 import './evidence-lab.css';
 import './seo-pages.css';
 import './climate-environment.css';
+import './international-reference.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -135,7 +135,6 @@ export default function RootLayout({
         />
         {children}
         <MobileBottomNav />
-        <AnalyticsConsent />
         <Analytics />
       </body>
     </html>

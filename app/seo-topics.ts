@@ -125,6 +125,11 @@ export const seoTopics: SeoTopic[] = [
         organization: 'Statistiska centralbyrån',
         url: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__AM__AM0401__AM0401A/AKURLBefAr/',
       },
+      {
+        name: 'Harmoniserad arbetslöshet, EU-LFS',
+        organization: 'Eurostat',
+        url: 'https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table?lang=en',
+      },
     ],
     related: ['privatekonomi', 'migration', 'pensioner'],
   },
@@ -167,6 +172,16 @@ export const seoTopics: SeoTopic[] = [
         name: 'Hushållens räntekvot',
         organization: 'Statistiska centralbyrån',
         url: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__NR__NR0103__NR0103C/SektorENS2010KvKeyIn/',
+      },
+      {
+        name: 'Harmoniserat konsumentprisindex, HIKP',
+        organization: 'Eurostat',
+        url: 'https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_ainr/default/table?lang=en',
+      },
+      {
+        name: 'Hushållens elpriser i köpkraftsstandard',
+        organization: 'Eurostat',
+        url: 'https://ec.europa.eu/eurostat/databrowser/view/nrg_pc_204/default/table?lang=en',
       },
     ],
     related: ['arbetsloshet', 'pensioner', 'aldreomsorg'],
@@ -273,6 +288,11 @@ export const seoTopics: SeoTopic[] = [
         name: 'Sveriges utsläpp och upptag av växthusgaser',
         organization: 'Naturvårdsverket',
         url: 'https://www.naturvardsverket.se/data-och-statistik/klimat/sveriges-utslapp-och-upptag-av-vaxthusgaser/',
+      },
+      {
+        name: 'Territoriella växthusgasutsläpp per person',
+        organization: 'Eurostat / Europeiska miljöbyrån',
+        url: 'https://ec.europa.eu/eurostat/databrowser/view/sdg_13_10/default/table?lang=en',
       },
       {
         name: 'Konsumtionsbaserade växthusgasutsläpp per person',
