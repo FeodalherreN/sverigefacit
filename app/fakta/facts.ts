@@ -10,6 +10,27 @@ export type FactMetric = {
   period: string;
 };
 
+export type FactBreakdownItem = {
+  label: string;
+  total: number;
+  completed: number;
+  failed: number;
+  foiled: number;
+};
+
+export type FactBreakdown = {
+  title: string;
+  context: string;
+  note: string;
+  items: FactBreakdownItem[];
+};
+
+export type FactGeography = {
+  label: string;
+  schemaType: 'Country' | 'AdministrativeArea';
+  schemaName: string;
+};
+
 export type FactEntry = {
   slug: string;
   topic: string;
@@ -31,8 +52,10 @@ export type FactEntry = {
   sourceOrganization: string;
   sourceUrl: string;
   sourceChecked: string;
+  geography?: FactGeography;
   metrics?: FactMetric[];
   points?: FactPoint[];
+  breakdown?: FactBreakdown;
   related: string[];
 };
 
@@ -120,7 +143,49 @@ export const facts: FactEntry[] = [
       { value: '71', label: 'detonationer', period: 'jan–jul 2026' },
       { value: '123', label: 'detonationer', period: 'jan–jul 2025' },
     ],
-    related: ['dodligt-vald-2025', 'migration-och-brott', 'valet-2026'],
+    related: ['dodligt-vald-2025', 'migration-och-brott', 'terrorism-i-eu-2025'],
+  },
+  {
+    slug: 'terrorism-i-eu-2025',
+    topic: 'Brott & trygghet',
+    question: 'Hur fördelades rapporterade terroristattacker i EU 2025?',
+    title: 'Terroristattacker i EU 2025 enligt Europol',
+    description: 'Europols EU TE-SAT 2026: fullbordade, misslyckade och avvärjda terroristattacker efter rapporterad ideologisk klassificering.',
+    answer: 'EU-länder rapporterade 45 attacker: 24 klassificerades som jihadistisk terrorism, 12 som vänsterextremistisk och anarkistisk terrorism, 5 som högerextremistisk terrorism och 4 som övrigt eller inte angivet.',
+    value: '45',
+    valueLabel: 'rapporterade fullbordade, misslyckade eller avvärjda attacker',
+    period: 'Händelseår 2025',
+    unit: 'rapporterade attacker',
+    accent: '#1d67f2',
+    evidence: 'Officiell EU-sammanställning · deskriptiva antal',
+    observed: 'Av de 45 rapporterade attackerna var 22 fullbordade, 3 misslyckade och 20 avvärjda. De fullbordade jihadistiskt klassificerade attackerna orsakade 5 dödsfall och 81 skadade, den fullbordade högerextremistiska attacken 1 dödsfall, medan de 11 fullbordade vänsterextremistiska och anarkistiska attackerna inte orsakade några personskador. Sverige finns inte bland de tio medlemsstater som redovisade attacker i tabellen.',
+    policy: 'Lagstiftning, underrättelsesamarbete, polisiärt arbete och förebyggande insatser kan påverka både hur många planer som upptäcks och hur många som avvärjs. Rapporten utvärderar inte effekten av en viss åtgärd.',
+    limitation: 'Detta är EU-data, inte svensk statistik. En attack räknas som en händelse oavsett skadeutfall, och 20 av 45 var avvärjda. Små antal och medlemsländernas rapportering och klassificering gör jämförelser känsliga. Siffrorna säger inte hur vanliga åsikter eller religioner är och bevisar ingen politisk orsak.',
+    definition: 'EU TE-SAT bygger på uppgifter som medlemsstater lämnat till Europol. ”Attacker” omfattar fullbordade, misslyckade och avvärjda attacker. Ideologikategorierna följer medlemsländernas klassificering, har inget eget rättsligt värde och ska inte likställas med hela religioner eller politiska grupper. Rapportens 486 gripna misstänkta för terroristbrott är ett separat personmått och ingår inte här.',
+    sourceName: 'EU Terrorism Situation and Trend Report 2026, s. 18–19 och 47–49',
+    sourceOrganization: 'Europol',
+    sourceUrl: 'https://www.europol.europa.eu/publication-events/main-reports/european-union-terrorism-situation-and-trend-report-2026-eu-te-sat',
+    sourceChecked: '28 augusti 2026',
+    geography: { label: 'Europeiska unionen', schemaType: 'AdministrativeArea', schemaName: 'Europeiska unionen' },
+    metrics: [
+      { value: '22', label: 'fullbordade attacker', period: 'EU · 2025' },
+      { value: '3', label: 'misslyckade attacker', period: 'EU · 2025' },
+      { value: '20', label: 'avvärjda attacker', period: 'EU · 2025' },
+      { value: '10', label: 'medlemsstater rapporterade attacker', period: 'EU · 2025' },
+    ],
+    breakdown: {
+      title: 'Rapporterade attacker efter kategori och utfall',
+      context: 'Händelseår 2025 · TE-SAT 2026 · rapporterat av EU:s medlemsstater',
+      note: 'En attack räknas som en händelse oavsett skadeutfall. Utfallet och kategorin är de rapporterande medlemsstaternas klassificering enligt nationell lag.',
+      items: [
+        { label: 'Jihadistisk terrorism', total: 24, completed: 9, failed: 0, foiled: 15 },
+        { label: 'Vänsterextremistisk och anarkistisk terrorism', total: 12, completed: 11, failed: 1, foiled: 0 },
+        { label: 'Högerextremistisk terrorism', total: 5, completed: 1, failed: 0, foiled: 4 },
+        { label: 'Övrigt eller inte angivet', total: 4, completed: 1, failed: 2, foiled: 1 },
+        { label: 'Etnonationalistisk och separatistisk terrorism', total: 0, completed: 0, failed: 0, foiled: 0 },
+      ],
+    },
+    related: ['skjutningar-2026', 'dodligt-vald-2025', 'migration-och-brott'],
   },
   {
     slug: 'dodligt-vald-2025',
@@ -153,7 +218,7 @@ export const facts: FactEntry[] = [
       { year: 2024, value: 92, display: '92 offer' },
       { year: 2025, value: 84, display: '84 offer' },
     ],
-    related: ['skjutningar-2026', 'migration-och-brott', 'arbetslosheten-2025'],
+    related: ['skjutningar-2026', 'terrorism-i-eu-2025', 'migration-och-brott'],
   },
   {
     slug: 'invandringen-2025',
@@ -380,9 +445,10 @@ export const factBySlug = Object.fromEntries(facts.map((fact) => [fact.slug, fac
 
 export const featuredFactSlugs = [
   'vardgarantin-2026',
-  'skjutningar-2026',
+  'terrorism-i-eu-2025',
   'gymnasiebehorighet-2025',
   'hushallens-ekonomi-2024',
+  'skjutningar-2026',
   'valet-2026',
 ];
 

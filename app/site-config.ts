@@ -8,7 +8,7 @@ export const siteConfig = {
   name: 'Sverigefacit',
   title: 'Sverigefacit – svensk statistik bakom politiken',
   description:
-    'Opartiskt underlag för datadriven politik: jämför officiell svensk statistik om brott, migration, trygghet, hälsa, jobb, löner, priser och välfärd.',
+    'Opartiskt underlag för datadriven politik: jämför officiell svensk statistik och relevant EU-data om brott, migration, trygghet, hälsa, jobb, priser och välfärd.',
   url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',
@@ -22,6 +22,7 @@ export const topicLinks = [
   { name: 'Svensk statistik och regeringsperioder', href: '/statistik' },
   { name: 'Datastudion – bygg och dela egna diagram', href: '/datastudio' },
   { name: 'Brottslighet i Sverige', href: '/statistik/brottslighet' },
+  { name: 'Terroristattacker i EU enligt Europol', href: '/fakta/terrorism-i-eu-2025' },
   { name: 'Brott och migrationsbakgrund', href: '/statistik/invandring-och-brott' },
   { name: 'Pension, äldreomsorg och privatekonomi', href: '/statistik/privatekonomi' },
   { name: 'Vallöften och politiskt facit', href: '/politik/valloften' },

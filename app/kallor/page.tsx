@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
-const title = 'Källor – SCB, Brå och svensk offentlig statistik';
-const description = 'Se myndigheterna och originalkällorna bakom Sverigefacits statistik om brott, migration, ekonomi, pension och energi.';
+const title = 'Källor – SCB, Brå, Europol och offentlig statistik';
+const description = 'Se myndigheterna och originalkällorna bakom Sverigefacits statistik om brott, migration, ekonomi, pension, energi och svensk EU-kontext.';
 
 export const metadata: Metadata = {
   title,
@@ -23,6 +23,7 @@ const sources = [
   { name: 'Naturvårdsverket', detail: 'Nationella växthusgasutsläpp och klimatdata', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
   { name: 'Regeringen', detail: 'Propositioner, regeringsförklaringar och offentliga utredningar', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar, beslut, betänkanden och riksdagens dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
+  { name: 'Europol', detail: 'Terrorism i EU, medlemsstaternas rapportering och årliga TE-SAT-rapporter', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
 ];
 
 export default function SourcesPage() {
@@ -34,7 +35,7 @@ export default function SourcesPage() {
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Källor</strong></nav>
           <p className="section-kicker">Spårbart hela vägen</p>
           <h1>Från myndighet<br />till begriplig graf.</h1>
-          <p>Sverigefacit prioriterar officiella tidsserier, publicerade tabeller och rättsliga dokument. Varje analys länkar tillbaka till det underlag som bär siffran.</p>
+          <p>Sverigefacit prioriterar officiella tidsserier, publicerade tabeller och rättsliga dokument från Sverige och relevant EU-kontext. Varje analys länkar tillbaka till det underlag som bär siffran.</p>
         </header>
 
         <section className="source-directory" aria-label="Källaktörer">

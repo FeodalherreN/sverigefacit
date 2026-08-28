@@ -43,6 +43,8 @@ export const metadata: Metadata = {
     'regeringar Sverige',
     'SCB statistik',
     'Brå statistik',
+    'Europol terrorism statistik',
+    'TE-SAT 2026',
   ],
   creator: siteConfig.name,
   publisher: siteConfig.name,

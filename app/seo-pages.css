@@ -790,6 +790,7 @@
 .fact-detail-hero,
 .fact-metric-grid,
 .fact-chart-shell,
+.fact-breakdown-shell,
 .fact-logic-section,
 .fact-passport,
 .fact-related,
@@ -908,6 +909,31 @@
 .fact-data-table table { width: 100%; border-collapse: collapse; font-size: 11px; }
 .fact-data-table th, .fact-data-table td { padding: 10px; border-top: 1px solid #e3e5e2; text-align: left; }
 
+.fact-breakdown-shell { margin-top: 105px; padding: 31px; border: 1px solid var(--line); border-radius: 23px; background: rgba(255, 254, 250, .6); }
+.fact-breakdown-legend { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.fact-breakdown-legend span { display: inline-flex; align-items: center; gap: 7px; color: #607285; font-size: 10px; }
+.fact-breakdown-legend i { width: 9px; height: 9px; border-radius: 999px; background: #8b97a4; }
+.fact-breakdown-legend .completed i,
+.fact-breakdown-total .completed { background: #d65349; }
+.fact-breakdown-legend .failed i,
+.fact-breakdown-total .failed { background: #d39b31; }
+.fact-breakdown-legend .foiled i,
+.fact-breakdown-total .foiled { background: #4c78ca; }
+.fact-breakdown-list { margin-top: 25px; border-top: 1px solid var(--line); }
+.fact-breakdown-list article { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.fact-breakdown-label { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.fact-breakdown-label strong { max-width: 760px; color: #21364c; font-size: 13px; line-height: 1.35; }
+.fact-breakdown-label b { color: var(--fact-accent); font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 500; }
+.fact-breakdown-track { height: 18px; margin-top: 12px; overflow: hidden; border-radius: 999px; background: #e6e9e6; }
+.fact-breakdown-total { height: 100%; min-width: 0; display: flex; overflow: hidden; border-radius: inherit; }
+.fact-breakdown-total > span { height: 100%; }
+.fact-breakdown-counts { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 18px; color: #718091; font-size: 9px; }
+.fact-breakdown-counts strong { color: #41566c; font-size: 10px; }
+.fact-breakdown-note { margin: 22px 0 0; padding: 17px 18px; border-left: 3px solid var(--yellow); background: rgba(255, 215, 68, .12); color: #616050; font-size: 11px; line-height: 1.62; }
+.fact-breakdown-note strong { color: #6d5714; }
+.fact-breakdown-table-wrap { overflow-x: auto; }
+.fact-breakdown-table-wrap table { min-width: 690px; }
+
 .fact-logic-section { padding: 110px 0; }
 .fact-logic-section > div:first-child h2,
 .fact-passport h2,
@@ -1011,6 +1037,7 @@
   .fact-detail-hero,
   .fact-metric-grid,
   .fact-chart-shell,
+  .fact-breakdown-shell,
   .fact-logic-section,
   .fact-passport,
   .fact-related,
@@ -1066,9 +1093,19 @@
   .fact-metric-grid { grid-template-columns: 1fr; }
   .fact-metric-grid > div { min-height: 135px; }
   .fact-chart-shell { margin-top: 70px; padding: 17px; border-radius: 18px; }
+  .fact-breakdown-shell { margin-top: 70px; padding: 17px; border-radius: 18px; }
   .fact-chart-heading { align-items: flex-start; flex-direction: column; }
   .fact-chart-heading h2 { font-size: 18px; }
   .fact-chart { margin-top: 18px; }
+  .fact-breakdown-legend { margin-top: 20px; gap: 8px 14px; }
+  .fact-breakdown-list { margin-top: 18px; }
+  .fact-breakdown-list article { padding: 19px 0; }
+  .fact-breakdown-label { align-items: flex-start; }
+  .fact-breakdown-label strong { max-width: calc(100% - 45px); font-size: 12px; }
+  .fact-breakdown-track { height: 16px; }
+  .fact-breakdown-counts { gap: 5px 12px; font-size: 10px; line-height: 1.45; }
+  .fact-breakdown-counts strong { font-size: 10px; }
+  .fact-breakdown-note { padding: 15px; font-size: 11px; }
   .fact-logic-section { padding: 80px 0; }
   .fact-logic-grid { grid-template-columns: 1fr; }
   .fact-logic-grid article { min-height: 205px; }

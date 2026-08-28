@@ -455,6 +455,7 @@ const sourceHubs = [
   { name: 'Naturvårdsverket', detail: 'Klimat · utsläpp', url: 'https://www.naturvardsverket.se/data-och-statistik/' },
   { name: 'Regeringen', detail: 'Reformer · propositioner', url: 'https://www.regeringen.se/rattsliga-dokument/' },
   { name: 'Riksdagen', detail: 'Lagar · beslut · dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
+  { name: 'Europol', detail: 'Terrorism i EU · TE-SAT', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
 ];
 
 const seriesTopicPaths: Record<SeriesId, string> = {
@@ -821,6 +822,13 @@ export default function Home() {
         subtitle: 'Korrelation · egna serieval · världshändelser',
         keywords: 'alkohol cannabis narkotika otrygghet rökning snus antidepressiva cancer inflation löner utvandring fruktsamhet',
       },
+      {
+        id: 'terrorism-eu',
+        type: 'Fördjupning',
+        title: 'Terroristattacker i EU 2025',
+        subtitle: 'Europol · jihadistisk · högerextremistisk · vänsterextremistisk och anarkistisk terrorism',
+        keywords: 'islamism jihadism terrordåd terrorism tesat te-sat',
+      },
       { id: 'brott-migration', type: 'Fördjupning', title: 'Kriminalitet och migrationsbakgrund', subtitle: 'Brå · födelseland · rått och standardiserat samband' },
       { id: 'valfragor', type: 'Fördjupning', title: 'Hushåll och välfärd', subtitle: 'Äldreomsorg · pension · matpriser · räntebörda' },
       { id: 'valloften', type: 'Fördjupning', title: 'Vallöfteslabbet', subtitle: 'Beslut · genomförande · samhällseffekt' },
@@ -875,6 +883,7 @@ export default function Home() {
     } else {
       const routes: Record<string, string> = {
         datastudio: '/datastudio',
+        'terrorism-eu': '/fakta/terrorism-i-eu-2025',
         'brott-migration': '/analys/brott-och-migration',
         valfragor: '/fakta',
         valloften: '/politik/valloften',
@@ -928,7 +937,7 @@ export default function Home() {
           </div>
           <div className="hero-meta" role="group" aria-label="Om datan">
             <div><strong>28</strong><span>tidsserier</span></div>
-            <div><strong>10</strong><span>källaktörer</span></div>
+            <div><strong>11</strong><span>källaktörer</span></div>
             <div><strong>1970–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
@@ -1190,7 +1199,7 @@ export default function Home() {
           <li><span>03</span><div><strong>Vad kan inte bevisas?</strong><p>Korrelation markeras tydligt och kallas aldrig automatiskt orsak.</p></div></li>
         </ol>
         <details className="source-disclosure">
-          <summary><span>10 kontrollerade källaktörer</span><small>Visa listan</small><i>+</i></summary>
+          <summary><span>11 kontrollerade källaktörer</span><small>Visa listan</small><i>+</i></summary>
           <div>
             {sourceHubs.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>

@@ -6,6 +6,7 @@ import { EmbedButton } from '../../embed-button';
 import { GuideFooter, GuideHeader } from '../../guide-chrome';
 import { ShareButton } from '../../share-button';
 import { siteConfig } from '../../site-config';
+import { FactBreakdownChart } from '../fact-breakdown';
 import { FactCard } from '../fact-card';
 import { FactChart } from '../fact-chart';
 import { factBySlug, factPath, facts } from '../facts';
@@ -81,11 +82,13 @@ export default async function FactDetailPage({ params }: PageProps) {
         isAccessibleForFree: true,
         dateModified: siteConfig.modified,
         temporalCoverage: fact.period,
-        spatialCoverage: { '@type': 'Country', name: 'Sverige' },
+        spatialCoverage: fact.geography
+          ? { '@type': fact.geography.schemaType, name: fact.geography.schemaName }
+          : { '@type': 'Country', name: 'Sverige' },
         creator: { '@type': 'Organization', name: fact.sourceOrganization },
         isBasedOn: fact.sourceUrl,
         variableMeasured: fact.valueLabel,
-        ...(fact.points ? {
+        ...((fact.points || fact.breakdown) ? {
           distribution: [{
             '@type': 'DataDownload',
             contentUrl: `${canonicalUrl}/data.csv`,
@@ -104,14 +107,14 @@ export default async function FactDetailPage({ params }: PageProps) {
       <article>
         <header className="fact-detail-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><Link href="/fakta">Fakta</Link><span>/</span><strong>{fact.topic}</strong></nav>
-          <p className="section-kicker">{fact.topic} · {fact.period}</p>
+          <p className="section-kicker">{fact.topic} · {fact.geography ? `${fact.geography.label} · ` : ''}{fact.period}</p>
           <h1>{fact.question}</h1>
           <p className="fact-answer">{fact.answer}</p>
           <div className="fact-primary-number"><strong>{fact.value}</strong><span>{fact.valueLabel}</span></div>
           <div className="fact-primary-actions">
             <ShareButton title={fact.question} text={`${fact.answer} Källa: ${fact.sourceOrganization} · Sverigefacit`} itemId={fact.slug} url={canonicalUrl} />
             <EmbedButton embedUrl={`${siteConfig.url}/embed/fakta/${fact.slug}`} title={fact.question} itemId={fact.slug} />
-            {fact.points && <a href={`${factPath(fact.slug)}/data.csv`} download>Ladda ned data · CSV ↓</a>}
+            {(fact.points || fact.breakdown) && <a href={`${factPath(fact.slug)}/data.csv`} download>Ladda ned data · CSV ↓</a>}
             <a href={fact.sourceUrl} target="_blank" rel="noreferrer">Öppna originalkällan ↗</a>
           </div>
           <div className="fact-proof-limit"><strong>Detta bevisar inte</strong><p>{fact.limitation}</p></div>
@@ -124,6 +127,7 @@ export default async function FactDetailPage({ params }: PageProps) {
         )}
 
         <FactChart fact={fact} />
+        <FactBreakdownChart fact={fact} />
 
         <section className="fact-logic-section" aria-labelledby="fact-logic-heading">
           <div><p className="section-kicker">Satslogiken</p><h2 id="fact-logic-heading">Vad går att säga?</h2></div>
@@ -137,6 +141,7 @@ export default async function FactDetailPage({ params }: PageProps) {
         <section className="fact-passport">
           <div><p className="section-kicker">Datapass</p><h2>Kontrollera själv</h2><p>{fact.definition}</p></div>
           <dl>
+            <div><dt>Geografi</dt><dd>{fact.geography?.label || 'Sverige'}</dd></div>
             <div><dt>Källa</dt><dd>{fact.sourceOrganization}</dd></div>
             <div><dt>Underlag</dt><dd><a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceName} ↗</a></dd></div>
             <div><dt>Period</dt><dd>{fact.period}</dd></div>
