@@ -719,7 +719,8 @@
   }
   .guide-header nav { display: none; }
   .guide-home-link { display: none; }
-  .breadcrumbs { margin-bottom: 38px; }
+  .breadcrumbs { margin-bottom: 38px; font-size: 11px; }
+  .breadcrumbs a { min-height: 40px; }
   .topic-page-hero { padding: 42px 0 50px; }
   .topic-page-hero h1,
   .catalog-hero h1 { font-size: clamp(51px, 15.5vw, 74px); }
@@ -756,15 +757,35 @@
   .method-question-list li { grid-template-columns: 45px minmax(0, 1fr); }
   .method-comparison { grid-template-columns: 1fr; }
   .method-comparison article { min-height: 160px; }
+  .method-question-list p,
+  .method-comparison p,
+  .method-callout,
+  .transparency-list li { font-size: 14px; line-height: 1.6; }
   .source-directory { grid-template-columns: 1fr; }
   .source-directory > a { min-height: 190px; }
+  .source-directory > a > span { font-size: 11px; }
+  .source-directory p { max-width: 100%; font-size: 14px; line-height: 1.6; }
   .source-principles { padding: 75px 0; }
   .source-principles li { grid-template-columns: 1fr; gap: 8px; }
+  .source-principles strong { font-size: 14px; }
+  .source-principles span { font-size: 14px; line-height: 1.6; }
+  .source-principles span a { min-height: 44px; }
   .promise-benchmark { padding: 27px 23px; grid-template-columns: 1fr; gap: 25px; }
   .promise-benchmark > div { grid-template-columns: auto minmax(0, 1fr); }
+  .promise-benchmark > div span,
+  .promise-guide-list article > span,
+  .promise-guide-list small { font-size: 11px; }
+  .promise-benchmark > div p,
+  .promise-benchmark > p,
+  .promise-guide-list article p,
+  .promise-method-note > p { font-size: 14px; line-height: 1.6; }
+  .promise-benchmark > a,
+  .promise-guide-verdict a,
+  .promise-method-note > a { min-height: 44px; font-size: 12px; }
   .promise-guide-list { padding-top: 75px; }
   .promise-guide-list article { grid-template-columns: 1fr; gap: 11px; }
   .promise-guide-verdict { justify-self: start; text-align: left; }
+  .promise-guide-verdict strong { font-size: 13px; }
   .promise-guide-verdict a { margin-top: 1px; }
   .promise-method-note { margin-top: 75px; margin-bottom: 80px; padding: 32px 24px; gap: 26px; }
   .promise-method-note h2 { font-size: 39px; }
@@ -1059,6 +1080,7 @@
   .tool-route-hero h1,
   .fact-detail-hero h1,
   .privacy-page h1 { font-size: clamp(50px, 15vw, 72px); }
+  .fact-detail-hero h1 { font-size: clamp(42px, 11.5vw, 58px); line-height: 1.02; text-wrap: balance; }
   .facts-index-hero > p:last-child,
   .election-hero > p,
   .tool-route-hero > p { margin-top: 22px; font-size: 15px; }

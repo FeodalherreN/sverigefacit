@@ -34,7 +34,7 @@ export default function SourcesPage() {
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Källor</strong></nav>
           <p className="section-kicker">Spårbart hela vägen</p>
-          <h1>Från myndighet<br />till begriplig graf.</h1>
+          <h1>Från myndighet<br />{' '}till begriplig graf.</h1>
           <p>Sverigefacit prioriterar officiella tidsserier, publicerade tabeller och rättsliga dokument från Sverige och relevant EU-kontext. Varje analys länkar tillbaka till det underlag som bär siffran.</p>
         </header>
 

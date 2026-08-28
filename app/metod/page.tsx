@@ -20,7 +20,7 @@ export default function MethodPage() {
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Metod</strong></nav>
           <p className="section-kicker">Så fungerar facit</p>
-          <h1>Satslogik före<br />politisk slutsats.</h1>
+          <h1>Satslogik före<br />{' '}politisk slutsats.</h1>
           <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Sverigefacit håller isär dem.</p>
         </header>
 

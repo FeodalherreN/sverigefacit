@@ -393,10 +393,10 @@ const timelineEvents: TimelineEvent[] = [
     kind: 'mål',
     government: 'Löfven · S/MP',
     title: 'EU:s lägsta arbetslöshet 2020',
-    summary: 'Regeringsförklaringen slog fast att Sverige skulle nå lägst arbetslöshet i EU år 2020.',
+    summary: 'Regeringen slog 2015 fast att Sverige skulle ha EU:s lägsta arbetslöshet 2020 och att målet skulle nås genom fler sysselsatta och fler arbetade timmar.',
     reading: 'Målet kan kontrolleras direkt och uppnåddes inte. Det säger däremot inte ensamt varför.',
-    source: 'Regeringsförklaringen 2015',
-    sourceUrl: 'https://www.regeringen.se/contentassets/dd95ef69eafa4f6dadcac0c2b7855652/regeringsforklaringen-2015.pdf',
+    source: 'Regeringens sysselsättningsmål 2015',
+    sourceUrl: 'https://www.regeringen.se/regeringsuppdrag/2015/06/uppdrag-till-trafikverket-att-stalla-krav-pa-sysselsattning-i-upphandlingar/',
   },
   {
     id: 'migrationlaw',
@@ -492,6 +492,7 @@ function formatAxis(item: Series, value: number) {
 function DataChart({ item }: { item: Series }) {
   const [selected, setSelected] = useState<Point>(item.points[item.points.length - 1]);
   const pointRefs = useRef<Map<number, SVGGElement>>(new Map());
+  const chartScrollRef = useRef<HTMLDivElement>(null);
   const width = 920;
   const height = 350;
   const left = 56;
@@ -519,6 +520,15 @@ function DataChart({ item }: { item: Series }) {
   const yearStep = plotWidth / Math.max(maxYear - minYear, 1);
   const selectedIndex = item.points.findIndex((point) => point.year === selected.year);
 
+  useEffect(() => {
+    const scroller = chartScrollRef.current;
+    if (!scroller || !window.matchMedia('(max-width: 700px)').matches) return;
+    const frame = window.requestAnimationFrame(() => {
+      scroller.scrollLeft = scroller.scrollWidth - scroller.clientWidth;
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [item.id]);
+
   const selectAdjacentPoint = (offset: number) => {
     const next = item.points[Math.max(0, Math.min(item.points.length - 1, selectedIndex + offset))];
     if (next) {
@@ -529,7 +539,8 @@ function DataChart({ item }: { item: Series }) {
 
   return (
     <div className="data-chart-shell" role="region" aria-label={'Diagram och datatabell för ' + item.eyebrow}>
-      <div className="data-chart-scroll" tabIndex={0} role="region" aria-label={'Rullbart diagram för ' + item.eyebrow}>
+      <p className="chart-scroll-hint" aria-hidden="true">Senaste år visas · svep bakåt för äldre år</p>
+      <div ref={chartScrollRef} className="data-chart-scroll" tabIndex={0} role="region" aria-label={'Rullbart diagram för ' + item.eyebrow}>
         <div className="government-key" role="group" aria-label="Regering som styrde flest dagar under kalenderåret">
           {chartGovernments.map((government) => (
             <span key={government.id}>
@@ -538,7 +549,6 @@ function DataChart({ item }: { item: Series }) {
             </span>
           ))}
         </div>
-        <p className="chart-scroll-hint" aria-hidden="true">Svep åt sidan för fler år →</p>
         <div className="data-chart-stage">
         <svg
           className="data-chart"
@@ -920,7 +930,7 @@ export default function Home() {
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
           <p className="eyebrow"><span /> Datadriven politik</p>
-          <h1>Sverige i siffror.<br />Vad blev facit?</h1>
+          <h1>Sverige i siffror.<br />{' '}Vad blev facit?</h1>
           <p className="hero-lead">
             Vi visualiserar officiell statistik som ett enkelt, opartiskt underlag för debatt. Etablerade metoder och tydlig logik visar vilka slutsatser datan stödjer — och vad som fortfarande är osäkert.
           </p>
@@ -1007,6 +1017,7 @@ export default function Home() {
               <a href={activeSeries.sourceUrl} target="_blank" rel="noreferrer">{activeSeries.source} ↗</a>
             </div>
             <p className="source-note">{activeSeries.sourceNote}</p>
+            <p className="source-note government-period-note">Regeringsfärgen visar den regering som styrde flest dagar under kalenderåret. Den är politisk kontext, inte en effektbedömning.</p>
             <details className="data-passport">
               <summary>Datapass <span>+</span></summary>
               <dl>
@@ -1084,25 +1095,25 @@ export default function Home() {
       <section className="promise-section" id="facit">
         <div className="promise-intro">
           <p className="section-kicker">Påstående → utfall</p>
-          <h2>Ett löfte.<br />Ett facit.<br /><em>Två olika frågor.</em></h2>
+          <h2>Ett löfte.<br />{' '}Ett facit.<br />{' '}<em>Två olika frågor.</em></h2>
           <p>Om ett mål nåddes går ofta att kontrollera. Varför utfallet blev som det blev kräver en helt annan evidensnivå.</p>
           <Link className="promise-more" href="/politik/valloften">Se alla granskade löften <span>→</span></Link>
         </div>
         <article className="promise-card">
           <div className="promise-quote">
             <span className="promise-label">Regeringsmål · 2015</span>
-            <blockquote>“Sysselsättningen och antalet arbetade timmar ska öka så att Sverige år 2020 når EU:s lägsta arbetslöshet.”</blockquote>
-            <a href="https://www.regeringen.se/contentassets/dd95ef69eafa4f6dadcac0c2b7855652/regeringsforklaringen-2015.pdf" target="_blank" rel="noreferrer">
-              Regeringsförklaringen 2015 ↗
+            <blockquote>“Regeringens mål är att Sverige ska ha EU:s lägsta arbetslöshet 2020. Detta ska uppnås genom fler sysselsatta och fler arbetade timmar.”</blockquote>
+            <a href="https://www.regeringen.se/regeringsuppdrag/2015/06/uppdrag-till-trafikverket-att-stalla-krav-pa-sysselsattning-i-upphandlingar/" target="_blank" rel="noreferrer">
+              Regeringens sysselsättningsmål 2015 ↗
             </a>
           </div>
           <div className="promise-result">
             <span className="verdict"><i /> Facit: ej uppfyllt</span>
             <div className="result-number"><strong>8,5 %</strong><span>Sveriges EU-harmoniserade arbetslöshet 2020</span></div>
-            <p>Eurostats jämförbara årsdata visar 8,5 procent för Sverige och 2,6 procent för Tjeckien. Målet kan därför bedömas. Däremot bevisar utfallet inte vilken enskild politik som orsakade avvikelsen.</p>
+            <p>Eurostats harmoniserade årsdata visar 8,5 procent för Sverige och 2,6 procent för Tjeckien. SCB:s då publicerade nationella AKU-årsmedel var 8,3 procent; serierna ska därför inte blandas. Målet kan bedömas, men utfallet bevisar inte vilken enskild politik som orsakade avvikelsen.</p>
             <div className="result-sources">
-              <a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/arbetsmarknad/utbud-av-arbetskraft/arbetskraftsundersokningarna-aku/pong/statistiknyhet/arbetskraftsundersokningarna-aku-arsmedeltal-2020/" target="_blank" rel="noreferrer">SCB ↗</a>
-              <a href="https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table?lang=en" target="_blank" rel="noreferrer">Eurostat ↗</a>
+              <a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/arbetsmarknad/utbud-av-arbetskraft/arbetskraftsundersokningarna-aku/pong/statistiknyhet/arbetskraftsundersokningarna-aku-arsmedeltal-2020/" target="_blank" rel="noreferrer">SCB · nationell serie ↗</a>
+              <a href="https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table?lang=en" target="_blank" rel="noreferrer">Eurostat · harmoniserad serie ↗</a>
             </div>
           </div>
           <footer>
@@ -1186,7 +1197,7 @@ export default function Home() {
       <section className="trust-section" id="metod" aria-labelledby="trust-heading">
         <div className="trust-intro">
           <p className="section-kicker">Opartisk metod</p>
-          <h2 id="trust-heading">Fakta först.<br />Slutsats med måtta.</h2>
+          <h2 id="trust-heading">Fakta först.<br />{' '}Slutsats med måtta.</h2>
           <p>Vi visar vad data belägger, vad som bara samvarierar och vad som ännu inte går att veta. Samma krav på källor, metod och bevis gäller oavsett parti.</p>
           <div className="trust-actions">
             <Link href="/metod">Läs metoden <span>→</span></Link>

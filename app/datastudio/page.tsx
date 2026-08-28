@@ -18,7 +18,7 @@ export default function DataStudioPage() {
       <GuideHeader />
       <header className="tool-route-hero">
         <p className="section-kicker">Eget urval · explorativ analys</p>
-        <h1>Jämför data.<br />Behåll tvivlet.</h1>
+        <h1>Jämför data.<br />{' '}Behåll tvivlet.</h1>
         <p>Årlig förändring är förvald för att minska risken att två gemensamma trender ser ut som ett meningsfullt samband. Alla val kan delas som en länk.</p>
       </header>
       <DataStudio />

@@ -625,6 +625,7 @@ main { min-height: 100vh; overflow: clip; }
 .chart-source a { color: var(--ink); font-weight: 710; text-align: right; }
 .chart-source a:hover { color: var(--blue); }
 .source-note { margin: -2px 4px 0; color: #87909a; font-size: 9px; line-height: 1.45; }
+.government-period-note { max-width: 760px; margin-top: 5px; color: #526477; }
 
 .chart-year-control {
   max-width: 360px;

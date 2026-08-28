@@ -760,6 +760,15 @@ export function DataStudio() {
 
   const left = seriesById[leftId];
   const right = seriesById[rightId];
+  const hasPair = (firstId: string, secondId: string) =>
+    (leftId === firstId && rightId === secondId) || (leftId === secondId && rightId === firstId);
+  const definitionWarning = hasPair('inflation', 'realWageGrowth')
+    ? 'Reallöneutvecklingen beräknas genom att justera den nominella löneutvecklingen med KPIF. Serierna är därför matematiskt kopplade och korrelationen är inte ett oberoende fynd.'
+    : hasPair('nominalWageGrowth', 'realWageGrowth')
+      ? 'Reallöneutvecklingen beräknas från nominell löneutveckling justerad med KPIF. Serierna är därför matematiskt kopplade och korrelationen är inte ett oberoende fynd.'
+      : (hasPair('immigration', 'migrationBalance') || hasPair('emigration', 'migrationBalance'))
+        ? 'Migrationsnetto definieras som invandring minus utvandring. Serierna delar därför data och korrelationen är inte ett oberoende fynd.'
+        : null;
   const pairs = useMemo(
     () => commonPairs(left, right, startYear, endYear, mode, lag),
     [left, right, startYear, endYear, mode, lag],
@@ -951,7 +960,11 @@ export function DataStudio() {
         ))}
       </div>
 
-      {leftId === 'immigration' && rightId === 'deadlyViolence' && (
+      {definitionWarning && (
+        <div className="lab-specific-warning"><strong>Matematiskt kopplade mått:</strong> {definitionWarning}</div>
+      )}
+
+      {hasPair('immigration', 'deadlyViolence') && (
         <div className="lab-specific-warning"><strong>Viktigt om denna jämförelse:</strong> Invandringsserien avser alla registrerade inflyttningar och våldsserien allt konstaterat dödligt våld. Den innehåller ingen uppgift om gärningspersoners bakgrund och kan inte mäta en effekt av invandring.</div>
       )}
 
@@ -1006,7 +1019,7 @@ export function DataStudio() {
             </div>
           </div>
 
-          <p className="chart-scroll-hint" aria-hidden="true">Svep åt sidan för fler år →</p>
+          <p className="chart-scroll-hint" aria-hidden="true">Diagrammet börjar med äldsta år · svep för senare år →</p>
           <div className="lab-chart-scroll" tabIndex={0} role="region" aria-label={`Diagram: ${left.label} jämfört med ${right.label}`}>
             <div className="lab-chart-stage">
               {pairs.length >= 2 ? (
@@ -1315,7 +1328,7 @@ export function PromiseTracker() {
       <div className="tracker-heading">
         <div>
           <p className="section-kicker">Vallöfteslabbet</p>
-          <h2>Räkna rätt innan<br />vi räknar procent.</h2>
+          <h2>Räkna rätt innan<br />{' '}vi räknar procent.</h2>
         </div>
         <div className="historic-benchmark">
           <span>Historisk forskningsjämförelse</span>

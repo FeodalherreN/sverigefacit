@@ -2982,6 +2982,7 @@
   .lab-chart-scroll { overflow-x: auto; }
   .lab-chart-stage { width: 620px; min-width: 620px; min-height: 280px; }
   .lab-chart { min-width: 620px; }
+  .lab-specific-warning { font-size: 13px; line-height: 1.55; }
   .lab-no-overlap { width: 100%; min-height: 230px; }
   .lab-axis-label { font-size: 13px; }
   .lab-legend { font-size: 12px; }

@@ -29,7 +29,7 @@ export default function PromisesPage() {
         <header className="info-page-hero">
           <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Vallöften</strong></nav>
           <p className="section-kicker">Löfte → beslut → effekt</p>
-          <h1>Svenska vallöften.<br />Vad blev utfallet?</h1>
+          <h1>Svenska vallöften.<br />{' '}Vad blev utfallet?</h1>
           <p>Ett löfte kan leda till ett beslut utan att vara fullt genomfört. En genomförd reform kan samtidigt sakna belagd samhällseffekt. Därför bedöms varje led separat.</p>
         </header>
 

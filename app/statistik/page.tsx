@@ -39,7 +39,7 @@ export default function StatisticsIndexPage() {
       <GuideHeader />
       <section className="catalog-hero">
         <p className="section-kicker">Datakatalog</p>
-        <h1>Sverige i siffror,<br />område för område.</h1>
+        <h1>Sverige i siffror,<br />{' '}område för område.</h1>
         <p>Varje ämnessida har ett definierat mått, senaste verifierade utfall, originalkälla och en tydlig gräns för vad statistiken kan bevisa.</p>
       </section>
       <section className="catalog-grid" aria-label="Statistikområden">
