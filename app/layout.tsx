@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { AnalyticsConsent } from './analytics-consent';
 import { MobileBottomNav } from './mobile-bottom-nav';
 import { siteConfig } from './site-config';
@@ -135,6 +136,7 @@ export default function RootLayout({
         {children}
         <MobileBottomNav />
         <AnalyticsConsent />
+        <Analytics />
       </body>
     </html>
   );
