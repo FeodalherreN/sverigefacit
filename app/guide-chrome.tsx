@@ -8,26 +8,33 @@ export function GuideHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="guide-header">
-      <a className="skip-link" href="#guide-content">Hoppa till huvudinnehållet</a>
-      <Link className="brand" href="/" aria-label="Sverigefacit, startsida">
-        <span className="brand-mark" aria-hidden="true"><i /><i /></span>
-        <span>Sverigefacit</span>
-        <em>beta</em>
-      </Link>
-      <nav aria-label="Huvudmeny">
-        {primaryNavigation.map((item) => (
-          <Link
-            href={item.href}
-            aria-current={isNavigationItemActive(pathname, item) ? 'page' : undefined}
-            key={item.href}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-      <Link className="guide-home-link" href="/metod" aria-current={pathname === '/metod' ? 'page' : undefined}>Metod <span>↗</span></Link>
-    </header>
+    <>
+      <header className="guide-header">
+        <a className="skip-link" href="#page-content">Hoppa till huvudinnehållet</a>
+        <Link className="brand" href="/" aria-label="Sverigefacit, startsida">
+          <span className="brand-mark" aria-hidden="true"><i /><i /></span>
+          <span>Sverigefacit</span>
+          <em>beta</em>
+        </Link>
+        <nav aria-label="Huvudmeny">
+          {primaryNavigation.map((item) => {
+            const active = isNavigationItemActive(pathname, item);
+            return (
+              <Link
+                href={item.href}
+                data-active={active || undefined}
+                aria-current={pathname === item.href ? 'page' : undefined}
+                key={item.href}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <Link className="guide-home-link" href="/metod" aria-current={pathname === '/metod' ? 'page' : undefined}>Metod</Link>
+      </header>
+      <span className="guide-content-anchor" id="page-content" tabIndex={-1} />
+    </>
   );
 }
 

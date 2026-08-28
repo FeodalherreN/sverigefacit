@@ -104,7 +104,7 @@ function InternationalLineChart({
               {visible.length > 1 && <polyline points={polyline} fill="none" stroke={benchmarkGeoColors[geo]} className={geo === 'SE' ? 'is-sweden' : ''} />}
               {visible.map((point) => (
                 <circle key={point.period} cx={xFor(point.period)} cy={yFor(point.value)} r={geo === 'SE' ? 4.2 : 3.1} fill={benchmarkGeoColors[geo]}>
-                  <title>{benchmarkGeoLabels[geo]} · {point.period}: {formatBenchmarkValue(benchmark, point.value)}</title>
+                  <title>{`${benchmarkGeoLabels[geo]} · ${point.period}: ${formatBenchmarkValue(benchmark, point.value)}`}</title>
                 </circle>
               ))}
             </g>

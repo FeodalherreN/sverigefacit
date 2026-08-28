@@ -162,7 +162,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
               <h1>Hur går det för Sverige?</h1>
               <p>Här hålls utsläpp inom Sverige, utsläpp från vår konsumtion, energisystemet och naturens tillstånd isär. Du får först det korta svaret och kan sedan kontrollera varje serie.</p>
               <div className="environment-actions">
-                <Link href="/datastudio?seriesA=emissions&seriesB=transportEmissions&from=2000&to=2025&measure=level&lag=0&view=timeline&events=1&event=reduction-obligation-2024#datastudio">Utforska miljödata <span>↗</span></Link>
+                <Link href="/datastudio?seriesA=emissions&seriesB=transportEmissions&from=2000&to=2025&measure=level&lag=0&view=timeline&events=1&event=reduction-obligation-2024#datastudio">Jämför utsläpp över tid <span aria-hidden="true">→</span></Link>
                 <a href="#miljo-i-korthet">Läs sammanfattningen</a>
               </div>
             </div>
@@ -230,7 +230,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
             <div className="environment-goal-progress"><i /></div>
             <strong>19 % minskning sedan 2010</strong>
             <small>Målet är minst 70 procent till 2030, utan inrikes flyg. Ytterligare 10,6 Mt behöver minska.</small>
-            <Link href="/datastudio?seriesA=fuel&seriesB=transportEmissions&from=2000&to=2025&measure=level&lag=0&view=timeline&events=1&event=reduction-obligation-2024#datastudio">Jämför bensinpris och transportutsläpp ↗</Link>
+            <Link href="/datastudio?seriesA=fuel&seriesB=transportEmissions&from=2000&to=2025&measure=level&lag=0&view=timeline&events=1&event=reduction-obligation-2024#datastudio">Jämför bensinpris och transportutsläpp <span aria-hidden="true">→</span></Link>
           </aside>
         </section>
 
@@ -315,7 +315,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
           <div>
             {topic.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}><strong>{source.name}</strong><span>{source.organization} ↗</span></a>)}
           </div>
-          <Link href="/datastudio?seriesA=consumptionEmissions&seriesB=emissions&from=2008&to=2023&measure=change&lag=0&view=timeline&events=0#datastudio">Öppna klimatserierna i Datastudion <span>↗</span></Link>
+          <Link href="/datastudio?seriesA=consumptionEmissions&seriesB=emissions&from=2008&to=2023&measure=change&lag=0&view=timeline&events=0#datastudio">Jämför territoriella och konsumtionsbaserade utsläpp <span aria-hidden="true">→</span></Link>
         </section>
       </article>
 

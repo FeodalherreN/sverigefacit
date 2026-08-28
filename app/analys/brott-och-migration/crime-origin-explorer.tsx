@@ -133,13 +133,20 @@ export function CrimeOriginExplorer() {
         <p><strong>Exakt brottstyp × födelseland finns inte i Brås publicerade tabeller.</strong> Regionvyn visar brottstyper efter födelseregion. Landvyn visar alla brott sammantaget. Födelseregion och födelseland är inte nationalitet.</p>
       </header>
 
+      <div className="origin-key-results" aria-label="Registerstudiens huvudresultat">
+        <div><span>Utrikesfödda</span><strong>8,0 %</strong><small>registrerade som misstänkta</small></div>
+        <div><span>Referensgruppen</span><strong>3,2 %</strong><small>registrerade som misstänkta</small></div>
+        <div><span>Relativ skillnad</span><strong>2,51×</strong><small>före standardisering</small></div>
+        <div><span>Efter standardisering</span><strong>1,77×</strong><small>ålder, kön, inkomst m.m.</small></div>
+      </div>
+
       <div className="origin-view-switch" role="group" aria-label="Välj datavy">
         <button type="button" className={view === 'region' ? 'active' : ''} aria-pressed={view === 'region'} onClick={() => setView('region')}>
-          Brottstyp × region
+          Brottstyp efter födelseregion
           <small>48 brottstyper</small>
         </button>
         <button type="button" className={view === 'country' ? 'active' : ''} aria-pressed={view === 'country'} onClick={() => setView('country')}>
-          Alla brott × land
+          Alla brott efter födelseland
           <small>31 födelseländer</small>
         </button>
       </div>
@@ -162,7 +169,7 @@ export function CrimeOriginExplorer() {
               <legend>Välj mått</legend>
               <div>
                 <button type="button" className={measure === 'rate' ? 'active' : ''} aria-pressed={measure === 'rate'} onClick={() => setMeasure('rate')}>Per 1 000</button>
-                <button type="button" className={measure === 'risk' ? 'active' : ''} aria-pressed={measure === 'risk'} onClick={() => setMeasure('risk')}>Överrisk</button>
+                <button type="button" className={measure === 'risk' ? 'active' : ''} aria-pressed={measure === 'risk'} onClick={() => setMeasure('risk')}>Relativ skillnad</button>
               </div>
             </fieldset>
 
@@ -241,7 +248,7 @@ export function CrimeOriginExplorer() {
           )}
 
           <div className="origin-caveat">
-            <strong>Vad statistiken visar</strong>
+            <strong>Viktigt: misstanke är inte dom</strong>
             <p>Registrerad misstanke är inte samma sak som begånget brott eller fällande dom. Skillnaderna påverkas också av anmälan, upptäckt, polisens kontroller och möjligheten att identifiera en misstänkt.</p>
           </div>
 
@@ -260,7 +267,7 @@ export function CrimeOriginExplorer() {
         <div className="country-view-panel">
           <div className="country-intro">
             <span>Födelseland · alla brott sammantaget</span>
-            <h3>Större födelseländer i Brås kohort</h3>
+            <h3>31 födelseländer i Brås underlag</h3>
             <p>Brå särredovisar större födelseländer i 2014 års befolkning. B10 och B11 publicerar råa och standardiserade andelar respektive överrisker. Det finns ingen offentlig korsning mellan exakt land och enskild brottstyp.</p>
           </div>
           <div className="country-control">
@@ -271,9 +278,9 @@ export function CrimeOriginExplorer() {
               </select>
             </label>
             <div className="country-result" aria-live="polite">
-              <div><span>Personer i kohorten</span><strong>{selectedCountry.n.toLocaleString('sv-SE')}</strong></div>
-              <div><span>Observerad andel / överrisk</span><strong>{svNumber(selectedCountry.rawPct)} % · {svNumber(selectedCountry.rawRR)}×</strong></div>
-              <div><span>Standardiserad andel / överrisk</span><strong>{svNumber(selectedCountry.adjustedPct)} % · {svNumber(selectedCountry.adjustedRR)}×</strong></div>
+              <div><span>Personer i underlaget</span><strong>{selectedCountry.n.toLocaleString('sv-SE')}</strong></div>
+              <div><span>Registrerade som misstänkta</span><strong>{svNumber(selectedCountry.rawPct)} % · {svNumber(selectedCountry.rawRR)}×</strong></div>
+              <div><span>Efter standardisering</span><strong>{svNumber(selectedCountry.adjustedPct)} % · {svNumber(selectedCountry.adjustedRR)}×</strong></div>
             </div>
           </div>
           <div className="country-warning">

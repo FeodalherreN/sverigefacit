@@ -133,8 +133,8 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
           }}
         />
-        {children}
         <MobileBottomNav />
+        {children}
         <Analytics />
       </body>
     </html>

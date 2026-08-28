@@ -58,7 +58,7 @@ export default function PromisesPage() {
         <section className="promise-method-note">
           <div><h2>Varför visar vi ingen totalprocent?</h2></div>
           <p>Manifest, regeringsavtal och senare regeringsmål är olika dokument. En rättvis procentsats måste avgränsas per parti, dokument och mandatperiod, och bara innehålla bedömbara löften vars tidsfrist passerat.</p>
-          <Link href="/metod">Läs hela metoden <span>↗</span></Link>
+          <Link href="/metod">Läs hela metoden <span aria-hidden="true">→</span></Link>
         </section>
       </article>
       <GuideFooter />

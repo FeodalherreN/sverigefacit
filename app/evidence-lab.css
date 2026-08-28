@@ -283,6 +283,13 @@
   font-weight: 680;
 }
 
+.lab-controls select:focus-visible,
+.country-control select:focus-visible,
+.region-offense-control select:focus-visible {
+  outline: 3px solid rgba(29, 103, 242, .35);
+  outline-offset: 3px;
+}
+
 .lab-controls > label > i {
   position: absolute;
   right: 13px;
@@ -1261,6 +1268,49 @@
   margin-bottom: 4px;
   display: block;
   color: var(--ink);
+}
+
+.origin-key-results {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid #d4d8d5;
+  border-left: 1px solid #d4d8d5;
+}
+
+.origin-key-results > div {
+  min-height: 112px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d4d8d5;
+  border-bottom: 1px solid #d4d8d5;
+  background: rgba(247, 246, 241, .72);
+}
+
+.origin-key-results span {
+  color: #657588;
+  font-size: 9px;
+  font-weight: 780;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.origin-key-results strong {
+  margin-top: auto;
+  color: var(--blue);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 31px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.origin-key-results small {
+  margin-top: 5px;
+  color: #5a6c7f;
+  font-size: 10px;
+  line-height: 1.35;
 }
 
 .origin-view-switch {
@@ -2652,6 +2702,15 @@
     margin-top: 21px;
   }
 
+  .origin-key-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .origin-key-results > div {
+    min-height: 105px;
+    padding: 13px;
+  }
+
   .origin-view-switch button {
     min-height: 62px;
     padding: 9px 10px;
@@ -2768,6 +2827,16 @@
 
   .country-result span {
     min-height: 0;
+    font-size: 12px;
+  }
+
+  .country-result > div {
+    padding: 14px;
+  }
+
+  .country-result strong {
+    margin-top: 6px;
+    font-size: 15px;
   }
 
   .country-warning > a,
@@ -2926,6 +2995,10 @@
 
   .origin-explorer-intro h3 {
     font-size: 31px;
+  }
+
+  .origin-key-results strong {
+    font-size: 28px;
   }
 
   .origin-view-switch button {

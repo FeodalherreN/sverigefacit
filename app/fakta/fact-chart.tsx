@@ -35,7 +35,7 @@ export function FactChart({ fact }: { fact: FactEntry }) {
         {fact.points.map((point, index) => (
           <g key={point.year}>
             <circle cx={xFor(index)} cy={yFor(point.value)} r={index === fact.points!.length - 1 ? 5.5 : 3.5} fill="#fffdfa" stroke={fact.accent} strokeWidth="2.5">
-              <title>{point.year}: {point.display}</title>
+              <title>{`${point.year}: ${point.display}`}</title>
             </circle>
             {(index === 0 || index === fact.points!.length - 1) && <text x={xFor(index)} y={height - 15} textAnchor={index === 0 ? 'start' : 'end'}>{point.year}</text>}
           </g>

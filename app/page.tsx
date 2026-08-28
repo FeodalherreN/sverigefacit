@@ -73,7 +73,7 @@ const series: Record<SeriesId, Series> = {
   crime: {
     id: 'crime',
     number: '01',
-    label: 'Brott & trygghet',
+    label: 'Dödligt våld',
     eyebrow: 'Konstaterat dödligt våld',
     latestDisplay: '84 offer',
     latestYear: 2025,
@@ -102,7 +102,7 @@ const series: Record<SeriesId, Series> = {
   migration: {
     id: 'migration',
     number: '02',
-    label: 'Migration',
+    label: 'Invandring',
     eyebrow: 'Registrerade invandringar',
     latestDisplay: '89 434',
     latestYear: 2025,
@@ -131,7 +131,7 @@ const series: Record<SeriesId, Series> = {
   work: {
     id: 'work',
     number: '03',
-    label: 'Jobb & arbetslöshet',
+    label: 'Arbetslöshet',
     eyebrow: 'Arbetslöshet 15–74 år',
     latestDisplay: '8,8 %',
     latestYear: 2025,
@@ -160,7 +160,7 @@ const series: Record<SeriesId, Series> = {
   prosperity: {
     id: 'prosperity',
     number: '04',
-    label: 'Välstånd',
+    label: 'BNP per person',
     eyebrow: 'Real BNP per person',
     latestDisplay: '511 tkr',
     latestYear: 2024,
@@ -189,7 +189,7 @@ const series: Record<SeriesId, Series> = {
   rate: {
     id: 'rate',
     number: '05',
-    label: 'Ekonomi & ränta',
+    label: 'Styrränta',
     eyebrow: 'Styrränta vid årets slut',
     latestDisplay: '1,75 %',
     latestYear: 2025,
@@ -218,7 +218,7 @@ const series: Record<SeriesId, Series> = {
   fuel: {
     id: 'fuel',
     number: '06',
-    label: 'Bränsle',
+    label: 'Bensinpris',
     eyebrow: 'Bensin E5, realt pumppris',
     latestDisplay: '16,0 kr',
     latestYear: 2025,
@@ -247,7 +247,7 @@ const series: Record<SeriesId, Series> = {
   electricity: {
     id: 'electricity',
     number: '07',
-    label: 'Elpris',
+    label: 'Hushållens elpris',
     eyebrow: 'Slutligt elpris, hushållsel',
     latestDisplay: '295 öre',
     latestYear: 2025,
@@ -276,7 +276,7 @@ const series: Record<SeriesId, Series> = {
   emissions: {
     id: 'emissions',
     number: '08',
-    label: 'Klimat',
+    label: 'Växthusgasutsläpp',
     eyebrow: 'Territoriella växthusgasutsläpp',
     latestDisplay: '46,7 Mt',
     latestYear: 2025,
@@ -882,23 +882,24 @@ export default function Home() {
           <p className="eyebrow"><span /> Datadriven politik</p>
           <h1>Sverige i siffror.<br />{' '}Vad blev facit?</h1>
           <p className="hero-lead">
-            Vi samlar offentlig statistik med originalkällor och förklarar vad siffrorna visar, vad politiken kan ha påverkat och vad som fortfarande är osäkert. Samma metod används oavsett parti.
+            Se aktuella nyckeltal, följ utvecklingen över tid och jämför mått. Originalkällan finns bredvid och samband skiljs från möjliga orsaker.
           </p>
           <div className="hero-actions">
-            <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
-            <Link className="text-link" href="/datastudio#datastudio" aria-label="Öppna Datastudion och jämför 33 tidsserier med originalkällor">Öppna Datastudion <span>↗</span></Link>
+            <Link className="primary-button" href="/valet-2026">Se valet i siffror <span aria-hidden="true">→</span></Link>
+            <Link className="text-link" href="/datastudio#datastudio">Jämför två mått <span aria-hidden="true">→</span></Link>
           </div>
         </div>
         <aside className="hero-side">
-          <div className="status-card">
-            <span className="status-live">Källor senast granskade</span>
-            <strong>{siteConfig.sourceChecked}</strong>
-            <p>Myndigheternas tabeller och rapporter. Källa och definition visas vid varje mått.</p>
-          </div>
+          <Link className="status-card" href={`/fakta/${featuredFacts[0].slug}`}>
+            <span className="status-live">Aktuellt · {featuredFacts[0].topic}</span>
+            <strong>{featuredFacts[0].value}</strong>
+            <p>{featuredFacts[0].valueLabel}. Källa: {featuredFacts[0].sourceOrganization}.</p>
+            <i>Läs svaret <span aria-hidden="true">→</span></i>
+          </Link>
           <div className="hero-meta" role="group" aria-label="Om datan">
             <div><strong>33</strong><span>tidsserier</span></div>
             <div><strong>16</strong><span>källor</span></div>
-            <div><strong>1970–25</strong><span>tidsperiod</span></div>
+            <div><strong>{siteConfig.sourceChecked}</strong><span>senast granskat</span></div>
           </div>
         </aside>
       </section>
@@ -906,24 +907,24 @@ export default function Home() {
       <section className="home-facts-section" id="senaste" aria-labelledby="home-facts-heading">
         <div className="section-heading">
           <div>
-            <p className="section-kicker">Kort svar · full källa</p>
-            <h2 id="home-facts-heading">Senaste facit</h2>
+            <p className="section-kicker">Kort svar · originalkälla</p>
+            <h2 id="home-facts-heading">Aktuella siffror</h2>
           </div>
-          <p>Ett urval aktuella frågor, besvarade med siffran, originalkällan och gränsen för vad underlaget bevisar.</p>
+          <p>Fyra aktuella utfall med källa och den viktigaste begränsningen.</p>
         </div>
         <div className="home-facts-grid">
           {featuredFacts.slice(0, 4).map((fact) => <FactCard fact={fact} compact key={fact.slug} />)}
         </div>
-        <Link className="home-facts-more" href="/fakta">Se alla faktasvar <span>→</span></Link>
+        <Link className="home-facts-more" href="/fakta">Se alla faktasvar <span aria-hidden="true">→</span></Link>
       </section>
 
       <section className="explorer-intro-section" aria-labelledby="explorer-overview-heading">
         <div className="section-heading">
           <div>
             <p className="section-kicker">Utvecklingen över tid</p>
-            <h2 id="explorer-overview-heading">Hur har Sverige förändrats?</h2>
+            <h2 id="explorer-overview-heading">Följ åtta nyckelmått över tid</h2>
           </div>
-          <p>Välj en fråga. Du får först utfallet, sedan den politiska kontexten och sist gränsen för vad statistiken kan bevisa.</p>
+          <p>Välj ett mått för att se utveckling, källa och den viktigaste begränsningen.</p>
         </div>
       </section>
 
@@ -1031,13 +1032,13 @@ export default function Home() {
         <details className="topic-disclosure">
           <summary>Fler ämnen och analyser <span>+</span></summary>
           <nav aria-label="Fördjupande statistikområden">
-            <Link href="/statistik/brottslighet">Brottslighet <i>↗</i></Link>
-            <Link href="/statistik/migration">Migration <i>↗</i></Link>
-            <Link href="/statistik/arbetsloshet">Arbetslöshet <i>↗</i></Link>
-            <Link href="/statistik/privatekonomi">Privatekonomi <i>↗</i></Link>
-            <Link href="/statistik/pensioner">Pensioner <i>↗</i></Link>
-            <Link href="/statistik/aldreomsorg">Äldreomsorg <i>↗</i></Link>
-            <Link href="/statistik/invandring-och-brott">Brott och migrationsbakgrund <i>↗</i></Link>
+            <Link href="/statistik/brottslighet">Dödligt våld <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/migration">Invandring <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/arbetsloshet">Arbetslöshet <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/privatekonomi">Privatekonomi <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/pensioner">Allmän pension <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/aldreomsorg">Hemtjänst och särskilt boende <i aria-hidden="true">→</i></Link>
+            <Link href="/statistik/invandring-och-brott">Brott och migrationsbakgrund <i aria-hidden="true">→</i></Link>
           </nav>
         </details>
       </section>
@@ -1159,7 +1160,7 @@ export default function Home() {
           <div>
             {sourceHubs.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
-                <strong>{source.name}</strong><small>{source.detail}</small><i>↗</i>
+                <strong>{source.name}</strong><small>{source.detail}</small><i aria-hidden="true">↗</i>
               </a>
             ))}
           </div>
@@ -1229,7 +1230,7 @@ export default function Home() {
                 >
                   <span>{result.type}</span>
                   <div><strong>{result.title}</strong><small>{result.subtitle}</small></div>
-                  <i>↗</i>
+                  <i aria-hidden="true">→</i>
                 </button>
               )) : <div className="empty-search">Inga träffar. Prova ett bredare ord.</div>}
             </div>

@@ -32,8 +32,8 @@ export const seoTopics: SeoTopic[] = [
   {
     slug: 'brottslighet',
     category: 'Brott & trygghet',
-    seoTitle: 'Brottslighet i Sverige – statistik över tid',
-    heading: 'Brottslighet i Sverige',
+    seoTitle: 'Dödligt våld i Sverige – statistik över tid',
+    heading: 'Dödligt våld i Sverige',
     description:
       'Se svensk statistik över konstaterat dödligt våld 2002–2025, med regeringsperioder, källor och en tydlig gräns mellan samband och orsak.',
     lead:
@@ -189,8 +189,8 @@ export const seoTopics: SeoTopic[] = [
   {
     slug: 'pensioner',
     category: 'Pension',
-    seoTitle: 'Pensioner i Sverige – real utveckling över tid',
-    heading: 'Pensioner i Sverige',
+    seoTitle: 'Allmän pension i fasta priser – utveckling över tid',
+    heading: 'Allmän pension i fasta priser',
     description:
       'Följ den allmänna pensionens reala utveckling i Sverige. Se nivåer, köpkraft, källor och varför årsgenomsnitt inte visar varje pensionärs ekonomi.',
     lead:
@@ -198,7 +198,7 @@ export const seoTopics: SeoTopic[] = [
     temporalCoverage: '2003/2023',
     variableMeasured: ['Genomsnittlig allmän pension i fasta priser'],
     metrics: [
-      { value: '15 713 kr', label: 'allmän pension per månad', period: '2023 års priser' },
+      { value: '15 713 kr', label: 'allmän pension per månad', period: '2023 · i 2023 års priser' },
       { value: '16 701 kr', label: 'allmän pension per månad', period: '2021' },
       { value: '−4 %', label: 'real förändring på ett år', period: '2022–2023' },
     ],
@@ -222,8 +222,8 @@ export const seoTopics: SeoTopic[] = [
   {
     slug: 'aldreomsorg',
     category: 'Äldreomsorg',
-    seoTitle: 'Äldreomsorg i Sverige – hemtjänst och särskilt boende',
-    heading: 'Äldreomsorg i Sverige',
+    seoTitle: 'Hemtjänst och särskilt boende – statistik för personer 65+',
+    heading: 'Hemtjänst och särskilt boende',
     description:
       'Se utvecklingen för hemtjänst och särskilt boende bland personer 65 år och äldre, med rätt nämnare och statistik från Socialstyrelsen.',
     lead:

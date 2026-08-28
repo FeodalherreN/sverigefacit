@@ -70,10 +70,10 @@ export default function MethodPage() {
 
           <aside className="info-side-panel">
             <span>Snabbvägar</span>
-            <Link href="/statistik">Alla statistikområden <i>↗</i></Link>
-            <Link href="/politik/valloften">Metod för vallöften <i>↗</i></Link>
-            <Link href="/kallor">Myndigheter och källor <i>↗</i></Link>
-            <Link href="/datastudio">Testa en korrelation <i>↗</i></Link>
+            <Link href="/statistik">Alla statistikområden <i aria-hidden="true">→</i></Link>
+            <Link href="/politik/valloften">Metod för vallöften <i aria-hidden="true">→</i></Link>
+            <Link href="/kallor">Myndigheter och källor <i aria-hidden="true">→</i></Link>
+            <Link href="/datastudio">Testa en korrelation <i aria-hidden="true">→</i></Link>
           </aside>
         </div>
       </article>

@@ -22,7 +22,7 @@ export function MobileBottomNav() {
         const active = item.href === '/'
           ? pathname === '/'
           : isNavigationItemActive(pathname, item);
-        return <Link href={item.href} key={item.href} aria-current={active ? 'page' : undefined}><span aria-hidden="true">{item.icon}</span><strong>{item.label}</strong></Link>;
+        return <Link href={item.href} key={item.href} data-active={active || undefined} aria-current={pathname === item.href ? 'page' : undefined}><span aria-hidden="true">{item.icon}</span><strong>{item.label}</strong></Link>;
       })}
     </nav>
   );

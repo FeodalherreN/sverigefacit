@@ -53,6 +53,17 @@ const orderedTopics = [...seoTopics].sort(
   },
 );
 
+const topicCardCopy: Record<string, string> = {
+  brottslighet: 'Konstaterade offer för dödligt våld 2002–2025.',
+  'invandring-och-brott': '48 brottstyper efter region; alla brott efter 31 födelseländer.',
+  migration: 'Registrerade invandringar 2000–2025.',
+  arbetsloshet: 'Arbetslöshet 2001–2025 enligt SCB.',
+  privatekonomi: 'Köpkraft, matpriser och hushållens räntebörda.',
+  pensioner: 'Allmän pension per månad i fasta priser.',
+  aldreomsorg: 'Hemtjänst och särskilt boende bland personer 65+.',
+  'klimat-och-miljo': 'Utsläpp, elproduktion, kolsänka och skyddad natur.',
+};
+
 export default function StatisticsIndexPage() {
   return (
     <main className="guide-page" id="guide-content" tabIndex={-1}>
@@ -60,19 +71,19 @@ export default function StatisticsIndexPage() {
       <GuideHeader />
       <section className="catalog-hero">
         <Breadcrumbs items={[{ href: '/statistik', label: 'Statistik' }]} />
-        <h1>Statistik efter område</h1>
-        <p>Välj ett ämne för att se mått, period, originalkälla och vad statistiken inte kan avgöra.</p>
+        <h1>Statistikområden</h1>
+        <p>Välj ett ämne för nyckeltal, utveckling, källa och begränsning.</p>
       </section>
       <section className="catalog-spotlight" aria-labelledby="crime-origin-shortcut-heading">
         <div>
           <p className="section-kicker">Brott och migrationsbakgrund</p>
-          <h2 id="crime-origin-shortcut-heading">Vad går att jämföra?</h2>
+          <h2 id="crime-origin-shortcut-heading">Brottstyp, region eller land?</h2>
           <p>Brå publicerar 48 brottstyper efter födelseregion och alla brott sammantaget för 31 födelseländer.</p>
           <small>Det finns ingen publicerad korsning mellan en enskild brottstyp och exakt födelseland.</small>
         </div>
         <nav aria-label="Genvägar till brottsstatistiken">
-          <Link href="/analys/brott-och-migration?vy=region#brott-ursprung">Välj brottstyp × region <span>→</span></Link>
-          <Link href="/analys/brott-och-migration?vy=land#brott-ursprung">Välj födelseland <span>→</span></Link>
+          <Link href="/analys/brott-och-migration?vy=region#brott-ursprung">Jämför brottstyper efter region <span aria-hidden="true">→</span></Link>
+          <Link href="/analys/brott-och-migration?vy=land#brott-ursprung">Jämför födelseländer – alla brott <span aria-hidden="true">→</span></Link>
         </nav>
       </section>
       <section className="catalog-grid" aria-label="Statistikområden">
@@ -80,15 +91,15 @@ export default function StatisticsIndexPage() {
           <Link href={topicPath(topic.slug)} key={topic.slug}>
             <span>{String(index + 1).padStart(2, '0')} · {topic.category}</span>
             <h2>{topic.heading}</h2>
-            <p>{topic.description}</p>
+            <p>{topicCardCopy[topic.slug] || topic.description}</p>
             <div><strong>{topic.metrics[0].value}</strong><small>{topic.metrics[0].label} · {topic.metrics[0].period}</small></div>
-            <i>↗</i>
+            <i aria-hidden="true">→</i>
           </Link>
         ))}
       </section>
       <section className="catalog-method-link">
-        <div><p className="section-kicker">Läs rätt</p><h2>Samband är början på en fråga — inte slutet på ett svar.</h2></div>
-        <Link href="/metod">Läs hela metoden <span>↗</span></Link>
+        <div><p className="section-kicker">Läs rätt</p><h2>Samband är inte samma sak som orsak.</h2></div>
+        <Link href="/metod">Läs metoden <span aria-hidden="true">→</span></Link>
       </section>
       <GuideFooter />
     </main>

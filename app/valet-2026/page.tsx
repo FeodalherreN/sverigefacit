@@ -37,15 +37,29 @@ const electionHighlights = [
 
 export default function Election2026Page() {
   const electionFact = factBySlug['valet-2026'];
+  const electionSignals = [electionFact.metrics?.[0], electionFact.metrics?.[1], electionFact.metrics?.[3]].filter(Boolean);
   return (
     <main className="guide-page election-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <header className="election-hero">
         <Breadcrumbs items={[{ href: '/valet-2026', label: 'Valet 2026' }]} />
-        <p className="section-kicker">Valdagen · 13 september 2026</p>
-        <h1>Valfrågorna i siffror</h1>
-        <p>Förtidsröstningen pågår. Här får du korta svar från myndigheternas senaste data och kan öppna hela underlaget bakom varje tal.</p>
-        <div><Link href="/fakta">Se alla facit</Link><a href="https://www.val.se/kommande-val/val-2026---riksdag-region-och-kommun" target="_blank" rel="noreferrer">Praktisk valinformation ↗</a></div>
+        <div className="election-hero-grid">
+          <div className="election-hero-copy">
+            <p className="section-kicker">Valdagen · 13 september 2026</p>
+            <h1>Valfrågorna i siffror</h1>
+            <p>Förtidsröstning 26 augusti–13 september. Här får du korta svar från myndigheternas senaste data och originalkällan bakom varje tal.</p>
+            <div className="election-hero-actions"><Link href="/fakta">Se alla faktasvar</Link><a href="https://www.val.se/kommande-val/val-2026---riksdag-region-och-kommun" target="_blank" rel="noreferrer">Praktisk valinformation ↗</a></div>
+          </div>
+          <aside className="election-hero-signals" aria-label="Valet i korthet">
+            {electionSignals.map((metric) => metric ? (
+              <Link href="/fakta/valet-2026" key={metric.value + metric.label}>
+                <span>{metric.period}</span>
+                <strong>{metric.value}</strong>
+                <small>{metric.label}</small>
+              </Link>
+            ) : null)}
+          </aside>
+        </div>
       </header>
 
       <nav className="election-topic-chips" aria-label="Valfrågor">
@@ -62,7 +76,7 @@ export default function Election2026Page() {
           <p className="section-kicker">Valdata</p>
           <h2>{electionFact.value} får rösta till riksdagen.</h2>
           <p>{electionFact.observed}</p>
-          <Link href="/fakta/valet-2026">Öppna datapasset <span>↗</span></Link>
+          <Link href="/fakta/valet-2026">Se källa och definition <span aria-hidden="true">→</span></Link>
         </div>
         <aside>
           <span>Kommande valresultat</span>

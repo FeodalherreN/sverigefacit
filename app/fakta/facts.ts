@@ -414,12 +414,12 @@ export const facts: FactEntry[] = [
 export const factBySlug = Object.fromEntries(facts.map((fact) => [fact.slug, fact])) as Record<string, FactEntry>;
 
 export const featuredFactSlugs = [
+  'valet-2026',
   'vardgarantin-2026',
-  'terrorism-i-eu-2025',
+  'skjutningar-2026',
   'gymnasiebehorighet-2025',
   'hushallens-ekonomi-2024',
-  'skjutningar-2026',
-  'valet-2026',
+  'terrorism-i-eu-2025',
 ];
 
 export const featuredFacts = featuredFactSlugs.map((slug) => factBySlug[slug]);

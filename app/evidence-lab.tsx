@@ -777,10 +777,10 @@ export function CrimeMigrationEvidence() {
     <section className="crime-evidence-section" id="brott-migration">
       <div className="crime-evidence-heading">
         <div>
-          <p className="section-kicker">Registrerad misstanke i Brås historiska kohort</p>
-          <h2>Vad visar registerstudien?</h2>
+          <p className="section-kicker">Brås registerstudie · 2015–2018</p>
+          <h2>Jämför brottstyp och födelsebakgrund</h2>
         </div>
-        <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. När Brå standardiserar för ålder, kön, inkomst, utbildning och kommuntyp minskar skillnaden — men studien kan inte visa varför den finns.</p>
+        <p>Statistiken gäller registrerad misstanke, inte domar och inte orsaken till gruppskillnader.</p>
       </div>
 
       <CrimeOriginExplorer />

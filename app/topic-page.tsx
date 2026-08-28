@@ -6,13 +6,29 @@ import { InternationalReference } from './international-reference';
 import { topicBenchmarkIds } from './international-reference-data';
 import { siteConfig } from './site-config';
 import { topicBySlug, topicPath, type SeoTopic } from './seo-topics';
+import { TopicTrend } from './topic-trend';
+
+const topicComparisons: Partial<Record<string, [string, string]>> = {
+  brottslighet: ['deadlyViolence', 'insecurity'],
+  migration: ['immigration', 'emigration'],
+  arbetsloshet: ['unemployment', 'gdpPerCapita'],
+  privatekonomi: ['economicStandard', 'foodPrices'],
+  pensioner: ['realPension', 'economicStandard'],
+  aldreomsorg: ['homeCare', 'specialHousing'],
+};
 
 export function TopicPage({ topic }: { topic: SeoTopic }) {
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
   const benchmarkIds = topicBenchmarkIds[topic.slug];
+  const comparison = topicComparisons[topic.slug];
   const primaryAction = topic.slug === 'invandring-och-brott'
-    ? { href: '/analys/brott-och-migration#brott-ursprung', label: 'Utforska brottstyp och födelsebakgrund' }
-    : { href: '/datastudio', label: 'Jämför serien i Datastudion' };
+    ? { href: '/analys/brott-och-migration#brott-ursprung', label: 'Välj brottstyp eller födelseland' }
+    : {
+        href: comparison
+          ? `/datastudio?seriesA=${comparison[0]}&seriesB=${comparison[1]}&view=timeline#datastudio`
+          : '/datastudio',
+        label: 'Jämför med ett annat mått',
+      };
   const relatedAction = topic.slug === 'brottslighet'
     ? { href: '/statistik/invandring-och-brott', label: 'Brott och migrationsbakgrund' }
     : null;
@@ -81,25 +97,30 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
             { href: '/statistik', label: 'Statistik' },
             { href: topicPath(topic.slug), label: topic.heading },
           ]} />
-          <h1>{topic.heading}</h1>
-          <p>{topic.lead}</p>
-          <div className="topic-page-actions">
-            <Link href={primaryAction.href}>{primaryAction.label} <span>↗</span></Link>
-            {relatedAction && <Link href={relatedAction.href}>{relatedAction.label}</Link>}
-            <Link href="/metod">Så bedöms evidensen</Link>
+          <div className="topic-page-hero-grid">
+            <div className="topic-hero-title"><h1>{topic.heading}</h1></div>
+            <section className="topic-metrics" aria-label="Nyckeltal">
+              {topic.metrics.map((metric) => (
+                <div key={metric.value + metric.label}>
+                  <span>{metric.period}</span>
+                  <strong>{metric.value}</strong>
+                  <p>{metric.label}</p>
+                </div>
+              ))}
+            </section>
+            <div className="topic-hero-detail">
+              <p>{topic.lead}</p>
+              <div className="topic-page-actions">
+                <Link href={primaryAction.href}>{primaryAction.label} <span aria-hidden="true">→</span></Link>
+                {relatedAction && <Link href={relatedAction.href}>{relatedAction.label}</Link>}
+                <Link href="/metod">Så tolkar vi statistiken</Link>
+              </div>
+              {topic.slug === 'invandring-och-brott' && <CrimeMigrationLevels current="overview" />}
+            </div>
           </div>
-          {topic.slug === 'invandring-och-brott' && <CrimeMigrationLevels current="overview" />}
         </header>
 
-        <section className="topic-metrics" aria-label="Nyckeltal">
-          {topic.metrics.map((metric) => (
-            <div key={metric.value + metric.label}>
-              <span>{metric.period}</span>
-              <strong>{metric.value}</strong>
-              <p>{metric.label}</p>
-            </div>
-          ))}
-        </section>
+        <TopicTrend slug={topic.slug} />
 
         {benchmarkIds && (
           <InternationalReference benchmarkIds={benchmarkIds} />
@@ -108,7 +129,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
         <div className="topic-page-layout">
           <div className="topic-main-copy">
             <section aria-labelledby="reading-heading">
-              <h2 id="reading-heading">Vad går att säga?</h2>
+              <h2 id="reading-heading">Kort slutsats</h2>
               <div className="topic-logic-grid">
                 <article>
                   <span>Utfall</span>
@@ -129,7 +150,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
             </section>
 
             <section className="topic-definition" aria-labelledby="definition-heading">
-              <h2 id="definition-heading">Så är måttet avgränsat</h2>
+              <h2 id="definition-heading">Vad mäts?</h2>
               <p>{topic.definition}</p>
             </section>
 
@@ -140,7 +161,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
                   <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
                     <span>{String(index + 1).padStart(2, '0')}</span>
                     <div><strong>{source.name}</strong><small>{source.organization}</small></div>
-                    <i>↗</i>
+                    <i aria-hidden="true">↗</i>
                   </a>
                 ))}
               </div>
@@ -154,11 +175,11 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
               <div><dt>Tidsperiod</dt><dd>{topic.temporalCoverage.replace('/', '–')}</dd></div>
               <div><dt>Senast granskat</dt><dd>{siteConfig.sourceChecked}</dd></div>
               <div><dt>Källtyp</dt><dd>Myndighetsstatistik</dd></div>
-              <div><dt>Bearbetning</dt><dd>Återgiven utan prediktiv modell</dd></div>
+              <div><dt>Bearbetning</dt><dd>Ingen prognos</dd></div>
               <div><dt>Originalkällor</dt><dd>{topic.sources.length}</dd></div>
             </dl>
-            <p>Serien återges för begriplig jämförelse. Originalkällans definition och revisionshistorik gäller alltid.</p>
-            <Link href="/kallor">Alla källor <span>↗</span></Link>
+            <p>Definitioner och revisioner följer originalkällan.</p>
+            <Link href="/kallor">Alla källor <span aria-hidden="true">→</span></Link>
           </aside>
         </div>
 
@@ -173,7 +194,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
                 <Link href={topicPath(slug)} key={slug}>
                   <span>{related.category}</span>
                   <strong>{related.heading}</strong>
-                  <i>↗</i>
+                  <i aria-hidden="true">→</i>
                 </Link>
               ) : null;
             })}
