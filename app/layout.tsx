@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     'svensk statistik',
+    'datadriven politik',
+    'opartisk politisk statistik',
     'brottslighet statistik',
     'migration Sverige',
     'arbetslöshet Sverige',
@@ -101,7 +103,7 @@ const structuredData = {
   '@id': `${siteConfig.url}/#website`,
   url: `${siteConfig.url}/`,
   name: siteConfig.name,
-  alternateName: 'Sverigefacit – data bakom politiken',
+  alternateName: 'Sverigefacit – datadriven politik utan partifärg',
   description: siteConfig.description,
   inLanguage: siteConfig.language,
 };

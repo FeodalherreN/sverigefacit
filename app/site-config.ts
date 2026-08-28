@@ -8,7 +8,7 @@ export const siteConfig = {
   name: 'Sverigefacit',
   title: 'Sverigefacit – svensk statistik bakom politiken',
   description:
-    'Jämför officiell svensk statistik om brott, migration, trygghet, hälsa, jobb, löner, priser och välfärd med politisk kontext.',
+    'Opartiskt underlag för datadriven politik: jämför officiell svensk statistik om brott, migration, trygghet, hälsa, jobb, löner, priser och välfärd.',
   url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',

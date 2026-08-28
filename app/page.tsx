@@ -767,6 +767,7 @@ const homeStructuredData = {
   },
   about: [
     'Svensk politik',
+    'Datadriven politik',
     'Offentlig svensk statistik',
     'Brottslighet och migration',
     'Arbetsmarknad och privatekonomi',
@@ -909,10 +910,10 @@ export default function Home() {
       <section className="hero" id="top" tabIndex={-1}>
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow"><span /> Svensk statistik. Politisk kontext.</p>
+          <p className="eyebrow"><span /> Datadriven politik</p>
           <h1>Sverige i siffror.<br />Vad blev facit?</h1>
           <p className="hero-lead">
-            Se vad som hände, vad som lovades och vad data faktiskt kan belägga — med officiella källor.
+            Vi visualiserar officiell statistik som ett enkelt, opartiskt underlag för debatt. Etablerade metoder och tydlig logik visar vilka slutsatser datan stödjer — och vad som fortfarande är osäkert.
           </p>
           <div className="hero-actions">
             <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
@@ -1175,9 +1176,9 @@ export default function Home() {
 
       <section className="trust-section" id="metod" aria-labelledby="trust-heading">
         <div className="trust-intro">
-          <p className="section-kicker">Metod och källor</p>
-          <h2 id="trust-heading">Svar först.<br />Bevis bakom.</h2>
-          <p>Varje slutsats går att öppna, kontrollera och följa tillbaka till originalkällan.</p>
+          <p className="section-kicker">Opartisk metod</p>
+          <h2 id="trust-heading">Fakta först.<br />Slutsats med måtta.</h2>
+          <p>Vi visar vad data belägger, vad som bara samvarierar och vad som ännu inte går att veta. Samma krav på källor, metod och bevis gäller oavsett parti.</p>
           <div className="trust-actions">
             <Link href="/metod">Läs metoden <span>→</span></Link>
             <Link href="/kallor">Källor & rättelser <span>→</span></Link>
@@ -1203,10 +1204,10 @@ export default function Home() {
       <footer className="site-footer">
         <div className="footer-brand">
           <span className="brand-mark" aria-hidden="true"><i /><i /></span>
-          <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
+          <div><strong>Sverigefacit</strong><small>Datadriven politik · utan partifärg</small></div>
         </div>
         <div className="footer-summary">
-          <p>En pilot som gör offentlig svensk statistik, politiska beslut och evidensnivåer begripliga tillsammans.</p>
+          <p>En opartisk pilot som gör offentlig statistik, politiska beslut och evidensnivåer begripliga som underlag för debatt.</p>
           <nav aria-label="Genvägar till statistikområden">
             <Link href="/statistik/invandring-och-brott">Brott & migration</Link>
             <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
