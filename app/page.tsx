@@ -926,7 +926,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
-            <a className="text-link" href="#senaste">Se senaste facit <span>↓</span></a>
+            <Link className="text-link" href="/datastudio#datastudio" aria-label="Öppna Datastudion och jämför 28 verifierade tidsserier">Öppna Datastudion <span>↗</span></Link>
           </div>
         </div>
         <aside className="hero-side">
@@ -1063,7 +1063,7 @@ export default function Home() {
 
         <div className="explorer-actions" aria-label="Fördjupa den valda statistiken">
           <Link href={seriesTopicPaths[activeId]}>Läs om {activeSeries.label.toLowerCase()} <span>→</span></Link>
-          <Link href="/datastudio">Jämför två serier <span>→</span></Link>
+          <Link href="/datastudio#datastudio">Jämför två serier i Datastudion <span>→</span></Link>
           <Link href="/analys/brott-och-migration">Brott & bakgrund <span>→</span></Link>
         </div>
 
