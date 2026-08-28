@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
+import { Breadcrumbs } from '../../breadcrumbs';
+import { CrimeMigrationLevels } from '../../crime-migration-levels';
 import { EmbedButton } from '../../embed-button';
 import { GuideFooter, GuideHeader } from '../../guide-chrome';
 import { ShareButton } from '../../share-button';
@@ -60,17 +61,8 @@ export default async function FactDetailPage({ params }: PageProps) {
         inLanguage: siteConfig.language,
         dateModified: siteConfig.modified,
         isPartOf: { '@id': `${siteConfig.url}/#website` },
-        breadcrumb: { '@id': `${canonicalUrl}#breadcrumb` },
+        breadcrumb: { '@id': `${canonicalUrl}#breadcrumbs` },
         mainEntity: { '@id': `${canonicalUrl}#dataset` },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `${canonicalUrl}#breadcrumb`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Start', item: `${siteConfig.url}/` },
-          { '@type': 'ListItem', position: 2, name: 'Fakta', item: `${siteConfig.url}/fakta` },
-          { '@type': 'ListItem', position: 3, name: fact.question, item: canonicalUrl },
-        ],
       },
       {
         '@type': 'Dataset',
@@ -106,10 +98,14 @@ export default async function FactDetailPage({ params }: PageProps) {
       <GuideHeader />
       <article>
         <header className="fact-detail-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><Link href="/fakta">Fakta</Link><span>/</span><strong>{fact.topic}</strong></nav>
+          <Breadcrumbs items={[
+            { href: '/fakta', label: 'Fakta' },
+            { href: factPath(fact.slug), label: fact.question },
+          ]} />
           <p className="section-kicker">{fact.topic} · {fact.geography ? `${fact.geography.label} · ` : ''}{fact.period}</p>
           <h1>{fact.question}</h1>
           <p className="fact-answer">{fact.answer}</p>
+          {fact.slug === 'migration-och-brott' && <CrimeMigrationLevels current="fact" />}
           <div className="fact-primary-number"><strong>{fact.value}</strong><span>{fact.valueLabel}</span></div>
           <div className="fact-primary-actions">
             <ShareButton title={fact.question} text={`${fact.answer} Källa: ${fact.sourceOrganization} · Sverigefacit`} itemId={fact.slug} url={canonicalUrl} />

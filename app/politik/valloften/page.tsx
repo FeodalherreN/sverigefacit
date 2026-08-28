@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Breadcrumbs } from '../../breadcrumbs';
 import { GuideFooter, GuideHeader } from '../../guide-chrome';
 
 const title = 'Vallöften i Sverige – uppfyllda eller inte?';
@@ -27,7 +28,10 @@ export default function PromisesPage() {
       <GuideHeader />
       <article>
         <header className="info-page-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Vallöften</strong></nav>
+          <Breadcrumbs items={[
+            { href: '/valet-2026', label: 'Valet 2026' },
+            { href: '/politik/valloften', label: 'Vallöften' },
+          ]} />
           <h1>Så följs vallöften upp</h1>
           <p>Ett löfte kan leda till ett beslut utan att vara fullt genomfört. En genomförd reform kan samtidigt sakna belagd samhällseffekt. Därför bedöms varje led separat.</p>
         </header>

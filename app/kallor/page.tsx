@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Breadcrumbs } from '../breadcrumbs';
 import { seriesCatalogMetadata } from '../data/series-core';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
@@ -44,7 +44,7 @@ export default function SourcesPage() {
       <GuideHeader />
       <article>
         <header className="info-page-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Källor</strong></nav>
+          <Breadcrumbs items={[{ href: '/kallor', label: 'Källor' }]} />
           <h1>Källor och bearbetning</h1>
           <p>Varje diagram länkar till tabellen eller rapporten som siffran kommer från. Här ser du vilka myndigheter och organisationer som används.</p>
         </header>

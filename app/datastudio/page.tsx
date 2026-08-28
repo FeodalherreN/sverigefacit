@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Breadcrumbs } from '../breadcrumbs';
 import { DataStudio } from '../evidence-lab';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 import { InternationalReferenceStudio } from '../international-reference-studio';
@@ -17,6 +18,9 @@ export default function DataStudioPage() {
   return (
     <main className="guide-page tool-route" id="guide-content" tabIndex={-1}>
       <GuideHeader />
+      <div className="tool-route-breadcrumbs">
+        <Breadcrumbs items={[{ href: '/datastudio', label: 'Datastudion' }]} />
+      </div>
       <DataStudio />
       <InternationalReferenceStudio />
       <GuideFooter />

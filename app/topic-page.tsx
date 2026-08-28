@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { Breadcrumbs } from './breadcrumbs';
+import { CrimeMigrationLevels } from './crime-migration-levels';
 import { GuideFooter, GuideHeader } from './guide-chrome';
 import { InternationalReference } from './international-reference';
 import { topicBenchmarkIds } from './international-reference-data';
@@ -9,23 +11,17 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
   const benchmarkIds = topicBenchmarkIds[topic.slug];
   const primaryAction = topic.slug === 'invandring-och-brott'
-    ? { href: '/analys/brott-och-migration', label: 'Öppna den interaktiva brottsanalysen' }
+    ? { href: '/analys/brott-och-migration#brott-ursprung', label: 'Utforska brottstyp och födelsebakgrund' }
     : { href: '/datastudio', label: 'Jämför serien i Datastudion' };
+  const relatedAction = topic.slug === 'brottslighet'
+    ? { href: '/statistik/invandring-och-brott', label: 'Brott och migrationsbakgrund' }
+    : null;
   const organizations = Array.from(new Map(
     topic.sources.map((source) => [source.organization, source]),
   ).values());
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `${canonicalUrl}#breadcrumbs`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Sverigefacit', item: `${siteConfig.url}/` },
-          { '@type': 'ListItem', position: 2, name: 'Statistik', item: `${siteConfig.url}/statistik` },
-          { '@type': 'ListItem', position: 3, name: topic.heading, item: canonicalUrl },
-        ],
-      },
       {
         '@type': 'WebPage',
         '@id': `${canonicalUrl}#webpage`,
@@ -81,17 +77,18 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
 
       <article>
         <header className="topic-page-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor">
-            <Link href="/">Start</Link><span>/</span>
-            <Link href="/statistik">Statistik</Link><span>/</span>
-            <strong>{topic.category}</strong>
-          </nav>
+          <Breadcrumbs items={[
+            { href: '/statistik', label: 'Statistik' },
+            { href: topicPath(topic.slug), label: topic.heading },
+          ]} />
           <h1>{topic.heading}</h1>
           <p>{topic.lead}</p>
           <div className="topic-page-actions">
             <Link href={primaryAction.href}>{primaryAction.label} <span>↗</span></Link>
+            {relatedAction && <Link href={relatedAction.href}>{relatedAction.label}</Link>}
             <Link href="/metod">Så bedöms evidensen</Link>
           </div>
+          {topic.slug === 'invandring-och-brott' && <CrimeMigrationLevels current="overview" />}
         </header>
 
         <section className="topic-metrics" aria-label="Nyckeltal">

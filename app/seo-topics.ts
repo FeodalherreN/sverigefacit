@@ -334,9 +334,9 @@ export const seoTopics: SeoTopic[] = [
   },
   {
     slug: 'invandring-och-brott',
-    category: 'Fördjupning',
-    seoTitle: 'Invandring och brott – vad visar Brås statistik?',
-    heading: 'Invandring och brott',
+    category: 'Brott & trygghet',
+    seoTitle: 'Brott och migrationsbakgrund – vad visar Brås statistik?',
+    heading: 'Brott och migrationsbakgrund',
     description:
       'Vad visar Brå om brott och migrationsbakgrund? Utforska 48 brottstyper efter födelseregion samt alla brott efter födelseland, med nivåer och justerade överrisker.',
     lead:

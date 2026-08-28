@@ -1257,6 +1257,12 @@
   line-height: 1.65;
 }
 
+.origin-explorer-intro > p strong {
+  margin-bottom: 4px;
+  display: block;
+  color: var(--ink);
+}
+
 .origin-view-switch {
   margin-top: 27px;
   padding: 4px;

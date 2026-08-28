@@ -15,7 +15,7 @@ const filters: Array<{ id: FactFilter; label: string }> = [
 ];
 
 const welfareTopics = new Set(['Sjukvård', 'Skola', 'Pension', 'Äldreomsorg']);
-const safetyTopics = new Set(['Lag & ordning', 'Brott & trygghet', 'Migration', 'Migration & brott']);
+const safetyTopics = new Set(['Lag & ordning', 'Brott & trygghet', 'Migration', 'Brott och migrationsbakgrund']);
 const economyTopics = new Set(['Jobb & ekonomi', 'Privatekonomi']);
 
 export function FactsBrowser() {

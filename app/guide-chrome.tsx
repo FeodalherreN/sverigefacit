@@ -2,14 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { isNavigationItemActive, primaryNavigation } from './site-navigation';
 
 export function GuideHeader() {
   const pathname = usePathname();
-  const utilityLink = pathname === '/datastudio'
-    ? { href: '/statistik', label: 'Välj statistikområde' }
-    : pathname.startsWith('/analys/')
-      ? { href: '/fakta/migration-och-brott', label: 'Se kort facit' }
-      : { href: '/datastudio', label: 'Öppna Datastudion' };
 
   return (
     <header className="guide-header">
@@ -19,15 +15,18 @@ export function GuideHeader() {
         <span>Sverigefacit</span>
         <em>beta</em>
       </Link>
-      <nav aria-label="Fördjupningsmeny">
-        <Link href="/valet-2026">Valet 2026</Link>
-        <Link href="/fakta">Fakta</Link>
-        <Link href="/statistik">Statistik</Link>
-        <Link href="/politik/valloften">Vallöften</Link>
-        <Link href="/metod">Metod</Link>
-        <Link href="/kallor">Källor</Link>
+      <nav aria-label="Huvudmeny">
+        {primaryNavigation.map((item) => (
+          <Link
+            href={item.href}
+            aria-current={isNavigationItemActive(pathname, item) ? 'page' : undefined}
+            key={item.href}
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
-      <Link className="guide-home-link" href={utilityLink.href}>{utilityLink.label} <span>↗</span></Link>
+      <Link className="guide-home-link" href="/metod" aria-current={pathname === '/metod' ? 'page' : undefined}>Metod <span>↗</span></Link>
     </header>
   );
 }
@@ -40,7 +39,7 @@ export function GuideFooter() {
         <div><strong>Sverigefacit</strong><small>Data bakom politiken</small></div>
       </div>
           <p>Svensk offentlig statistik med originalkällor, politisk kontext och förklaringar.</p>
-      <div><a href="/feed.xml">RSS</a><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
+      <div><Link href="/metod">Metod</Link><Link href="/kallor">Källor</Link><a href="/feed.xml">RSS</a><Link href="/integritet">Integritet</Link><Link href="/">Till startsidan ↑</Link></div>
     </footer>
   );
 }

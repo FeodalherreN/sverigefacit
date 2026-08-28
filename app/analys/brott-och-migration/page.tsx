@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Breadcrumbs } from '../../breadcrumbs';
+import { CrimeMigrationLevels } from '../../crime-migration-levels';
 import { CrimeMigrationEvidence } from '../../evidence-lab';
 import { GuideFooter, GuideHeader } from '../../guide-chrome';
 
-const title = 'Brott, födelseregion och bakgrund – Brås statistik';
+const title = 'Brott och migrationsbakgrund – Brås statistik';
 const description = 'Utforska 48 brottstyper efter födelseregion samt alla brott efter födelseland, med observerade nivåer, justerade överrisker och tydliga metodbegränsningar.';
 
 export const metadata: Metadata = {
@@ -18,14 +19,15 @@ export default function CrimeMigrationPage() {
     <main className="guide-page tool-route" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <header className="tool-route-hero">
-        <p className="section-kicker">Brås historiska registerstudie</p>
-        <h1>Brottsmisstankar efter födelseregion</h1>
-        <p>Välj bland 48 brottstyper och jämför Brås publicerade nivåer och överrisker efter födelseregion. Exakta födelseländer visas separat och endast för alla brott sammantaget.</p>
-        <nav className="analysis-levels" aria-label="Fördjupningsnivå">
-          <Link href="/fakta/migration-och-brott">Kort svar</Link>
-          <Link href="/statistik/invandring-och-brott">Ämnesöversikt</Link>
-          <span aria-current="page">Interaktiv analys</span>
-        </nav>
+        <Breadcrumbs items={[
+          { href: '/statistik', label: 'Statistik' },
+          { href: '/statistik/invandring-och-brott', label: 'Brott och migrationsbakgrund' },
+          { href: '/analys/brott-och-migration', label: 'Utforska data' },
+        ]} />
+        <p className="section-kicker">Interaktiv analys · Brås historiska registerstudie</p>
+        <h1>Brott och migrationsbakgrund</h1>
+        <p>Välj bland 48 brottstyper och jämför födelseregioner, eller välj ett av 31 födelseländer för alla brott sammantaget. Brå publicerar inte enskild brottstyp korsad med exakt födelseland.</p>
+        <CrimeMigrationLevels current="explore" />
       </header>
       <CrimeMigrationEvidence />
       <GuideFooter />

@@ -353,9 +353,9 @@ export const facts: FactEntry[] = [
   },
   {
     slug: 'migration-och-brott',
-    topic: 'Migration & brott',
-    question: 'Vad visar Brå om migration och brott?',
-    title: 'Migrationsbakgrund och brottsmisstanke',
+    topic: 'Brott och migrationsbakgrund',
+    question: 'Vad visar Brå om brott och migrationsbakgrund?',
+    title: 'Brott och migrationsbakgrund',
     description: 'Brås historiska registerstudie, med observerade andelar, standardiserad överrisk och tydliga begränsningar.',
     answer: 'I den historiska kohorten registrerades 7,99 procent av utrikesfödda som misstänkta, jämfört med 3,18 procent i referensgruppen.',
     value: '7,99 %',

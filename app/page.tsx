@@ -7,6 +7,7 @@ import { featuredFacts } from './fakta/facts';
 import { environmentSeries } from './environment-data';
 import { homepageSeriesById as canonicalSeries } from './data/homepage-series';
 import { siteConfig, topicLinks } from './site-config';
+import { primaryNavigation } from './site-navigation';
 
 type Point = { year: number; value: number };
 type SeriesId =
@@ -786,7 +787,13 @@ export default function Home() {
         subtitle: 'Europol · jihadistisk · högerextremistisk · vänsterextremistisk och anarkistisk terrorism',
         keywords: 'islamism jihadism terrordåd terrorism tesat te-sat',
       },
-      { id: 'brott-migration', type: 'Fördjupning', title: 'Kriminalitet och migrationsbakgrund', subtitle: 'Brå · födelseland · rått och standardiserat samband' },
+      {
+        id: 'brott-migration',
+        type: 'Fördjupning',
+        title: 'Brott och migrationsbakgrund',
+        subtitle: '48 brottstyper × födelseregion · alla brott × 31 födelseländer',
+        keywords: 'brottstyp födelseregion födelseland ursprungsland invandring migration bakgrund brå',
+      },
       { id: 'valfragor', type: 'Fördjupning', title: 'Hushåll och välfärd', subtitle: 'Äldreomsorg · pension · matpriser · räntebörda' },
       { id: 'valloften', type: 'Fördjupning', title: 'Vallöfteslabbet', subtitle: 'Beslut · genomförande · samhällseffekt' },
       ...timelineEvents.map((event) => ({
@@ -841,7 +848,7 @@ export default function Home() {
       const routes: Record<string, string> = {
         datastudio: '/datastudio',
         'terrorism-eu': '/fakta/terrorism-i-eu-2025',
-        'brott-migration': '/analys/brott-och-migration',
+        'brott-migration': '/analys/brott-och-migration#brott-ursprung',
         valfragor: '/fakta',
         valloften: '/politik/valloften',
       };
@@ -862,11 +869,7 @@ export default function Home() {
           <em>beta</em>
         </a>
         <nav className="main-nav" aria-label="Huvudmeny">
-          <Link href="/valet-2026">Valet 2026</Link>
-          <Link href="/fakta">Fakta</Link>
-          <Link href="/statistik">Statistik</Link>
-          <Link href="/datastudio">Jämför</Link>
-          <Link href="/politik/valloften">Vallöften</Link>
+          {primaryNavigation.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
         </nav>
         <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök mått och händelser">
           <span>Sök</span><kbd>⌘ K</kbd>
@@ -1022,7 +1025,7 @@ export default function Home() {
         <div className="explorer-actions" aria-label="Fördjupa den valda statistiken">
           <Link href={seriesTopicPaths[activeId]}>Läs om {activeSeries.label.toLowerCase()} <span>→</span></Link>
           <Link href="/datastudio#datastudio">Jämför två serier i Datastudion <span>→</span></Link>
-          <Link href="/analys/brott-och-migration">Brott & bakgrund <span>→</span></Link>
+          <Link href="/analys/brott-och-migration#brott-ursprung">Brott och migrationsbakgrund <span>→</span></Link>
         </div>
 
         <details className="topic-disclosure">
@@ -1034,7 +1037,7 @@ export default function Home() {
             <Link href="/statistik/privatekonomi">Privatekonomi <i>↗</i></Link>
             <Link href="/statistik/pensioner">Pensioner <i>↗</i></Link>
             <Link href="/statistik/aldreomsorg">Äldreomsorg <i>↗</i></Link>
-            <Link href="/statistik/invandring-och-brott">Invandring & brott <i>↗</i></Link>
+            <Link href="/statistik/invandring-och-brott">Brott och migrationsbakgrund <i>↗</i></Link>
           </nav>
         </details>
       </section>
@@ -1171,7 +1174,7 @@ export default function Home() {
         <div className="footer-summary">
           <p>Målet är ett partipolitiskt obundet underlag där offentlig statistik, politiska beslut och metodgränser går att kontrollera.</p>
           <nav aria-label="Genvägar till statistikområden">
-            <Link href="/statistik/invandring-och-brott">Brott & migration</Link>
+            <Link href="/statistik/invandring-och-brott">Brott och migrationsbakgrund</Link>
             <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
             <Link href="/statistik/klimat-och-miljo">Klimat & miljö</Link>
             <Link href="/politik/valloften">Vallöften</Link>

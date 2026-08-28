@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Breadcrumbs } from '../breadcrumbs';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function PrivacyPage() {
     <main className="guide-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <article className="privacy-page">
+        <Breadcrumbs items={[{ href: '/integritet', label: 'Integritet' }]} />
         <p className="section-kicker">Transparens</p>
         <h1>Integritet och besöksstatistik</h1>
         <p>Sverigefacit använder ingen Google Analytics-tagg och sätter inga egna statistikcookies.</p>

@@ -783,6 +783,8 @@ export function CrimeMigrationEvidence() {
         <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. När Brå standardiserar för ålder, kön, inkomst, utbildning och kommuntyp minskar skillnaden — men studien kan inte visa varför den finns.</p>
       </div>
 
+      <CrimeOriginExplorer />
+
       <div className="crime-study-note">
         <span>Historisk kohort</span>
         <strong>8 066 363 folkbokförda personer, 15+ år</strong>
@@ -849,8 +851,6 @@ export function CrimeMigrationEvidence() {
           <a href="https://bra.se/rapporter/arkiv/2021-08-25-misstankta-for-brott-bland-personer-med-inrikes-respektive-utrikes-bakgrund" target="_blank" rel="noreferrer">Brå 2021:9 ↗</a>
         </aside>
       </div>
-
-      <CrimeOriginExplorer />
 
       <div className="victimization-note">
         <div>

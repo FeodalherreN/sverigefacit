@@ -127,10 +127,10 @@ export function CrimeOriginExplorer() {
     <section className="origin-explorer" id="brott-ursprung" aria-labelledby="origin-explorer-title">
       <header className="origin-explorer-intro">
         <div>
-          <span>48 brottsrader · Brå B41–B43</span>
-          <h3 id="origin-explorer-title">Utforska födelseregion och brottstyp.</h3>
+          <span>48 brottstyper · 31 födelseländer</span>
+          <h3 id="origin-explorer-title">Välj brottstyp eller födelseland.</h3>
         </div>
-        <p>Regionvyn visar registrerade misstankar per 1 000 och Brås publicerade överrisker. Den separata landvyn gäller endast alla brott sammantaget. Födelseregion och födelseland är inte nationalitet.</p>
+        <p><strong>Exakt brottstyp × födelseland finns inte i Brås publicerade tabeller.</strong> Regionvyn visar brottstyper efter födelseregion. Landvyn visar alla brott sammantaget. Födelseregion och födelseland är inte nationalitet.</p>
       </header>
 
       <div className="origin-view-switch" role="group" aria-label="Välj datavy">

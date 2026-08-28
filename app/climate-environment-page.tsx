@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Breadcrumbs } from './breadcrumbs';
 import { environmentSeries, type EnvironmentPoint } from './environment-data';
 import { GuideFooter, GuideHeader } from './guide-chrome';
 import { InternationalReference } from './international-reference';
@@ -131,14 +132,6 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Sverigefacit', item: `${siteConfig.url}/` },
-          { '@type': 'ListItem', position: 2, name: 'Statistik', item: `${siteConfig.url}/statistik` },
-          { '@type': 'ListItem', position: 3, name: topic.heading, item: canonicalUrl },
-        ],
-      },
-      {
         '@type': 'Dataset',
         name: topic.heading,
         description: topic.description,
@@ -159,9 +152,10 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
 
       <article>
         <header className="environment-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor">
-            <Link href="/">Start</Link><span>/</span><Link href="/statistik">Statistik</Link><span>/</span><strong>Klimat och miljö</strong>
-          </nav>
+          <Breadcrumbs items={[
+            { href: '/statistik', label: 'Statistik' },
+            { href: topicPath(topic.slug), label: topic.heading },
+          ]} />
           <div className="environment-hero-grid">
             <div>
               <p className="environment-eyebrow">Klimat och miljö</p>

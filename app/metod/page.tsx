@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Breadcrumbs } from '../breadcrumbs';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Metod – så bedömer Sverigefacit politiska samband';
@@ -18,7 +19,7 @@ export default function MethodPage() {
       <GuideHeader />
       <article>
         <header className="info-page-hero">
-          <nav className="breadcrumbs" aria-label="Brödsmulor"><Link href="/">Start</Link><span>/</span><strong>Metod</strong></nav>
+          <Breadcrumbs items={[{ href: '/metod', label: 'Metod' }]} />
           <h1>Så skiljer vi samband från orsak</h1>
           <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Vi använder ordet satslogik för den enkla kontrollen att premisserna faktiskt räcker till slutsatsen.</p>
         </header>

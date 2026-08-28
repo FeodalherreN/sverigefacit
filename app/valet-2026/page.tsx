@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Breadcrumbs } from '../breadcrumbs';
 import { FactCard } from '../fakta/fact-card';
 import { factBySlug } from '../fakta/facts';
 import { FollowSverigefacit } from '../follow-sverigefacit';
@@ -40,6 +41,7 @@ export default function Election2026Page() {
     <main className="guide-page election-page" id="guide-content" tabIndex={-1}>
       <GuideHeader />
       <header className="election-hero">
+        <Breadcrumbs items={[{ href: '/valet-2026', label: 'Valet 2026' }]} />
         <p className="section-kicker">Valdagen · 13 september 2026</p>
         <h1>Valfrågorna i siffror</h1>
         <p>Förtidsröstningen pågår. Här får du korta svar från myndigheternas senaste data och kan öppna hela underlaget bakom varje tal.</p>

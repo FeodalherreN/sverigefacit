@@ -1550,7 +1550,7 @@ main { min-height: 100vh; overflow: clip; }
     min-height: calc(62px + env(safe-area-inset-bottom));
     padding: 5px 8px env(safe-area-inset-bottom);
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     border-top: 1px solid rgba(16, 34, 56, .16);
     background: rgba(255, 254, 250, .96);
     backdrop-filter: blur(18px);
@@ -1560,6 +1560,6 @@ main { min-height: 100vh; overflow: clip; }
   .mobile-bottom-nav a[aria-current='page'] { background: #edf3ff; color: var(--blue); }
   .mobile-bottom-nav a:active { background: #eef1ef; color: var(--blue); }
   .mobile-bottom-nav span { font-size: 17px; line-height: 1; }
-  .mobile-bottom-nav strong { font-size: 10.5px; font-weight: 740; }
+  .mobile-bottom-nav strong { font-size: 9.5px; font-weight: 740; }
 
 }
