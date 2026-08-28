@@ -225,8 +225,10 @@ export function InternationalReferenceStudio() {
     url.searchParams.set('utm_source', 'delning');
     url.searchParams.set('utm_medium', 'referral');
     url.searchParams.set('utm_campaign', 'internationell_referens');
+    let shareMethod: 'native' | 'copy_link' = 'copy_link';
     try {
       if (navigator.share) {
+        shareMethod = 'native';
         await navigator.share({
           title: `${benchmark.label} – Sverige i internationell jämförelse`,
           text: `Jämför Sverige med Norden och EU med harmoniserad statistik från Eurostat.`,
@@ -236,7 +238,7 @@ export function InternationalReferenceStudio() {
         await navigator.clipboard.writeText(url.toString());
       }
       setShareStatus('done');
-      track('share', { method: navigator.share ? 'native' : 'copy_link', content_type: 'international_benchmark' });
+      track('share', { method: shareMethod, content_type: 'international_benchmark' });
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return;
       setShareStatus('failed');
