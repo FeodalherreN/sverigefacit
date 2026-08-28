@@ -8,7 +8,7 @@ export const siteConfig = {
   name: 'Sverigefacit',
   title: 'Sverigefacit – svensk statistik bakom politiken',
   description:
-    'Jämför svensk statistik om brott, migration, arbetslöshet, pension, elpriser och ekonomi med regeringar, reformer och officiella källor.',
+    'Jämför officiell svensk statistik om brott, migration, trygghet, hälsa, jobb, löner, priser och välfärd med politisk kontext.',
   url: canonicalUrl,
   locale: 'sv_SE',
   language: 'sv-SE',
@@ -20,6 +20,7 @@ export const topicLinks = [
   { name: 'Valet 2026 i verifierbara siffror', href: '/valet-2026' },
   { name: 'Korta faktasvar med originalkällor', href: '/fakta' },
   { name: 'Svensk statistik och regeringsperioder', href: '/statistik' },
+  { name: 'Datastudion – bygg och dela egna diagram', href: '/datastudio' },
   { name: 'Brottslighet i Sverige', href: '/statistik/brottslighet' },
   { name: 'Brott och migrationsbakgrund', href: '/statistik/invandring-och-brott' },
   { name: 'Pension, äldreomsorg och privatekonomi', href: '/statistik/privatekonomi' },

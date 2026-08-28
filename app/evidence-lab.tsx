@@ -5,14 +5,25 @@ import { CrimeOriginExplorer } from './analys/brott-och-migration/crime-origin-e
 
 type Point = { year: number; value: number };
 type AnalysisMode = 'level' | 'change';
+type SeriesGroup =
+  | 'Ekonomi & arbete'
+  | 'Privatekonomi'
+  | 'Migration & befolkning'
+  | 'Brott & trygghet'
+  | 'Hälsa & levnadsvanor'
+  | 'Välfärd & utbildning'
+  | 'Energi & klimat';
 type LabSeries = {
   id: string;
+  group: SeriesGroup;
   label: string;
   shortLabel: string;
   unit: string;
   color: string;
   source: string;
   sourceUrl: string;
+  secondarySource?: string;
+  secondarySourceUrl?: string;
   caveat: string;
   points: Point[];
 };
@@ -49,6 +60,7 @@ const fromValues = (startYear: number, values: number[]): Point[] =>
 const labSeries: LabSeries[] = [
   {
     id: 'immigration',
+    group: 'Migration & befolkning',
     label: 'Registrerade invandringar',
     shortLabel: 'Invandring',
     unit: 'personer',
@@ -59,7 +71,44 @@ const labSeries: LabSeries[] = [
     points: fromValues(2000, [58659,60795,64087,63795,62028,65229,95750,99485,101171,102280,98801,96467,103059,115845,126966,134240,163005,144489,132602,115805,82518,90631,102436,94514,116197,89434]),
   },
   {
+    id: 'emigration',
+    group: 'Migration & befolkning',
+    label: 'Registrerade utvandringar',
+    shortLabel: 'Utvandring',
+    unit: 'personer',
+    color: '#9a4f87',
+    source: 'SCB · In- och utvandring',
+    sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101J/ImmiEmiFlyttN/',
+    caveat: 'Folkbokförda varaktiga flyttningar. Eftersläpande anmälningar och registerrensning påverkar särskilt 2023–2025; från 2025 används en ny röjandeskyddsmetod.',
+    points: fromValues(2000, [34091,32141,33009,35023,36586,38118,44908,45418,45294,39240,48853,51179,51747,50715,51237,55830,45878,45620,46981,47718,48937,48284,50592,73434,86449,77483]),
+  },
+  {
+    id: 'migrationBalance',
+    group: 'Migration & befolkning',
+    label: 'Invandringsöverskott',
+    shortLabel: 'Migrationsnetto',
+    unit: 'personer',
+    color: '#5c4fb0',
+    source: 'SCB · In- och utvandring',
+    sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101J/ImmiEmiFlyttN/',
+    caveat: 'Invandringar minus utvandringar i folkbokföringen. Måttet är inte asylnetto. Registerrensning och ny röjandeskyddsmetod påverkar jämförbarheten 2023–2025.',
+    points: fromValues(2000, [24568,28654,31078,28772,25442,27111,50842,54067,55877,63040,49948,45288,51312,65130,75729,78410,117127,98869,85621,68087,33581,42347,51844,21080,29748,11951]),
+  },
+  {
+    id: 'fertility',
+    group: 'Migration & befolkning',
+    label: 'Summerad fruktsamhet',
+    shortLabel: 'Fruktsamhet',
+    unit: 'barn per kvinna',
+    color: '#b46a7d',
+    source: 'SCB · Födda och fruktsamhet',
+    sourceUrl: 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0101__BE0101H/FruktsamhetSum/',
+    caveat: 'Ett periodmått för en hypotetisk kvinna om årets åldersspecifika fruktsamhet består, inte faktiskt slutligt barnantal för en födelsekohort.',
+    points: fromValues(2000, [1.54,1.57,1.65,1.71,1.75,1.77,1.85,1.88,1.91,1.93,1.98,1.90,1.90,1.89,1.88,1.85,1.85,1.78,1.75,1.70,1.66,1.67,1.52,1.45,1.43,1.42]),
+  },
+  {
     id: 'deadlyViolence',
+    group: 'Brott & trygghet',
     label: 'Konstaterat dödligt våld',
     shortLabel: 'Dödligt våld',
     unit: 'offer',
@@ -70,7 +119,94 @@ const labSeries: LabSeries[] = [
     points: fromValues(2002, [98,81,102,83,91,111,82,93,91,81,68,87,87,112,106,113,108,111,124,113,116,121,92,84]),
   },
   {
+    id: 'insecurity',
+    group: 'Brott & trygghet',
+    label: 'Otrygg vid sen utevistelse',
+    shortLabel: 'Upplevd otrygghet',
+    unit: 'procent',
+    color: '#c65b55',
+    source: 'Brå · Nationella trygghetsundersökningen',
+    sourceUrl: 'https://bra.se/statistik/statistik-fran-enkatundersokningar/nationella-trygghetsundersokningen/otrygghet-och-oro-for-brott',
+    caveat: 'Självrapporterad otrygghet bland 16–84-åringar, inte ett mått på brottsnivån. Brås nationella serie är omräknad för metodbytet 2017.',
+    points: fromValues(2007, [25,25,23,22,23,22,21,22,22,28,28,28,28,30,28,27,26,24,25]),
+  },
+  {
+    id: 'dailySmoking',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Daglig tobaksrökning',
+    shortLabel: 'Daglig rökning',
+    unit: 'procent',
+    color: '#826b63',
+    source: 'Folkhälsomyndigheten · Hälsa på lika villkor',
+    sourceUrl: 'https://fohm-app.folkhalsomyndigheten.se/Folkhalsodata/pxweb/sv/A_Folkhalsodata/A_Folkhalsodata__A_Mo8__6_Levanor__01Begrans__06.01tobakdag/tobakdagaald.px/',
+    caveat: 'Åldersstandardiserad självrapport bland 16–84-åringar. Frågor ändrades 2016; svarsfrekvensen har sjunkit och saknade år efter 2016 har inte interpolerats.',
+    points: [{year:2004,value:16.0},{year:2005,value:14.5},{year:2006,value:13.9},{year:2007,value:14.3},{year:2008,value:12.5},{year:2009,value:12.3},{year:2010,value:12.4},{year:2011,value:11.2},{year:2012,value:11.2},{year:2013,value:10.9},{year:2014,value:10.1},{year:2015,value:9.7},{year:2016,value:8.6},{year:2018,value:7.1},{year:2020,value:6.7},{year:2021,value:6.0},{year:2022,value:5.7},{year:2024,value:5.3}],
+  },
+  {
+    id: 'dailySnus',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Daglig snusning',
+    shortLabel: 'Daglig snusning',
+    unit: 'procent',
+    color: '#9b7041',
+    source: 'Folkhälsomyndigheten · Hälsa på lika villkor',
+    sourceUrl: 'https://fohm-app.folkhalsomyndigheten.se/Folkhalsodata/pxweb/sv/A_Folkhalsodata/A_Folkhalsodata__B_HLV__aLevvanor__aagLevvanortobak/hlv1tobaald.px/',
+    caveat: 'Ej åldersstandardiserad självrapport bland 16–84-åringar. Från 2022 delas tobaks- och nikotinsnus upp och summeras; frågor ändrades även 2016. Saknade år är inte interpolerade.',
+    points: [{year:2004,value:12.4},{year:2005,value:12.8},{year:2006,value:12.1},{year:2007,value:11.1},{year:2008,value:11.2},{year:2009,value:11.5},{year:2010,value:12.0},{year:2011,value:10.7},{year:2012,value:11.2},{year:2013,value:11.0},{year:2014,value:10.7},{year:2015,value:11.2},{year:2016,value:11.3},{year:2018,value:11.2},{year:2020,value:11.6},{year:2021,value:12.8},{year:2022,value:13.8},{year:2024,value:15.7}],
+  },
+  {
+    id: 'alcoholRisk',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Riskkonsumtion av alkohol',
+    shortLabel: 'Riskkonsumtion alkohol',
+    unit: 'procent',
+    color: '#9d5a76',
+    source: 'Folkhälsomyndigheten · Hälsa på lika villkor',
+    sourceUrl: 'https://fohm-app.folkhalsomyndigheten.se/Folkhalsodata/pxweb/sv/A_Folkhalsodata/A_Folkhalsodata__A_Mo8__6_Levanor__01Begrans__06.04alkrisk/alkriskaald.px/',
+    caveat: 'Åldersstandardiserat, självrapporterat AUDIT-C-mått bland 16–84-åringar — inte literkonsumtion eller diagnos. Frågan förtydligades 2016; saknade år är inte interpolerade.',
+    points: [{year:2004,value:18.3},{year:2005,value:17.6},{year:2006,value:17.2},{year:2007,value:17.1},{year:2008,value:16.8},{year:2009,value:17.6},{year:2010,value:17.0},{year:2011,value:16.5},{year:2012,value:16.5},{year:2013,value:15.7},{year:2014,value:15.9},{year:2015,value:15.3},{year:2016,value:16.9},{year:2018,value:16.4},{year:2020,value:16.0},{year:2021,value:15.3},{year:2022,value:15.8},{year:2024,value:15.7}],
+  },
+  {
+    id: 'cannabisPastYear',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Cannabis senaste året',
+    shortLabel: 'Cannabis senaste året',
+    unit: 'procent',
+    color: '#56805f',
+    source: 'Folkhälsomyndigheten · Hälsa på lika villkor',
+    sourceUrl: 'https://fohm-app.folkhalsomyndigheten.se/Folkhalsodata/pxweb/sv/A_Folkhalsodata/A_Folkhalsodata__B_HLV__aLevvanor__aacLevvanornarkotika/hlv1canaald.px/',
+    caveat: 'Ej åldersstandardiserad självrapport bland 16–84-åringar, inte all narkotikaanvändning. Illegal och stigmatiserad aktivitet kan underrapporteras; saknade år är inte interpolerade.',
+    points: [{year:2004,value:1.8},{year:2005,value:1.6},{year:2006,value:1.6},{year:2007,value:1.7},{year:2008,value:1.6},{year:2009,value:2.4},{year:2010,value:2.2},{year:2011,value:2.1},{year:2012,value:2.4},{year:2013,value:2.3},{year:2014,value:2.3},{year:2015,value:2.5},{year:2016,value:2.7},{year:2018,value:3.0},{year:2020,value:3.0},{year:2021,value:2.6},{year:2022,value:2.5},{year:2024,value:2.5}],
+  },
+  {
+    id: 'antidepressantUse',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Uttag av antidepressiva läkemedel',
+    shortLabel: 'Antidepressiva uttag',
+    unit: 'personer per 1 000',
+    color: '#5270a0',
+    source: 'Socialstyrelsen · patientantal för N06A',
+    sourceUrl: 'https://sdb.socialstyrelsen.se/api/v1/sv/lakemedel/resultat/matt/1/atc/N06A/region/0/kon/3?per_sida=1000',
+    secondarySource: 'Socialstyrelsen · befolkningsunderlag',
+    secondarySourceUrl: 'https://sdb.socialstyrelsen.se/api/v1/sv/lakemedel/resultat/matt/9/atc/N06A/region/0/kon/3?per_sida=1000',
+    caveat: 'Beräknat som summerat patientantal dividerat med summerad befolkning × 1 000. Ej åldersstandardiserat all-åldersmått för minst ett N06A-uttag — inte kontinuerlig användning eller depressiondiagnos. Åldersstruktur, diagnospraxis, behandlingslängd och andra indikationer påverkar.',
+    points: fromValues(2006, [79.68,80.46,80.34,79.92,81.08,83.25,85.27,87.54,90.92,97.25,99.29,97.57,99.25,101.87,103.34,106.90,111.01,114.10,117.28,119.06]),
+  },
+  {
+    id: 'cancerMortality',
+    group: 'Hälsa & levnadsvanor',
+    label: 'Dödlighet i all cancer',
+    shortLabel: 'Cancerdödlighet',
+    unit: 'döda per 100 000',
+    color: '#7f607e',
+    source: 'Socialstyrelsen · Cancer i Sverige',
+    sourceUrl: 'https://dataanalys.socialstyrelsen.se/superset/dashboard/CiS_insjuknande_dodlighet/',
+    caveat: 'Åldersstandardiserat trendmått för all cancer, riket och båda könen. Det gör år mer jämförbara men visar inte det faktiska antalet avlidna.',
+    points: fromValues(1970, [309.35,328.26,342.30,340.00,345.49,347.10,343.77,345.58,340.36,339.03,332.92,309.60,301.95,298.04,300.83,302.17,295.23,297.29,303.07,295.10,297.56,295.18,293.51,294.42,284.67,289.23,288.33,296.86,293.67,291.01,288.58,292.96,286.64,289.30,287.60,285.83,284.47,278.34,273.65,270.17,266.54,265.02,267.40,262.86,261.17,258.28,255.15,254.02,245.58,240.40,236.59,228.15,226.80,224.51,217.13]),
+  },
+  {
     id: 'unemployment',
+    group: 'Ekonomi & arbete',
     label: 'Arbetslöshet 15–74 år',
     shortLabel: 'Arbetslöshet',
     unit: 'procent',
@@ -82,6 +218,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'gdpPerCapita',
+    group: 'Ekonomi & arbete',
     label: 'Real BNP per person',
     shortLabel: 'BNP/person',
     unit: 'tkr, 2020 års priser',
@@ -93,6 +230,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'policyRate',
+    group: 'Ekonomi & arbete',
     label: 'Styrränta vid årets slut',
     shortLabel: 'Styrränta',
     unit: 'procent',
@@ -103,7 +241,44 @@ const labSeries: LabSeries[] = [
     points: fromValues(2000, [4,3.75,3.75,2.75,2,1.5,3,4,2,.25,1.25,1.75,1,.75,0,-.35,-.5,-.5,-.5,-.25,0,0,2.5,4,2.75,1.75]),
   },
   {
+    id: 'inflation',
+    group: 'Privatekonomi',
+    label: 'KPIF-inflation, årsmedel',
+    shortLabel: 'Inflation',
+    unit: 'procent per år',
+    color: '#c74f3f',
+    source: 'Medlingsinstitutet / SCB · KPIF',
+    sourceUrl: 'https://www.mi.se/PXWeb/pxweb/sv/Konjunkturl%C3%B6nestatistik/Konjunkturl%C3%B6nestatistik__Reall%C3%B6neutveckling/Realloner_arsdata.px/',
+    caveat: 'Förändringen i årets genomsnittliga KPIF mot föregående års genomsnitt. Det är inte december mot december och inte samma sak som prisnivån.',
+    points: fromValues(2000, [1.0,2.5,2.2,2.5,1.1,1.1,1.4,1.5,2.7,1.7,2.0,1.4,1.0,0.9,0.5,0.9,1.4,2.0,2.1,1.7,0.5,2.4,7.7,6.0,1.9,2.6]),
+  },
+  {
+    id: 'nominalWageGrowth',
+    group: 'Ekonomi & arbete',
+    label: 'Nominell löneutveckling',
+    shortLabel: 'Nominell lön',
+    unit: 'procent per år',
+    color: '#2b76a8',
+    source: 'Medlingsinstitutet · Hela ekonomin',
+    sourceUrl: 'https://www.mi.se/PXWeb/pxweb/sv/Konjunkturl%C3%B6nestatistik/Konjunkturl%C3%B6nestatistik__Reall%C3%B6neutveckling/Realloner_arsdata.px/',
+    caveat: 'Aggregerad löneutveckling för hela ekonomin. Det är inte en viss persons löneökning eller disponibla inkomst; senare observationer kan revideras.',
+    points: fromValues(2000, [3.7,4.4,4.1,3.5,3.3,3.1,3.1,3.3,4.3,3.4,2.6,2.4,3.0,2.5,2.8,2.4,2.4,2.3,2.6,2.6,2.1,2.6,2.7,3.7,4.1,3.6]),
+  },
+  {
+    id: 'realWageGrowth',
+    group: 'Ekonomi & arbete',
+    label: 'Reallöneutveckling efter KPIF',
+    shortLabel: 'Reallön',
+    unit: 'procent per år',
+    color: '#168067',
+    source: 'Medlingsinstitutet · Hela ekonomin',
+    sourceUrl: 'https://www.mi.se/PXWeb/pxweb/sv/Konjunkturl%C3%B6nestatistik/Konjunkturl%C3%B6nestatistik__Reall%C3%B6neutveckling/Realloner_arsdata.px/',
+    caveat: 'Årlig löneutveckling justerad med KPIF. En sammanvägd serie för hela ekonomin, inte köpkraften för varje hushåll eller individ.',
+    points: fromValues(2000, [2.7,1.9,1.9,1.0,2.2,2.0,1.7,1.8,1.6,1.7,0.6,1.0,2.0,1.6,2.3,1.5,1.0,0.3,0.5,0.9,1.6,0.2,-5.0,-2.3,2.2,1.0]),
+  },
+  {
     id: 'foodPrices',
+    group: 'Privatekonomi',
     label: 'Prisnivå för livsmedel',
     shortLabel: 'Matpriser',
     unit: 'KPI-index, 1980=100',
@@ -115,6 +290,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'economicStandard',
+    group: 'Privatekonomi',
     label: 'Median ekonomisk standard',
     shortLabel: 'Ekonomisk standard',
     unit: 'tkr/konsumtionsenhet, 2024 års priser',
@@ -126,6 +302,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'realPension',
+    group: 'Välfärd & utbildning',
     label: 'Real allmän pension',
     shortLabel: 'Real pension',
     unit: 'kr/månad, 2023 års priser',
@@ -137,6 +314,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'homeCare',
+    group: 'Välfärd & utbildning',
     label: 'Andel 65+ med hemtjänst',
     shortLabel: 'Hemtjänst 65+',
     unit: 'procent',
@@ -148,6 +326,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'specialHousing',
+    group: 'Välfärd & utbildning',
     label: 'Andel 65+ i särskilt boende',
     shortLabel: 'Särskilt boende',
     unit: 'procent',
@@ -159,6 +338,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'debtRatio',
+    group: 'Privatekonomi',
     label: 'Hushållens skuldkvot',
     shortLabel: 'Skuldkvot',
     unit: 'procent av disponibel inkomst, Q4',
@@ -170,6 +350,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'interestRatio',
+    group: 'Privatekonomi',
     label: 'Hushållens räntekvot',
     shortLabel: 'Räntekvot',
     unit: 'procent av disponibel inkomst, Q4',
@@ -181,6 +362,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'electricity',
+    group: 'Energi & klimat',
     label: 'Slutligt elpris, hushållsel',
     shortLabel: 'Elpris',
     unit: 'öre/kWh, 2025 års priser',
@@ -192,6 +374,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'fuel',
+    group: 'Energi & klimat',
     label: 'Bensin E5, realt pumppris',
     shortLabel: 'Bensinpris',
     unit: 'kr/liter, 2025 års priser',
@@ -203,6 +386,7 @@ const labSeries: LabSeries[] = [
   },
   {
     id: 'emissions',
+    group: 'Energi & klimat',
     label: 'Nationella växthusgasutsläpp',
     shortLabel: 'Utsläpp',
     unit: 'Mt CO₂e',
@@ -215,6 +399,46 @@ const labSeries: LabSeries[] = [
 ];
 
 const seriesById = Object.fromEntries(labSeries.map((item) => [item.id, item])) as Record<string, LabSeries>;
+const seriesGroupOrder: SeriesGroup[] = [
+  'Ekonomi & arbete',
+  'Privatekonomi',
+  'Migration & befolkning',
+  'Brott & trygghet',
+  'Hälsa & levnadsvanor',
+  'Välfärd & utbildning',
+  'Energi & klimat',
+];
+const labMinYear = Math.min(...labSeries.flatMap((item) => item.points.map((point) => point.year)));
+const labMaxYear = Math.max(...labSeries.flatMap((item) => item.points.map((point) => point.year)));
+const defaultStartYear = Math.max(2000, labMinYear);
+const labYears = Array.from({ length: labMaxYear - labMinYear + 1 }, (_, index) => labMinYear + index);
+
+type AnalysisUrlState = {
+  leftId: string;
+  rightId: string;
+  startYear: number;
+  endYear: number;
+  mode: AnalysisMode;
+  lag: number;
+  view: 'timeline' | 'scatter';
+  showEvents: boolean;
+  eventId: string;
+};
+
+const buildAnalysisUrl = (origin: string, state: AnalysisUrlState) => {
+  const url = new URL('/datastudio', origin);
+  url.searchParams.set('seriesA', state.leftId);
+  url.searchParams.set('seriesB', state.rightId);
+  url.searchParams.set('from', String(state.startYear));
+  url.searchParams.set('to', String(state.endYear));
+  url.searchParams.set('measure', state.mode);
+  url.searchParams.set('lag', String(state.lag));
+  url.searchParams.set('view', state.view);
+  url.searchParams.set('events', state.showEvents ? '1' : '0');
+  if (state.showEvents) url.searchParams.set('event', state.eventId);
+  url.hash = 'datastudio';
+  return url;
+};
 
 const worldEvents: WorldEvent[] = [
   {
@@ -233,7 +457,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Svensk mottagningstopp juli–november',
     detail: 'Mottagande, kommunal kapacitet, bostäder, skola och senare integration berördes. Senare utfall kräver kohort- och sammansättningsanalys.',
     sourceUrl: 'https://www.migrationsverket.se/om-migrationsverket/migrationsverket-svarar/2025/2025-10-27-tio-ar-sedan-2015---vad-var-det-som-hande.html',
-    relevantSeries: ['immigration', 'unemployment', 'gdpPerCapita'],
+    relevantSeries: ['immigration', 'emigration', 'migrationBalance', 'unemployment', 'gdpPerCapita'],
   },
   {
     id: 'covid',
@@ -242,7 +466,7 @@ const worldEvents: WorldEvent[] = [
     short: 'WHO klassade covid som pandemi 11 mars',
     detail: 'Hälsa, vård, arbetade timmar, arbetslöshet och BNP påverkades samtidigt. Relevant slutpunkt varierar mellan måtten.',
     sourceUrl: 'https://www.folkhalsomyndigheten.se/vara-amnesomraden/sjukdomsutbrott/arkiv-for-sjukdomsutbrott/covid-19-pandemin-2019-2023/nar-hande-vad-under-pandemin/',
-    relevantSeries: ['unemployment', 'gdpPerCapita', 'economicStandard', 'immigration', 'deadlyViolence', 'emissions'],
+    relevantSeries: ['unemployment', 'gdpPerCapita', 'economicStandard', 'immigration', 'deadlyViolence', 'emissions', 'insecurity', 'antidepressantUse', 'dailySmoking', 'dailySnus', 'alcoholRisk', 'cannabisPastYear'],
   },
   {
     id: 'ukraine',
@@ -251,7 +475,7 @@ const worldEvents: WorldEvent[] = [
     short: 'Fullskalig invasion 24 feb 2022',
     detail: 'El, bränsle, inflation, ränta och hushållens realinkomster påverkades. Prisuppgången började dock före invasionen.',
     sourceUrl: 'https://www.energimyndigheten.se/nyhetsarkiv/2022/sa-paverkar-invasionen-av-ukraina-sveriges-energilage/',
-    relevantSeries: ['electricity', 'fuel', 'foodPrices', 'policyRate', 'interestRatio', 'economicStandard', 'gdpPerCapita'],
+    relevantSeries: ['electricity', 'fuel', 'foodPrices', 'inflation', 'nominalWageGrowth', 'realWageGrowth', 'policyRate', 'interestRatio', 'economicStandard', 'gdpPerCapita'],
   },
   {
     id: 'gaza',
@@ -381,23 +605,16 @@ const MIN_CORRELATION_POINTS = 10;
 
 const valueLabel = (item: LabSeries, value: number, mode: AnalysisMode = 'level') => {
   const unit = mode === 'change' && item.unit.startsWith('procent')
-    ? 'procentenheter'
+    ? 'procentenheter/år'
     : mode === 'change' && item.unit.startsWith('KPI-index')
-      ? 'indexpunkter'
-      : item.unit;
-  if (unit === 'personer' || unit === 'offer' || unit.startsWith('kr/')) {
+      ? 'indexpunkter/år'
+      : mode === 'change'
+        ? item.unit + '/år'
+        : item.unit;
+  if (item.unit === 'personer' || item.unit === 'offer' || item.unit.startsWith('kr/')) {
     return Math.round(value).toLocaleString('sv-SE') + ' ' + unit;
   }
   return formatNumber(value, Math.abs(value) < 10 ? 2 : 1) + ' ' + unit;
-};
-
-const analysisPoints = (item: LabSeries, mode: AnalysisMode): Point[] => {
-  if (mode === 'level') return item.points;
-  const byYear = new Map(item.points.map((point) => [point.year, point.value]));
-  return item.points.flatMap((point) => {
-    const previous = byYear.get(point.year - 1);
-    return previous === undefined ? [] : [{ year: point.year, value: point.value - previous }];
-  });
 };
 
 const commonPairs = (
@@ -408,9 +625,8 @@ const commonPairs = (
   mode: AnalysisMode,
   lag: number,
 ) => {
-  const leftPoints = analysisPoints(left, mode);
-  const rightByYear = new Map(analysisPoints(right, mode).map((point) => [point.year, point.value]));
-  return leftPoints
+  const rightByYear = new Map(right.points.map((point) => [point.year, point.value]));
+  const levelPairs = left.points
     .filter((point) => {
       const rightYear = point.year + lag;
       return point.year >= start && point.year <= end && rightYear >= start && rightYear <= end && rightByYear.has(rightYear);
@@ -419,6 +635,17 @@ const commonPairs = (
       const rightYear = point.year + lag;
       return { year: point.year, rightYear, x: point.value, y: rightByYear.get(rightYear) as number };
     });
+  if (mode === 'level') return levelPairs;
+  return levelPairs.slice(1).flatMap((pair, index) => {
+    const previous = levelPairs[index];
+    const yearGap = pair.year - previous.year;
+    return yearGap > 0 ? [{
+      year: pair.year,
+      rightYear: pair.rightYear,
+      x: (pair.x - previous.x) / yearGap,
+      y: (pair.y - previous.y) / yearGap,
+    }] : [];
+  });
 };
 
 const pearson = (values: { x: number; y: number }[]): number | null => {
@@ -520,8 +747,8 @@ export function ElectionAgenda() {
 export function DataStudio() {
   const [leftId, setLeftId] = useState('policyRate');
   const [rightId, setRightId] = useState('interestRatio');
-  const [startYear, setStartYear] = useState(2000);
-  const [endYear, setEndYear] = useState(2025);
+  const [startYear, setStartYear] = useState(defaultStartYear);
+  const [endYear, setEndYear] = useState(labMaxYear);
   const [mode, setMode] = useState<AnalysisMode>('change');
   const [lag, setLag] = useState(0);
   const [view, setView] = useState<'timeline' | 'scatter'>('timeline');
@@ -557,13 +784,19 @@ export function DataStudio() {
   const minYear = pairs.length ? pairs[0].year : startYear;
   const maxYear = pairs.length ? pairs[pairs.length - 1].year : endYear;
   const eventsEligible = lag === 0 && view === 'timeline';
+  const hasObservationGaps = mode === 'change' && [left, right].some((item) =>
+    item.points.some((point, index) => index > 0
+      && item.points[index - 1].year >= startYear
+      && point.year <= endYear
+      && point.year - item.points[index - 1].year > 1),
+  );
   const chartEvents = worldEvents.filter((event) =>
     event.year >= minYear
     && event.year <= maxYear
     && (event.relevantSeries.includes(leftId) || event.relevantSeries.includes(rightId)),
   );
   const activeEvent = chartEvents.find((event) => event.id === activeEventId) || chartEvents[0] || worldEvents[0];
-  const analysisSignature = [leftId, rightId, startYear, endYear, mode, lag, view, showEvents ? 1 : 0, activeEvent.id].join('|');
+  const analysisSignature = [leftId, rightId, startYear, endYear, mode, lag, view, showEvents ? 1 : 0, showEvents ? activeEvent.id : ''].join('|');
   const linkCopied = copiedSignature === analysisSignature;
   const copyFailed = copyFailedSignature === analysisSignature;
   const xForYear = (year: number) => padLeft + ((year - minYear) / Math.max(maxYear - minYear, 1)) * plotWidth;
@@ -602,11 +835,13 @@ export function DataStudio() {
     const readYear = (name: string, fallback: number) => {
       const raw = params.get(name);
       const parsed = raw === null ? fallback : Number(raw);
-      return Number.isInteger(parsed) ? Math.min(2025, Math.max(2000, parsed)) : fallback;
+      return Number.isInteger(parsed) ? Math.min(labMaxYear, Math.max(labMinYear, parsed)) : fallback;
     };
-    const requestedFrom = readYear('from', 2000);
-    const requestedTo = readYear('to', 2025);
+    const requestedFrom = readYear('from', defaultStartYear);
+    const requestedTo = readYear('to', labMaxYear);
     const requestedLag = Number(params.get('lag'));
+    const nextLag = Number.isInteger(requestedLag) ? Math.min(5, Math.max(-5, requestedLag)) : 0;
+    const nextView = params.get('view') === 'scatter' ? 'scatter' : 'timeline';
 
     // URL-parametrarna kan endast läsas efter montering; uppdateringarna batchas av React.
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -615,9 +850,9 @@ export function DataStudio() {
     setStartYear(Math.min(requestedFrom, requestedTo));
     setEndYear(Math.max(requestedFrom, requestedTo));
     setMode(params.get('measure') === 'level' ? 'level' : 'change');
-    setLag(Number.isInteger(requestedLag) ? Math.min(5, Math.max(-5, requestedLag)) : 0);
-    setView(params.get('view') === 'scatter' ? 'scatter' : 'timeline');
-    setShowEvents(params.get('events') === '1');
+    setLag(nextLag);
+    setView(nextView);
+    setShowEvents(params.get('events') === '1' && nextLag === 0 && nextView === 'timeline');
     const requestedEvent = params.get('event');
     if (requestedEvent && worldEvents.some((item) => item.id === requestedEvent)) setActiveEventId(requestedEvent);
     setUrlReady(true);
@@ -625,36 +860,16 @@ export function DataStudio() {
 
   useEffect(() => {
     if (!urlReady) return;
-    const url = new URL(window.location.href);
-    const hasAnalysisParams = url.searchParams.has('seriesA');
-    const isDefaultView = leftId === 'policyRate' && rightId === 'interestRatio' && startYear === 2000 && endYear === 2025 && mode === 'change' && lag === 0 && view === 'timeline' && !showEvents;
+    const currentUrl = new URL(window.location.href);
+    const hasAnalysisParams = currentUrl.searchParams.has('seriesA');
+    const isDefaultView = leftId === 'policyRate' && rightId === 'interestRatio' && startYear === defaultStartYear && endYear === labMaxYear && mode === 'change' && lag === 0 && view === 'timeline' && !showEvents;
     if (!hasAnalysisParams && isDefaultView) return;
-
-    url.searchParams.set('seriesA', leftId);
-    url.searchParams.set('seriesB', rightId);
-    url.searchParams.set('from', String(startYear));
-    url.searchParams.set('to', String(endYear));
-    url.searchParams.set('measure', mode);
-    url.searchParams.set('lag', String(lag));
-    url.searchParams.set('view', view);
-    url.searchParams.set('events', showEvents ? '1' : '0');
-    url.searchParams.set('event', activeEvent.id);
-    url.hash = 'datastudio';
+    const url = buildAnalysisUrl(window.location.origin, { leftId, rightId, startYear, endYear, mode, lag, view, showEvents, eventId: activeEvent.id });
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }, [urlReady, leftId, rightId, startYear, endYear, mode, lag, view, showEvents, activeEvent.id]);
 
   const shareAnalysis = async () => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('seriesA', leftId);
-    url.searchParams.set('seriesB', rightId);
-    url.searchParams.set('from', String(startYear));
-    url.searchParams.set('to', String(endYear));
-    url.searchParams.set('measure', mode);
-    url.searchParams.set('lag', String(lag));
-    url.searchParams.set('view', view);
-    url.searchParams.set('events', showEvents ? '1' : '0');
-    url.searchParams.set('event', activeEvent.id);
-    url.hash = 'datastudio';
+    const url = buildAnalysisUrl(window.location.origin, { leftId, rightId, startYear, endYear, mode, lag, view, showEvents, eventId: activeEvent.id });
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
     const shareUrl = new URL(url);
     shareUrl.searchParams.set('utm_source', 'delning');
@@ -665,7 +880,7 @@ export function DataStudio() {
       try {
         await navigator.share({
           title: `${left.shortLabel} jämfört med ${right.shortLabel}`,
-          text: `Sverigefacit: ${mode === 'change' ? 'årsdifferenser' : 'nivåer'}, ${pairs.length} observationspar. Samvariation är inte bevisad effekt.`,
+          text: `Sverigefacit: ${mode === 'change' ? 'årlig förändring' : 'nivåer'}, ${pairs.length} observationspar. Samvariation är inte bevisad effekt.`,
           url: shareUrl.toString(),
         });
         setCopiedSignature(analysisSignature);
@@ -688,12 +903,20 @@ export function DataStudio() {
   };
 
   const presets = [
-    { label: 'Invandringsflöde ↔ totalt dödligt våld', left: 'immigration', right: 'deadlyViolence' },
-    { label: 'Matpris ↔ köpkraft', left: 'foodPrices', right: 'economicStandard' },
-    { label: 'Styrränta ↔ räntebörda', left: 'policyRate', right: 'interestRatio' },
-    { label: 'Arbetslöshet ↔ BNP/person', left: 'unemployment', right: 'gdpPerCapita' },
-    { label: 'Hemtjänst ↔ särskilt boende', left: 'homeCare', right: 'specialHousing' },
+    { label: 'Inflation ↔ reallön', left: 'inflation', right: 'realWageGrowth', mode: 'level' as AnalysisMode },
+    { label: 'Invandring ↔ utvandring', left: 'immigration', right: 'emigration', mode: 'change' as AnalysisMode },
+    { label: 'Styrränta ↔ räntebörda', left: 'policyRate', right: 'interestRatio', mode: 'change' as AnalysisMode },
+    { label: 'Otrygghet ↔ dödligt våld', left: 'insecurity', right: 'deadlyViolence', mode: 'change' as AnalysisMode },
+    { label: 'Rökning ↔ snusning', left: 'dailySmoking', right: 'dailySnus', mode: 'level' as AnalysisMode },
+    { label: 'Fruktsamhet ↔ ekonomisk standard', left: 'fertility', right: 'economicStandard', mode: 'change' as AnalysisMode },
   ];
+  const renderSeriesOptions = (disabledId: string) => seriesGroupOrder.map((group) => (
+    <optgroup label={group} key={group}>
+      {labSeries
+        .filter((item) => item.group === group)
+        .map((item) => <option key={item.id} value={item.id} disabled={item.id === disabledId}>{item.label}</option>)}
+    </optgroup>
+  ));
 
   return (
     <section className="lab-section" id="datastudio">
@@ -702,7 +925,7 @@ export function DataStudio() {
           <p className="section-kicker">Börja med ett färdigt exempel eller välj själv</p>
           <h2>Välj två serier.</h2>
         </div>
-        <p>Resultatet beskriver samvariation. Period, datatyp och tidsförskjutning finns under fler inställningar.</p>
+        <p>{labSeries.length} verifierade tidsserier i sju ämnesgrupper. Period, datatyp och tidsförskjutning finns under fler inställningar.</p>
       </div>
 
       <div className="lab-presets" role="group" aria-label="Färdiga jämförelser">
@@ -710,14 +933,14 @@ export function DataStudio() {
           <button
             type="button"
             key={preset.label}
-            className={leftId === preset.left && rightId === preset.right && mode === 'change' && startYear === 2000 && endYear === 2025 && lag === 0 && view === 'timeline' && !showEvents ? 'active' : ''}
-            aria-pressed={leftId === preset.left && rightId === preset.right && mode === 'change' && startYear === 2000 && endYear === 2025 && lag === 0 && view === 'timeline' && !showEvents}
+            className={leftId === preset.left && rightId === preset.right && mode === preset.mode && startYear === defaultStartYear && endYear === labMaxYear && lag === 0 && view === 'timeline' && !showEvents ? 'active' : ''}
+            aria-pressed={leftId === preset.left && rightId === preset.right && mode === preset.mode && startYear === defaultStartYear && endYear === labMaxYear && lag === 0 && view === 'timeline' && !showEvents}
             onClick={() => {
               setLeftId(preset.left);
               setRightId(preset.right);
-              setStartYear(2000);
-              setEndYear(2025);
-              setMode('change');
+              setStartYear(defaultStartYear);
+              setEndYear(labMaxYear);
+              setMode(preset.mode);
               setLag(0);
               setView('timeline');
               setShowEvents(false);
@@ -736,7 +959,7 @@ export function DataStudio() {
         <label>
           <span>Serie A</span>
           <select value={leftId} onChange={(event) => setLeftId(event.target.value)}>
-            {labSeries.map((item) => <option key={item.id} value={item.id} disabled={item.id === rightId}>{item.label}</option>)}
+            {renderSeriesOptions(rightId)}
           </select>
           <i style={{ background: left.color }} />
         </label>
@@ -744,7 +967,7 @@ export function DataStudio() {
         <label>
           <span>Serie B</span>
           <select value={rightId} onChange={(event) => setRightId(event.target.value)}>
-            {labSeries.map((item) => <option key={item.id} value={item.id} disabled={item.id === leftId}>{item.label}</option>)}
+            {renderSeriesOptions(leftId)}
           </select>
           <i style={{ background: right.color }} />
         </label>
@@ -753,10 +976,14 @@ export function DataStudio() {
       <details className="lab-advanced-controls">
         <summary><span>Fler inställningar</span><small>Period · datatyp · tidsförskjutning</small><i>+</i></summary>
         <div className="year-controls">
-          <label><span>Från</span><select value={startYear} onChange={(event) => setStartYear(Math.min(Number(event.target.value), endYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
-          <label><span>Till</span><select value={endYear} onChange={(event) => setEndYear(Math.max(Number(event.target.value), startYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
-          <label><span>Datatyp</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årsdifferens</option></select></label>
-          <label><span>Tidsförskjutning</span><select value={lag} onChange={(event) => setLag(Number(event.target.value))}>{Array.from({ length: 11 }, (_, index) => index - 5).map((value) => <option value={value} key={value}>{value === 0 ? 'Samma år' : `B ${Math.abs(value)} år ${value > 0 ? 'efter' : 'före'} A`}</option>)}</select></label>
+          <label><span>Från</span><select value={startYear} onChange={(event) => setStartYear(Math.min(Number(event.target.value), endYear))}>{labYears.map((year) => <option key={year}>{year}</option>)}</select></label>
+          <label><span>Till</span><select value={endYear} onChange={(event) => setEndYear(Math.max(Number(event.target.value), startYear))}>{labYears.map((year) => <option key={year}>{year}</option>)}</select></label>
+          <label><span>Datatyp</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årlig förändring</option></select></label>
+          <label><span>Tidsförskjutning</span><select value={lag} onChange={(event) => {
+            const nextLag = Number(event.target.value);
+            setLag(nextLag);
+            if (nextLag !== 0) setShowEvents(false);
+          }}>{Array.from({ length: 11 }, (_, index) => index - 5).map((value) => <option value={value} key={value}>{value === 0 ? 'Samma år' : `B ${Math.abs(value)} år ${value > 0 ? 'efter' : 'före'} A`}</option>)}</select></label>
         </div>
       </details>
 
@@ -765,14 +992,17 @@ export function DataStudio() {
           <div className="lab-chart-toolbar">
             <div role="group" aria-label="Välj diagramtyp">
               <button type="button" className={view === 'timeline' ? 'active' : ''} aria-pressed={view === 'timeline'} onClick={() => setView('timeline')}>Utveckling</button>
-              <button type="button" className={view === 'scatter' ? 'active' : ''} aria-pressed={view === 'scatter'} onClick={() => setView('scatter')}>Punktdiagram</button>
+              <button type="button" className={view === 'scatter' ? 'active' : ''} aria-pressed={view === 'scatter'} onClick={() => {
+                setView('scatter');
+                setShowEvents(false);
+              }}>Punktdiagram</button>
             </div>
             <div className="lab-toolbar-actions">
               <label className="event-toggle">
                 <input type="checkbox" checked={showEvents} disabled={!eventsEligible} onChange={(event) => setShowEvents(event.target.checked)} />
                 <span /> {eventsEligible ? 'Visa relevanta världshändelser' : 'Händelser kräver samma år och tidslinje'}
               </label>
-              <button type="button" className="lab-share-button" onClick={shareAnalysis} aria-live="polite">{linkCopied ? 'Klart ✓' : copyFailed ? 'Kunde inte dela – försök igen' : 'Dela analys'}</button>
+              <button type="button" className="lab-share-button" onClick={shareAnalysis} aria-live="polite">{linkCopied ? 'Klart ✓' : copyFailed ? 'Kunde inte dela – försök igen' : 'Dela diagram'}</button>
             </div>
           </div>
 
@@ -856,13 +1086,14 @@ export function DataStudio() {
         </div>
 
         <aside className="lab-result-panel">
-          <span className="lab-result-kicker">Deskriptiv samvariation · {mode === 'level' ? 'nivåer' : 'årsdifferenser'}</span>
+          <span className="lab-result-kicker">Deskriptiv samvariation · {mode === 'level' ? 'nivåer' : 'årlig förändring'}</span>
           <div className="correlation-number">
             <strong>{canEstimate ? formatCorrelation(pearsonValue) : '—'}</strong>
             <span>Pearson r</span>
           </div>
           <p className="correlation-strength">{correlationStatus}</p>
           {hasEnoughData && pairs.length < 15 && <p className="correlation-sample-warning">Få observationspar — koefficienten är känslig för enskilda år.</p>}
+          {hasObservationGaps && <p className="correlation-sample-warning">Minst en serie saknar vissa år. Båda seriernas förändring räknas då per år över samma gemensamma observationsintervall; mellanår fylls inte i.</p>}
           <div className="correlation-meta">
             <div><span>Spearman ρ</span><strong>{canEstimate ? formatCorrelation(spearmanValue) : '—'}</strong></div>
             <div><span>Observationspar</span><strong>{pairs.length}</strong></div>
@@ -875,7 +1106,7 @@ export function DataStudio() {
           <details className="correlation-explanation">
             <summary>Så tolkar du resultatet <span>+</span></summary>
             <p>Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
-            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årsdifferenser minskar trendrisken, men bevisar inte orsak. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
+            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årlig förändring minskar trendrisken, men bevisar inte orsak. Vid glapp mäts båda serierna över samma gemensamma intervall och divideras med antalet år, utan interpolation. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
           </details>
           {showEvents && eventsEligible && chartEvents.length > 0 && (
             <div className="event-reading">
@@ -890,7 +1121,9 @@ export function DataStudio() {
 
       <footer className="lab-sources">
         <a href={left.sourceUrl} target="_blank" rel="noreferrer"><i style={{ background: left.color }} />{left.source} ↗</a>
+        {left.secondarySource && left.secondarySourceUrl && <a href={left.secondarySourceUrl} target="_blank" rel="noreferrer"><i style={{ background: left.color }} />{left.secondarySource} ↗</a>}
         <a href={right.sourceUrl} target="_blank" rel="noreferrer"><i style={{ background: right.color }} />{right.source} ↗</a>
+        {right.secondarySource && right.secondarySourceUrl && <a href={right.secondarySourceUrl} target="_blank" rel="noreferrer"><i style={{ background: right.color }} />{right.secondarySource} ↗</a>}
         <details>
           <summary>Källornas begränsningar <span>+</span></summary>
           <p><strong>Serie A:</strong> {left.caveat} <strong>Serie B:</strong> {right.caveat}</p>

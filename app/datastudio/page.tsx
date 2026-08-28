@@ -3,7 +3,7 @@ import { DataStudio } from '../evidence-lab';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
 const title = 'Datastudion – jämför svensk statistik';
-const description = 'Jämför svenska tidsserier, årsvisa förändringar och tidsförskjutningar. Samvariation visas utan att kallas kausal effekt.';
+const description = 'Bygg och dela diagram av 28 svenska tidsserier om ekonomi, migration, brott, trygghet, hälsa, välfärd och energi. Samvariation visas utan att kallas kausal effekt.';
 
 export const metadata: Metadata = {
   title,
@@ -19,7 +19,7 @@ export default function DataStudioPage() {
       <header className="tool-route-hero">
         <p className="section-kicker">Eget urval · explorativ analys</p>
         <h1>Jämför data.<br />Behåll tvivlet.</h1>
-        <p>Årsdifferens är förvalt för att minska risken att två gemensamma trender ser ut som ett meningsfullt samband.</p>
+        <p>Årlig förändring är förvald för att minska risken att två gemensamma trender ser ut som ett meningsfullt samband. Alla val kan delas som en länk.</p>
       </header>
       <DataStudio />
       <GuideFooter />

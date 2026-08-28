@@ -770,6 +770,7 @@ const homeStructuredData = {
     'Offentlig svensk statistik',
     'Brottslighet och migration',
     'Arbetsmarknad och privatekonomi',
+    'Folkhälsa och levnadsvanor',
     'Pension och äldreomsorg',
     'Politiska vallöften',
   ].map((name) => ({ '@type': 'Thing', name })),
@@ -805,14 +806,20 @@ export default function Home() {
 
   const searchResults = useMemo(() => {
     const term = searchTerm.trim().toLocaleLowerCase('sv-SE');
-    const entries = [
+    const entries: { id: string; type: string; title: string; subtitle: string; keywords?: string }[] = [
       ...seriesOrder.map((id) => ({
         id,
         type: 'Tidsserie',
         title: series[id].label,
         subtitle: series[id].eyebrow,
       })),
-      { id: 'datastudio', type: 'Fördjupning', title: 'Datastudion', subtitle: 'Korrelation · egna serieval · världshändelser' },
+      {
+        id: 'datastudio',
+        type: 'Fördjupning',
+        title: 'Datastudion',
+        subtitle: 'Korrelation · egna serieval · världshändelser',
+        keywords: 'alkohol cannabis narkotika otrygghet rökning snus antidepressiva cancer inflation löner utvandring fruktsamhet',
+      },
       { id: 'brott-migration', type: 'Fördjupning', title: 'Kriminalitet och migrationsbakgrund', subtitle: 'Brå · födelseland · rått och standardiserat samband' },
       { id: 'valfragor', type: 'Fördjupning', title: 'Hushåll och välfärd', subtitle: 'Äldreomsorg · pension · matpriser · räntebörda' },
       { id: 'valloften', type: 'Fördjupning', title: 'Vallöfteslabbet', subtitle: 'Beslut · genomförande · samhällseffekt' },
@@ -824,7 +831,7 @@ export default function Home() {
       })),
     ];
     return term
-      ? entries.filter((entry) => (entry.title + ' ' + entry.subtitle).toLocaleLowerCase('sv-SE').includes(term))
+      ? entries.filter((entry) => (entry.title + ' ' + entry.subtitle + ' ' + (entry.keywords || '')).toLocaleLowerCase('sv-SE').includes(term))
       : entries.slice(0, 8);
   }, [searchTerm]);
 
@@ -919,9 +926,9 @@ export default function Home() {
             <p>Officiella API:er och publicerade tabeller. Varje mått har metodnot och direktlänk.</p>
           </div>
           <div className="hero-meta" role="group" aria-label="Om datan">
-            <div><strong>15</strong><span>tidsserier</span></div>
+            <div><strong>28</strong><span>tidsserier</span></div>
             <div><strong>10</strong><span>källaktörer</span></div>
-            <div><strong>2000–25</strong><span>tidsperiod</span></div>
+            <div><strong>1970–25</strong><span>tidsperiod</span></div>
           </div>
         </aside>
       </section>
