@@ -867,7 +867,7 @@
 }
 
 .crime-evidence-grid {
-  margin-top: 17px;
+  margin-top: 24px;
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(280px, .78fr);
   align-items: stretch;
@@ -1164,7 +1164,7 @@
 }
 
 .origin-explorer {
-  margin-top: 17px;
+  margin-top: 38px;
   padding: clamp(22px, 3vw, 34px);
   border: 1px solid #d2d6d2;
   border-radius: 24px;
@@ -1673,7 +1673,7 @@
 }
 
 .victimization-note {
-  margin-top: 17px;
+  margin-top: 32px;
   padding: 20px 24px;
   display: grid;
   grid-template-columns: minmax(210px, .8fr) minmax(0, 1.7fr) max-content;
@@ -2921,9 +2921,9 @@
 .event-toggle input:disabled + span { opacity: .45; }
 
 @media (max-width: 760px) {
-  .lab-chart-scroll { overflow-x: hidden; }
-  .lab-chart-stage { width: 100%; min-width: 0; min-height: 230px; }
-  .lab-chart { min-width: 0; }
+  .lab-chart-scroll { overflow-x: auto; }
+  .lab-chart-stage { width: 620px; min-width: 620px; min-height: 280px; }
+  .lab-chart { min-width: 620px; }
   .lab-no-overlap { width: 100%; min-height: 230px; }
   .lab-axis-label { font-size: 13px; }
   .lab-legend { font-size: 12px; }

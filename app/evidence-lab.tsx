@@ -699,8 +699,8 @@ export function DataStudio() {
     <section className="lab-section" id="datastudio">
       <div className="lab-heading">
         <div>
-          <p className="section-kicker">Datastudion</p>
-          <h2>Testa samvariation.<br /><em>Behåll tvivlet.</em></h2>
+          <p className="section-kicker">Börja här</p>
+          <h2>Välj två serier<br /><em>att jämföra.</em></h2>
         </div>
         <p>Jämför nivåer eller årsvisa differenser och tidsförskjut serie B mot serie A. Resultatet är deskriptiv samvariation — aldrig en skattning av politisk effekt.</p>
       </div>
@@ -898,8 +898,8 @@ export function CrimeMigrationEvidence() {
     <section className="crime-evidence-section" id="brott-migration">
       <div className="crime-evidence-heading">
         <div>
-          <p className="section-kicker">Fördjupning · känsligt samband</p>
-          <h2>Registrerad brottsmisstanke efter bakgrund.</h2>
+          <p className="section-kicker">Börja med helhetsbilden</p>
+          <h2>Så ser registermåttet ut.</h2>
         </div>
         <p>Brås registerstudie visar gruppskillnader i registrerad misstanke. Skillnaderna minskar tydligt när gruppernas ålder, kön och socioekonomi likställs statistiskt — men studien kan inte visa varför skillnaden finns.</p>
       </div>

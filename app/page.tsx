@@ -916,11 +916,11 @@ export default function Home() {
           <p className="eyebrow"><span /> Svensk statistik. Politisk kontext.</p>
           <h1>Sverige i siffror.<br />Vad blev facit?</h1>
           <p className="hero-lead">
-            Utforska officiell statistik om brott, migration, arbetslöshet, ekonomi, pension och energi. Jämför regeringsperioder — utan att blanda ihop samvariation med bevisad orsak.
+            Se vad som hände, vad som lovades och vad data faktiskt kan belägga. Officiell statistik om brott, migration, jobb, ekonomi, pension och energi.
           </p>
           <div className="hero-actions">
-            <Link className="primary-button" href="/valet-2026">Öppna valfacit 2026 <span>→</span></Link>
-            <a className="text-link" href="#utfall">Utforska tidsserier <span>↓</span></a>
+            <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
+            <a className="text-link" href="#senaste">Se senaste facit <span>↓</span></a>
           </div>
         </div>
         <aside className="hero-side">
@@ -937,19 +937,13 @@ export default function Home() {
         </aside>
       </section>
 
-      <nav className="first-visit-guide" aria-label="Tre sätt att använda Sverigefacit">
-        <Link href="/fakta"><span>01</span><strong>Vad hände?</strong><small>Korta svar med officiell källa.</small><i>→</i></Link>
-        <Link href="/politik/valloften"><span>02</span><strong>Vad lovades?</strong><small>Följ löftet till beslut och utfall.</small><i>→</i></Link>
-        <Link href="/datastudio"><span>03</span><strong>Hänger två saker ihop?</strong><small>Testa data utan att kalla samband för orsak.</small><i>→</i></Link>
-      </nav>
-
-      <section className="home-facts-section" aria-labelledby="home-facts-heading">
+      <section className="home-facts-section" id="senaste" aria-labelledby="home-facts-heading">
         <div className="section-heading">
           <div>
-            <p className="section-kicker">Valet 2026 · senaste facit</p>
-            <h2 id="home-facts-heading">Börja med ett tydligt svar</h2>
+            <p className="section-kicker">Kort svar · full källa</p>
+            <h2 id="home-facts-heading">Senaste facit</h2>
           </div>
-          <p>Varje kort visar siffran, originalkällan och gränsen för vad den faktiskt bevisar.</p>
+          <p>Fyra aktuella frågor, besvarade med siffran, originalkällan och gränsen för vad underlaget bevisar.</p>
         </div>
         <div className="home-facts-grid">
           {featuredFacts.slice(0, 4).map((fact) => <FactCard fact={fact} compact key={fact.slug} />)}
@@ -957,13 +951,19 @@ export default function Home() {
         <Link className="home-facts-more" href="/fakta">Se alla verifierade facit <span>→</span></Link>
       </section>
 
+      <nav className="first-visit-guide" aria-label="Tre sätt att använda Sverigefacit">
+        <Link href="/fakta"><span>01</span><strong>Vad hände?</strong><small>Korta svar med officiell källa.</small><i>→</i></Link>
+        <Link href="/politik/valloften"><span>02</span><strong>Vad lovades?</strong><small>Följ löftet från ord till utfall.</small><i>→</i></Link>
+        <Link href="/datastudio"><span>03</span><strong>Hänger det ihop?</strong><small>Jämför utan att kalla samband för orsak.</small><i>→</i></Link>
+      </nav>
+
       <section className="topic-section" aria-labelledby="topic-heading">
         <div className="section-heading">
           <div>
-            <p className="section-kicker">Börja i sakfrågan</p>
-            <h2 id="topic-heading">Vad vill du granska?</h2>
+            <p className="section-kicker">Välj sakfråga</p>
+            <h2 id="topic-heading">Fördjupa dig i ett område</h2>
           </div>
-          <p>Välj en serie för att öppna data, regeringsperioder och evidensbedömning.</p>
+          <p>Öppna en tidsserie med regeringsperioder, källor och en tydlig gräns mellan utfall och möjlig förklaring.</p>
         </div>
         <div className="topic-grid">
           {seriesOrder.map((id) => {
@@ -1100,10 +1100,10 @@ export default function Home() {
       <section className="tool-preview-section" aria-labelledby="tool-preview-heading">
         <div className="section-heading">
           <div>
-            <p className="section-kicker">Fördjupa utan att drunkna</p>
-            <h2 id="tool-preview-heading">Välj verktyg efter fråga</h2>
+            <p className="section-kicker">Nästa steg</p>
+            <h2 id="tool-preview-heading">Fördjupa analysen</h2>
           </div>
-          <p>De tyngre analyserna har egna sidor. Startsidan förblir snabb och enkel på mobilen.</p>
+          <p>Öppna ett verktyg först när du vill jämföra själv, granska ett känsligt samband eller följa ett löfte.</p>
         </div>
         <div className="tool-preview-grid">
           <Link href="/datastudio"><span>01 · Egen jämförelse</span><h3>Datastudion</h3><p>Jämför årsvisa förändringar, perioder och tidsförskjutningar.</p><i>Öppna →</i></Link>
