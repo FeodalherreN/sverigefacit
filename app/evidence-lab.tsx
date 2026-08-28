@@ -697,12 +697,12 @@ export function DataStudio() {
 
   return (
     <section className="lab-section" id="datastudio">
-      <div className="lab-heading">
+      <div className="lab-heading lab-heading-compact">
         <div>
-          <p className="section-kicker">Börja här</p>
-          <h2>Välj två serier<br /><em>att jämföra.</em></h2>
+          <p className="section-kicker">Börja med ett färdigt exempel eller välj själv</p>
+          <h2>Välj två serier.</h2>
         </div>
-        <p>Jämför nivåer eller årsvisa differenser och tidsförskjut serie B mot serie A. Resultatet är deskriptiv samvariation — aldrig en skattning av politisk effekt.</p>
+        <p>Resultatet beskriver samvariation. Period, datatyp och tidsförskjutning finns under fler inställningar.</p>
       </div>
 
       <div className="lab-presets" role="group" aria-label="Färdiga jämförelser">
@@ -748,13 +748,17 @@ export function DataStudio() {
           </select>
           <i style={{ background: right.color }} />
         </label>
+      </div>
+
+      <details className="lab-advanced-controls">
+        <summary><span>Fler inställningar</span><small>Period · datatyp · tidsförskjutning</small><i>+</i></summary>
         <div className="year-controls">
           <label><span>Från</span><select value={startYear} onChange={(event) => setStartYear(Math.min(Number(event.target.value), endYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
           <label><span>Till</span><select value={endYear} onChange={(event) => setEndYear(Math.max(Number(event.target.value), startYear))}>{Array.from({ length: 26 }, (_, index) => 2000 + index).map((year) => <option key={year}>{year}</option>)}</select></label>
           <label><span>Datatyp</span><select value={mode} onChange={(event) => setMode(event.target.value as AnalysisMode)}><option value="level">Nivåer</option><option value="change">Årsdifferens</option></select></label>
           <label><span>Tidsförskjutning</span><select value={lag} onChange={(event) => setLag(Number(event.target.value))}>{Array.from({ length: 11 }, (_, index) => index - 5).map((value) => <option value={value} key={value}>{value === 0 ? 'Samma år' : `B ${Math.abs(value)} år ${value > 0 ? 'efter' : 'före'} A`}</option>)}</select></label>
         </div>
-      </div>
+      </details>
 
       <div className="lab-workspace">
         <div className="lab-chart-panel">
@@ -865,11 +869,14 @@ export function DataStudio() {
             <div><span>Intervall</span><strong>{pairs.length ? pairs[0].year + '–' + pairs[pairs.length - 1].year : '—'}</strong></div>
             <div><span>Förskjutning</span><strong>{lag === 0 ? 'Samma år' : `B ${Math.abs(lag)} år ${lag > 0 ? 'efter' : 'före'}`}</strong></div>
           </div>
-          <p className="correlation-help">Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
           <div className="correlation-warning">
             <strong>Samvariation — inte effekt.</strong>
-            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årsdifferenser minskar trendrisken, men bevisar inte orsak. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
           </div>
+          <details className="correlation-explanation">
+            <summary>Så tolkar du resultatet <span>+</span></summary>
+            <p>Pearson mäter linjäritet. Spearman mäter om rangordningen rör sig åt samma håll. Inget av måtten kontrollerar tredje faktorer.</p>
+            <p>Tidsseriernas år är inte oberoende. Gemensam trend, omvänd kausalitet, tredje faktorer och periodval kan skapa eller dölja samband. Årsdifferenser minskar trendrisken, men bevisar inte orsak. När många seriepar, perioder eller förskjutningar provas uppstår ibland extrema r-värden av slump eller urval. Resultatet är hypotesgenererande.</p>
+          </details>
           {showEvents && eventsEligible && chartEvents.length > 0 && (
             <div className="event-reading">
               <span>Vald omvärldshändelse · {activeEvent.year}</span>
@@ -884,7 +891,10 @@ export function DataStudio() {
       <footer className="lab-sources">
         <a href={left.sourceUrl} target="_blank" rel="noreferrer"><i style={{ background: left.color }} />{left.source} ↗</a>
         <a href={right.sourceUrl} target="_blank" rel="noreferrer"><i style={{ background: right.color }} />{right.source} ↗</a>
-        <p><strong>Serie A:</strong> {left.caveat} <strong>Serie B:</strong> {right.caveat}</p>
+        <details>
+          <summary>Källornas begränsningar <span>+</span></summary>
+          <p><strong>Serie A:</strong> {left.caveat} <strong>Serie B:</strong> {right.caveat}</p>
+        </details>
       </footer>
     </section>
   );

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { FollowSverigefacit } from '../follow-sverigefacit';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
-import { FactCard } from './fact-card';
-import { facts } from './facts';
+import { FactsBrowser } from './facts-browser';
 
 const title = 'Fakta inför valet 2026';
 const description = 'Korta, källbelagda svar om vård, skola, brott, migration, ekonomi, pension och äldreomsorg.';
@@ -23,9 +22,7 @@ export default function FactsIndexPage() {
         <h1>En fråga.<br />Ett tydligt facit.</h1>
         <p>Varje kort skiljer på vad som hände, vad politiken kan ha påverkat och vad statistiken inte kan bevisa.</p>
       </header>
-      <section className="facts-grid" aria-label="Faktakort">
-        {facts.map((fact) => <FactCard fact={fact} key={fact.slug} />)}
-      </section>
+      <FactsBrowser />
       <FollowSverigefacit context="fakta" />
       <GuideFooter />
     </main>

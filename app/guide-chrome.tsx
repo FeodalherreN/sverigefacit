@@ -1,6 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function GuideHeader() {
+  const pathname = usePathname();
+  const utilityLink = pathname === '/datastudio'
+    ? { href: '/statistik', label: 'Välj statistikområde' }
+    : pathname.startsWith('/analys/')
+      ? { href: '/fakta/migration-och-brott', label: 'Se kort facit' }
+      : { href: '/datastudio', label: 'Öppna Datastudion' };
+
   return (
     <header className="guide-header">
       <a className="skip-link" href="#guide-content">Hoppa till huvudinnehållet</a>
@@ -17,7 +27,7 @@ export function GuideHeader() {
         <Link href="/metod">Metod</Link>
         <Link href="/kallor">Källor</Link>
       </nav>
-      <Link className="guide-home-link" href="/datastudio">Öppna Datastudion <span>↗</span></Link>
+      <Link className="guide-home-link" href={utilityLink.href}>{utilityLink.label} <span>↗</span></Link>
     </header>
   );
 }

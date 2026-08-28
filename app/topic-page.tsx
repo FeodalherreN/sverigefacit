@@ -5,6 +5,9 @@ import { topicBySlug, topicPath, type SeoTopic } from './seo-topics';
 
 export function TopicPage({ topic }: { topic: SeoTopic }) {
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
+  const primaryAction = topic.slug === 'invandring-och-brott'
+    ? { href: '/analys/brott-och-migration', label: 'Öppna den interaktiva brottsanalysen' }
+    : { href: '/datastudio', label: 'Jämför serien i Datastudion' };
   const organizations = Array.from(new Map(
     topic.sources.map((source) => [source.organization, source]),
   ).values());
@@ -84,7 +87,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
           <h1>{topic.heading}</h1>
           <p>{topic.lead}</p>
           <div className="topic-page-actions">
-            <Link href="/datastudio">Jämför serien i Datastudion <span>↗</span></Link>
+            <Link href={primaryAction.href}>{primaryAction.label} <span>↗</span></Link>
             <Link href="/metod">Så bedöms evidensen</Link>
           </div>
         </header>

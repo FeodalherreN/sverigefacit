@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FactCard } from '../fakta/fact-card';
-import { factBySlug, featuredFacts } from '../fakta/facts';
+import { factBySlug } from '../fakta/facts';
 import { FollowSverigefacit } from '../follow-sverigefacit';
 import { GuideFooter, GuideHeader } from '../guide-chrome';
 
@@ -25,6 +25,14 @@ const electionTopics = [
   { label: 'Äldreomsorg', href: '/fakta/aldreomsorg-2025' },
 ];
 
+const electionHighlights = [
+  'vardgarantin-2026',
+  'skjutningar-2026',
+  'gymnasiebehorighet-2025',
+  'hushallens-ekonomi-2024',
+  'invandringen-2025',
+].map((slug) => factBySlug[slug]);
+
 export default function Election2026Page() {
   const electionFact = factBySlug['valet-2026'];
   return (
@@ -43,7 +51,7 @@ export default function Election2026Page() {
 
       <section className="election-now" aria-labelledby="election-now-heading">
         <div><p className="section-kicker">Just nu</p><h2 id="election-now-heading">Fem frågor att kunna före valet</h2></div>
-        <div className="facts-grid">{featuredFacts.map((fact) => <FactCard fact={fact} key={fact.slug} />)}</div>
+        <div className="facts-grid">{electionHighlights.map((fact) => <FactCard fact={fact} key={fact.slug} />)}</div>
       </section>
 
       <section className="election-data-section">
@@ -61,10 +69,9 @@ export default function Election2026Page() {
         </aside>
       </section>
 
-      <section className="election-method-strip">
-        <div><strong>Vad hände?</strong><span>Officiellt utfall med period och enhet.</span></div>
-        <div><strong>Vad kan politiken påverka?</strong><span>Rimlig mekanism och andra samtidiga faktorer.</span></div>
-        <div><strong>Vad är inte bevisat?</strong><span>Ingen kausal etikett utan starkare jämförelse.</span></div>
+      <section className="election-method-link">
+        <div><p className="section-kicker">Så läser du faciten</p><strong>Utfall, möjlig påverkan och det som inte är bevisat hålls isär.</strong></div>
+        <Link href="/metod">Läs metoden <span>→</span></Link>
       </section>
       <FollowSverigefacit context="valet" />
       <GuideFooter />

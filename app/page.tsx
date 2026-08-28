@@ -457,6 +457,17 @@ const sourceHubs = [
   { name: 'Riksdagen', detail: 'Lagar · beslut · dokument', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/' },
 ];
 
+const seriesTopicPaths: Record<SeriesId, string> = {
+  crime: '/statistik/brottslighet',
+  migration: '/statistik/migration',
+  work: '/statistik/arbetsloshet',
+  prosperity: '/statistik/privatekonomi',
+  rate: '/statistik/privatekonomi',
+  fuel: '/statistik',
+  electricity: '/statistik',
+  emissions: '/statistik',
+};
+
 const numberFormatter = new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 });
 
 function formatMetric(item: Series, value: number) {
@@ -475,28 +486,6 @@ function formatAxis(item: Series, value: number) {
   if (item.id === 'prosperity') return Math.round(value) + 'k';
   if (item.id === 'work' || item.id === 'rate') return numberFormatter.format(value) + '%';
   return numberFormatter.format(value);
-}
-
-function MiniSparkline({ item }: { item: Series }) {
-  const width = 120;
-  const height = 38;
-  const values = item.points.map((point) => point.value);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const spread = max - min || 1;
-  const points = item.points
-    .map((point, index) => {
-      const x = (index / (item.points.length - 1)) * width;
-      const y = height - 3 - ((point.value - min) / spread) * (height - 8);
-      return x + ',' + y;
-    })
-    .join(' ');
-
-  return (
-    <svg className="mini-sparkline" viewBox={'0 0 ' + width + ' ' + height} aria-hidden="true">
-      <polyline points={points} fill="none" stroke={item.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
 }
 
 function DataChart({ item }: { item: Series }) {
@@ -901,12 +890,12 @@ export default function Home() {
         <nav className="main-nav" aria-label="Huvudmeny">
           <Link href="/valet-2026">Valet 2026</Link>
           <Link href="/fakta">Fakta</Link>
+          <Link href="/statistik">Statistik</Link>
           <Link href="/datastudio">Jämför</Link>
-          <Link href="/politik/valloften">Löften</Link>
-          <a href="#tidslinje">Tidslinje</a>
+          <Link href="/politik/valloften">Vallöften</Link>
         </nav>
-        <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök i all data">
-          <span>Sök i all data</span><kbd>⌘ K</kbd>
+        <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök mått och händelser">
+          <span>Sök</span><kbd>⌘ K</kbd>
         </button>
       </header>
 
@@ -916,7 +905,7 @@ export default function Home() {
           <p className="eyebrow"><span /> Svensk statistik. Politisk kontext.</p>
           <h1>Sverige i siffror.<br />Vad blev facit?</h1>
           <p className="hero-lead">
-            Se vad som hände, vad som lovades och vad data faktiskt kan belägga. Officiell statistik om brott, migration, jobb, ekonomi, pension och energi.
+            Se vad som hände, vad som lovades och vad data faktiskt kan belägga — med officiella källor.
           </p>
           <div className="hero-actions">
             <Link className="primary-button" href="/valet-2026">Se valfacit 2026 <span>→</span></Link>
@@ -943,7 +932,7 @@ export default function Home() {
             <p className="section-kicker">Kort svar · full källa</p>
             <h2 id="home-facts-heading">Senaste facit</h2>
           </div>
-          <p>Fyra aktuella frågor, besvarade med siffran, originalkällan och gränsen för vad underlaget bevisar.</p>
+          <p>Ett urval aktuella frågor, besvarade med siffran, originalkällan och gränsen för vad underlaget bevisar.</p>
         </div>
         <div className="home-facts-grid">
           {featuredFacts.slice(0, 4).map((fact) => <FactCard fact={fact} compact key={fact.slug} />)}
@@ -951,58 +940,14 @@ export default function Home() {
         <Link className="home-facts-more" href="/fakta">Se alla verifierade facit <span>→</span></Link>
       </section>
 
-      <nav className="first-visit-guide" aria-label="Tre sätt att använda Sverigefacit">
-        <Link href="/fakta"><span>01</span><strong>Vad hände?</strong><small>Korta svar med officiell källa.</small><i>→</i></Link>
-        <Link href="/politik/valloften"><span>02</span><strong>Vad lovades?</strong><small>Följ löftet från ord till utfall.</small><i>→</i></Link>
-        <Link href="/datastudio"><span>03</span><strong>Hänger det ihop?</strong><small>Jämför utan att kalla samband för orsak.</small><i>→</i></Link>
-      </nav>
-
-      <section className="topic-section" aria-labelledby="topic-heading">
+      <section className="explorer-intro-section" aria-labelledby="explorer-overview-heading">
         <div className="section-heading">
           <div>
-            <p className="section-kicker">Välj sakfråga</p>
-            <h2 id="topic-heading">Fördjupa dig i ett område</h2>
+            <p className="section-kicker">Utvecklingen över tid</p>
+            <h2 id="explorer-overview-heading">Hur har Sverige förändrats?</h2>
           </div>
-          <p>Öppna en tidsserie med regeringsperioder, källor och en tydlig gräns mellan utfall och möjlig förklaring.</p>
+          <p>Välj en fråga. Du får först utfallet, sedan den politiska kontexten och sist gränsen för vad statistiken kan bevisa.</p>
         </div>
-        <div className="topic-grid">
-          {seriesOrder.map((id) => {
-            const item = series[id];
-            const active = activeId === id;
-            return (
-              <button
-                className="topic-card"
-                type="button"
-                key={id}
-                aria-pressed={active}
-                data-active={active}
-                style={{ '--series': item.accent } as CSSProperties}
-                onClick={() => {
-                  setActiveId(id);
-                  window.setTimeout(() => document.getElementById('utfall')?.scrollIntoView({ behavior: 'smooth' }), 30);
-                }}
-              >
-                <span className="topic-number">{item.number}</span>
-                <span className="topic-label">{item.label}</span>
-                <strong>{item.latestDisplay}</strong>
-                <span className="topic-trend">{item.trend}</span>
-                <MiniSparkline item={item} />
-                <span className="topic-source">{item.latestYear} · {item.sourceShort}</span>
-                <i className="topic-arrow">↗</i>
-              </button>
-            );
-          })}
-        </div>
-        <nav className="topic-guides" aria-label="Fördjupande statistikområden">
-          <span>Läs ämnessidor</span>
-          <Link href="/statistik/brottslighet">Brottslighet <i>↗</i></Link>
-          <Link href="/statistik/migration">Migration <i>↗</i></Link>
-          <Link href="/statistik/arbetsloshet">Arbetslöshet <i>↗</i></Link>
-          <Link href="/statistik/privatekonomi">Privatekonomi <i>↗</i></Link>
-          <Link href="/statistik/pensioner">Pensioner <i>↗</i></Link>
-          <Link href="/statistik/aldreomsorg">Äldreomsorg <i>↗</i></Link>
-          <Link href="/statistik/invandring-och-brott">Invandring & brott <i>↗</i></Link>
-        </nav>
       </section>
 
       <section
@@ -1088,29 +1033,35 @@ export default function Home() {
           </aside>
         </div>
 
-        <Comparison
-          item={activeSeries}
-          periodA={periodA}
-          periodB={periodB}
-          setPeriodA={setPeriodA}
-          setPeriodB={setPeriodB}
-        />
-      </section>
+        <details className="comparison-disclosure">
+          <summary><span>Jämför mandatperioder</span><small>Avancerad vy</small><i>+</i></summary>
+          <Comparison
+            item={activeSeries}
+            periodA={periodA}
+            periodB={periodB}
+            setPeriodA={setPeriodA}
+            setPeriodB={setPeriodB}
+          />
+        </details>
 
-      <section className="tool-preview-section" aria-labelledby="tool-preview-heading">
-        <div className="section-heading">
-          <div>
-            <p className="section-kicker">Nästa steg</p>
-            <h2 id="tool-preview-heading">Fördjupa analysen</h2>
-          </div>
-          <p>Öppna ett verktyg först när du vill jämföra själv, granska ett känsligt samband eller följa ett löfte.</p>
+        <div className="explorer-actions" aria-label="Fördjupa den valda statistiken">
+          <Link href={seriesTopicPaths[activeId]}>Läs om {activeSeries.label.toLowerCase()} <span>→</span></Link>
+          <Link href="/datastudio">Jämför två serier <span>→</span></Link>
+          <Link href="/analys/brott-och-migration">Brott & bakgrund <span>→</span></Link>
         </div>
-        <div className="tool-preview-grid">
-          <Link href="/datastudio"><span>01 · Egen jämförelse</span><h3>Datastudion</h3><p>Jämför årsvisa förändringar, perioder och tidsförskjutningar.</p><i>Öppna →</i></Link>
-          <Link href="/analys/brott-och-migration"><span>02 · Känsligt samband</span><h3>Brott & migrationsbakgrund</h3><p>Se Brås råa och standardiserade registermått med alla begränsningar.</p><i>Öppna →</i></Link>
-          <Link href="/politik/valloften"><span>03 · Politisk kontroll</span><h3>Vallöfteslabbet</h3><p>Skilj formulering, beslut, genomförande och samhällseffekt.</p><i>Öppna →</i></Link>
-          <Link href="/metod"><span>04 · Evidens</span><h3>Så drar vi slutsatser</h3><p>Se kraven för att gå från tidssamband till rimlig kausal tolkning.</p><i>Öppna →</i></Link>
-        </div>
+
+        <details className="topic-disclosure">
+          <summary>Fler ämnen och analyser <span>+</span></summary>
+          <nav aria-label="Fördjupande statistikområden">
+            <Link href="/statistik/brottslighet">Brottslighet <i>↗</i></Link>
+            <Link href="/statistik/migration">Migration <i>↗</i></Link>
+            <Link href="/statistik/arbetsloshet">Arbetslöshet <i>↗</i></Link>
+            <Link href="/statistik/privatekonomi">Privatekonomi <i>↗</i></Link>
+            <Link href="/statistik/pensioner">Pensioner <i>↗</i></Link>
+            <Link href="/statistik/aldreomsorg">Äldreomsorg <i>↗</i></Link>
+            <Link href="/statistik/invandring-och-brott">Invandring & brott <i>↗</i></Link>
+          </nav>
+        </details>
       </section>
 
       <section className="promise-section" id="facit">
@@ -1118,6 +1069,7 @@ export default function Home() {
           <p className="section-kicker">Påstående → utfall</p>
           <h2>Ett löfte.<br />Ett facit.<br /><em>Två olika frågor.</em></h2>
           <p>Om ett mål nåddes går ofta att kontrollera. Varför utfallet blev som det blev kräver en helt annan evidensnivå.</p>
+          <Link className="promise-more" href="/politik/valloften">Se alla granskade löften <span>→</span></Link>
         </div>
         <article className="promise-card">
           <div className="promise-quote">
@@ -1144,127 +1096,101 @@ export default function Home() {
       </section>
 
       <section className="timeline-section" id="tidslinje">
-        <div className="section-heading">
-          <div>
-            <p className="section-kicker">Politisk tidslinje</p>
-            <h2>Beslut, mål och omvärld</h2>
+        <details className="timeline-disclosure">
+          <summary>
+            <div className="section-heading">
+              <div>
+                <p className="section-kicker">Politisk tidslinje</p>
+                <h2>Vad mer påverkade?</h2>
+              </div>
+              <p>Se reformer, löften och större världshändelser på samma tidsaxel — som kontext, inte automatiska orsaker.</p>
+            </div>
+            <span className="timeline-open-label">Öppna tidslinjen <i>+</i></span>
+            <span className="timeline-preview" aria-hidden="true"><i>2007 · Jobbskatteavdrag</i><i>2020 · Pandemi</i><i>2022 · Energi och ränta</i></span>
+          </summary>
+          <div className="timeline-content">
+            <div className="timeline-filters" role="group" aria-label="Filtrera tidslinjen">
+              {([
+                ['alla', 'Alla'],
+                ['reform', 'Reformer'],
+                ['mål', 'Mål & löften'],
+                ['omvärld', 'Omvärld'],
+              ] as const).map(([value, label]) => (
+                <button
+                  type="button"
+                  key={value}
+                  className={timelineFilter === value ? 'active' : ''}
+                  aria-pressed={timelineFilter === value}
+                  onClick={() => {
+                    setTimelineFilter(value);
+                    const firstMatch = value === 'alla' ? timelineEvents[0] : timelineEvents.find((event) => event.kind === value);
+                    if (firstMatch) setSelectedEventId(firstMatch.id);
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="timeline-layout">
+              <div className="timeline-list">
+                {filteredEvents.map((event) => (
+                  <button
+                    type="button"
+                    key={event.id}
+                    className={selectedEvent.id === event.id ? 'active' : ''}
+                    onClick={() => setSelectedEventId(event.id)}
+                    aria-pressed={selectedEvent.id === event.id}
+                  >
+                    <span className={'event-kind kind-' + event.kind}>{event.kind}</span>
+                    <strong>{event.year}</strong>
+                    <span>{event.title}</span>
+                  </button>
+                ))}
+              </div>
+              <article className="timeline-detail" aria-live="polite">
+                <div className="timeline-detail-top">
+                  <span>{selectedEvent.year}</span>
+                  <i>{selectedEvent.kind}</i>
+                </div>
+                <p className="government-label">{selectedEvent.government}</p>
+                <h3>{selectedEvent.title}</h3>
+                <p className="timeline-summary">{selectedEvent.summary}</p>
+                <div className="reading-box">
+                  <span>Så läser vi sambandet</span>
+                  <p>{selectedEvent.reading}</p>
+                </div>
+                <a href={selectedEvent.sourceUrl} target="_blank" rel="noreferrer">{selectedEvent.source} ↗</a>
+              </article>
+            </div>
           </div>
-          <p>Reformer placeras på samma axel som större chocker — så att tidssamband blir synliga utan att kallas bevis.</p>
+        </details>
+      </section>
+
+      <section className="trust-section" id="metod" aria-labelledby="trust-heading">
+        <div className="trust-intro">
+          <p className="section-kicker">Metod och källor</p>
+          <h2 id="trust-heading">Svar först.<br />Bevis bakom.</h2>
+          <p>Varje slutsats går att öppna, kontrollera och följa tillbaka till originalkällan.</p>
+          <div className="trust-actions">
+            <Link href="/metod">Läs metoden <span>→</span></Link>
+            <Link href="/kallor">Källor & rättelser <span>→</span></Link>
+          </div>
         </div>
-        <div className="timeline-filters" role="group" aria-label="Filtrera tidslinjen">
-          {([
-            ['alla', 'Alla'],
-            ['reform', 'Reformer'],
-            ['mål', 'Mål & löften'],
-            ['omvärld', 'Omvärld'],
-          ] as const).map(([value, label]) => (
-            <button
-              type="button"
-              key={value}
-              className={timelineFilter === value ? 'active' : ''}
-              aria-pressed={timelineFilter === value}
-              onClick={() => {
-                setTimelineFilter(value);
-                const firstMatch = value === 'alla' ? timelineEvents[0] : timelineEvents.find((event) => event.kind === value);
-                if (firstMatch) setSelectedEventId(firstMatch.id);
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div className="timeline-layout">
-          <div className="timeline-list">
-            {filteredEvents.map((event) => (
-              <button
-                type="button"
-                key={event.id}
-                className={selectedEvent.id === event.id ? 'active' : ''}
-                onClick={() => setSelectedEventId(event.id)}
-                aria-pressed={selectedEvent.id === event.id}
-              >
-                <span className={'event-kind kind-' + event.kind}>{event.kind}</span>
-                <strong>{event.year}</strong>
-                <span>{event.title}</span>
-              </button>
+        <ol className="trust-steps">
+          <li><span>01</span><div><strong>Vad hände?</strong><p>Verifierat utfall med period, enhet och källa.</p></div></li>
+          <li><span>02</span><div><strong>Vad kan politiken ha påverkat?</strong><p>Tidsordning, mekanism och andra förklaringar vägs in.</p></div></li>
+          <li><span>03</span><div><strong>Vad kan inte bevisas?</strong><p>Korrelation markeras tydligt och kallas aldrig automatiskt orsak.</p></div></li>
+        </ol>
+        <details className="source-disclosure">
+          <summary><span>10 kontrollerade källaktörer</span><small>Visa listan</small><i>+</i></summary>
+          <div>
+            {sourceHubs.map((source) => (
+              <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
+                <strong>{source.name}</strong><small>{source.detail}</small><i>↗</i>
+              </a>
             ))}
           </div>
-          <article className="timeline-detail" aria-live="polite">
-            <div className="timeline-detail-top">
-              <span>{selectedEvent.year}</span>
-              <i>{selectedEvent.kind}</i>
-            </div>
-            <p className="government-label">{selectedEvent.government}</p>
-            <h3>{selectedEvent.title}</h3>
-            <p className="timeline-summary">{selectedEvent.summary}</p>
-            <div className="reading-box">
-              <span>Så läser vi sambandet</span>
-              <p>{selectedEvent.reading}</p>
-            </div>
-            <a href={selectedEvent.sourceUrl} target="_blank" rel="noreferrer">{selectedEvent.source} ↗</a>
-          </article>
-        </div>
-      </section>
-
-      <section className="method-section" id="metod">
-        <div className="method-heading">
-          <p className="section-kicker">Metoden</p>
-          <h2>Satslogik före slutsats.</h2>
-          <p>Varje facit bryts ned i tre frågor. Styrkan bestäms inte av hur övertygande berättelsen låter, utan av vilket underlag som faktiskt finns.</p>
-        </div>
-        <div className="method-grid">
-          <article>
-            <span className="method-number">01</span>
-            <i className="method-signal signal-high"><b /><b /><b /></i>
-            <h3>Observerat utfall</h3>
-            <p>En verifierbar förändring i officiell statistik, med enhet, tidsperiod och metodnot.</p>
-            <strong>Hög säkerhet</strong>
-          </article>
-          <article>
-            <span className="method-number">02</span>
-            <i className="method-signal signal-medium"><b /><b /><b /></i>
-            <h3>Möjlig policykoppling</h3>
-            <p>Beslutet föregår utfallet, mekanismen är trovärdig och alternativa förklaringar vägs in.</p>
-            <strong>Måttlig säkerhet</strong>
-          </article>
-          <article>
-            <span className="method-number">03</span>
-            <i className="method-signal signal-low"><b /><b /><b /></i>
-            <h3>Kausalt belagd effekt</h3>
-            <p>En trovärdig kontrollgrupp, ett naturligt experiment eller robust effektstudie visar vad som sannolikt hänt utan insatsen.</p>
-            <strong>Kräver starkare underlag</strong>
-          </article>
-        </div>
-        <div className="causal-checklist">
-          <span>För att höja evidensnivån krävs</span>
-          <div>
-            <i>Rätt tidsordning</i>
-            <i>Tydlig mekanism</i>
-            <i>Rimlig storlek</i>
-            <i>Kontrollgrupp</i>
-            <i>Robusthetsanalys</i>
-          </div>
-        </div>
-      </section>
-
-      <section className="sources-section">
-        <div className="section-heading">
-          <div>
-            <p className="section-kicker">Spårbart hela vägen</p>
-            <h2>Från myndighet till graf</h2>
-          </div>
-          <p>Ingen dold sammanvägning. Följ varje siffra tillbaka till ansvarig källa och läs avgränsningen.</p>
-        </div>
-        <div className="source-grid">
-          {sourceHubs.map((source, index) => (
-            <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{source.name}</strong>
-              <small>{source.detail}</small>
-              <i>↗</i>
-            </a>
-          ))}
-        </div>
+        </details>
       </section>
 
       <footer className="site-footer">

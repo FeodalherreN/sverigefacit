@@ -21,7 +21,11 @@ export default function CrimeMigrationPage() {
         <p className="section-kicker">Känsligt samband · historisk kohort</p>
         <h1>Brott och bakgrund.</h1>
         <p>Välj bland 48 brottstyper och jämför Brås publicerade nivåer och överrisker efter födelseregion. Exakta födelseländer visas separat och endast för alla brott sammantaget.</p>
-        <Link href="/fakta/migration-och-brott">Öppna det korta facitkortet <span>↗</span></Link>
+        <nav className="analysis-levels" aria-label="Fördjupningsnivå">
+          <Link href="/fakta/migration-och-brott">01 · Kort svar</Link>
+          <Link href="/statistik/invandring-och-brott">02 · Ämnesöversikt</Link>
+          <span aria-current="page">03 · Interaktiv analys</span>
+        </nav>
       </header>
       <CrimeMigrationEvidence />
       <GuideFooter />

@@ -202,6 +202,9 @@
   line-height: 1.62;
 }
 
+.lab-heading-compact h2 { font-size: clamp(30px, 3.2vw, 42px); }
+.lab-heading-compact > p { max-width: 500px; }
+
 .lab-presets {
   margin-top: 31px;
   padding-top: 18px;
@@ -310,6 +313,31 @@
 .year-controls select {
   padding-right: 25px;
 }
+
+.lab-advanced-controls {
+  margin-top: 10px;
+  border: 1px solid #dbddda;
+  border-radius: 14px;
+  background: #faf9f5;
+}
+.lab-advanced-controls > summary {
+  min-height: 52px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  color: #42566c;
+  cursor: pointer;
+  list-style: none;
+}
+.lab-advanced-controls > summary::-webkit-details-marker { display: none; }
+.lab-advanced-controls > summary span { font-size: 11px; font-weight: 760; }
+.lab-advanced-controls > summary small { color: #718091; font-size: 10px; }
+.lab-advanced-controls > summary i { color: var(--blue); font-size: 17px; font-style: normal; transition: transform .18s ease; }
+.lab-advanced-controls[open] > summary i { transform: rotate(45deg); }
+.lab-advanced-controls .year-controls { padding: 0 16px 16px; }
+.lab-advanced-controls .year-controls select { width: 100%; height: 44px; border: 1px solid #cdd2ce; border-radius: 10px; background: white; color: var(--ink-soft); font-size: 11px; }
 
 .lab-workspace {
   margin-top: 18px;
@@ -717,6 +745,13 @@
   line-height: 1.55;
 }
 
+.correlation-explanation { margin-top: 9px; border-top: 1px solid rgba(255, 255, 255, .13); }
+.correlation-explanation summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; color: #c7d2db; font-size: 10px; font-weight: 700; cursor: pointer; list-style: none; }
+.correlation-explanation summary::-webkit-details-marker { display: none; }
+.correlation-explanation summary span { color: var(--yellow); font-size: 15px; transition: transform .18s ease; }
+.correlation-explanation[open] summary span { transform: rotate(45deg); }
+.correlation-explanation p { margin: 0 0 10px; color: #bdc9d2; font-size: 10px; line-height: 1.55; }
+
 .event-reading {
   margin-top: 18px;
   padding-top: 17px;
@@ -795,6 +830,14 @@
 .lab-sources > p > strong {
   color: #536477;
 }
+
+.lab-sources > details { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+.lab-sources > details summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; color: #536477; font-size: 10px; font-weight: 710; cursor: pointer; list-style: none; }
+.lab-sources > details summary::-webkit-details-marker { display: none; }
+.lab-sources > details summary span { color: var(--blue); font-size: 15px; transition: transform .18s ease; }
+.lab-sources > details[open] summary span { transform: rotate(45deg); }
+.lab-sources > details p { margin: 0 0 12px; color: #5f6d7f; font-size: 10px; line-height: 1.55; }
+.lab-sources > details p strong { color: #536477; }
 
 /* Brott och migration ---------------------------------------------------- */
 
@@ -2406,6 +2449,18 @@
     padding-bottom: 9px;
   }
 
+  .lab-presets {
+    margin-right: -16px;
+    padding-right: 16px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .lab-presets::-webkit-scrollbar { display: none; }
+  .lab-presets button { flex: 0 0 auto; }
+
   .lab-controls {
     padding: 14px;
     grid-template-columns: 1fr;
@@ -2414,6 +2469,7 @@
   }
 
   .lab-controls select,
+  .lab-advanced-controls .year-controls select,
   .country-control select,
   .region-offense-control select {
     height: 48px;
@@ -2810,6 +2866,8 @@
   .tracker-heading h2 {
     font-size: 45px;
   }
+
+  .lab-heading-compact h2 { font-size: 32px; }
 
   .lab-section {
     width: calc(100% - 10px);
