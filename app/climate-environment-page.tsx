@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { Breadcrumbs } from './breadcrumbs';
+import { DataFreshness, getTopicFreshness } from './data-freshness';
 import { environmentSeries, type EnvironmentPoint } from './environment-data';
-import { GuideFooter, GuideHeader } from './guide-chrome';
+import { GuideFooter } from './guide-chrome';
 import { InternationalReference } from './international-reference';
 import { siteConfig } from './site-config';
+import { SectionNavigation } from './section-navigation';
 import { topicPath, type SeoTopic } from './seo-topics';
 
 type ChartLine = {
@@ -127,6 +129,7 @@ const environmentFacts = [
 ];
 
 export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
+  const freshness = getTopicFreshness(topic.slug);
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
   const structuredData = {
     '@context': 'https://schema.org',
@@ -146,14 +149,13 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
   };
 
   return (
-    <main className="guide-page environment-page" id="guide-content" tabIndex={-1}>
+    <main className="guide-page environment-page" id="page-content" tabIndex={-1}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
-      <GuideHeader />
 
       <article>
-        <header className="environment-hero">
+        <header className="environment-hero" id="kort-svar">
           <Breadcrumbs items={[
-            { href: '/statistik', label: 'Statistik' },
+            { href: '/statistik', label: 'Ämnen' },
             { href: topicPath(topic.slug), label: topic.heading },
           ]} />
           <div className="environment-hero-grid">
@@ -161,6 +163,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
               <p className="environment-eyebrow">Klimat och miljö</p>
               <h1>Hur går det för Sverige?</h1>
               <p>Här hålls utsläpp inom Sverige, utsläpp från vår konsumtion, energisystemet och naturens tillstånd isär. Du får först det korta svaret och kan sedan kontrollera varje serie.</p>
+              <DataFreshness period={topic.temporalCoverage.replace('/', '–')} checkedAt={siteConfig.sourceChecked} status={freshness.status} dataType={freshness.dataType} />
               <div className="environment-actions">
                 <Link href="/datastudio?seriesA=emissions&seriesB=transportEmissions&from=2000&to=2025&measure=level&lag=0&view=timeline&events=1&event=reduction-obligation-2024#datastudio">Jämför utsläpp över tid <span aria-hidden="true">→</span></Link>
                 <a href="#miljo-i-korthet">Läs sammanfattningen</a>
@@ -174,6 +177,17 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
           </div>
         </header>
 
+        <SectionNavigation
+          label="På sidan om klimat och miljö"
+          className="topic-section-navigation environment-section-navigation"
+          items={[
+            { href: `${topicPath(topic.slug)}#kort-svar`, label: 'Kort svar', current: true },
+            { href: `${topicPath(topic.slug)}#utveckling`, label: 'Utveckling' },
+            { href: `${topicPath(topic.slug)}#jamfor`, label: 'Jämför' },
+            { href: `${topicPath(topic.slug)}#kallor`, label: 'Källor' },
+          ]}
+        />
+
         <section className="environment-summary" id="miljo-i-korthet" aria-labelledby="environment-summary-heading">
           <div>
             <h2 id="environment-summary-heading">Det korta svaret</h2>
@@ -185,7 +199,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
           </aside>
         </section>
 
-        <section className="environment-section" aria-labelledby="emissions-heading">
+        <section className="environment-section" id="utveckling" aria-labelledby="emissions-heading">
           <div className="environment-section-heading">
             <span>Utsläpp</span>
             <h2 id="emissions-heading">Nedåt över tid, men inte i en rak linje</h2>
@@ -206,10 +220,12 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
           </div>
         </section>
 
-        <InternationalReference
-          benchmarkIds={['territorialEmissionsPerCapita']}
-          heading="Sveriges utsläpp i europeisk kontext"
-        />
+        <div id="jamfor" className="topic-anchor-section">
+          <InternationalReference
+            benchmarkIds={['territorialEmissionsPerCapita']}
+            heading="Sveriges utsläpp i europeisk kontext"
+          />
+        </div>
 
         <section className="environment-split-section" aria-labelledby="sectors-heading">
           <div>
@@ -310,7 +326,7 @@ export function ClimateEnvironmentPage({ topic }: { topic: SeoTopic }) {
           <Link href="/metod">Läs hur vi skiljer samband från orsak <span>→</span></Link>
         </section>
 
-        <section className="environment-sources" aria-labelledby="environment-sources-heading">
+        <section className="environment-sources" id="kallor" aria-labelledby="environment-sources-heading">
           <h2 id="environment-sources-heading">Källor och egna jämförelser</h2>
           <div>
             {topic.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}><strong>{source.name}</strong><span>{source.organization} ↗</span></a>)}

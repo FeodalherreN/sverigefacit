@@ -662,6 +662,10 @@
   text-transform: uppercase;
 }
 
+.correlation-direct-result { margin: 17px 0 0; display: grid; gap: 6px; }
+.correlation-direct-result strong { color: white; font-size: 15px; line-height: 1.35; }
+.correlation-direct-result span { color: #c7d2dc; font-size: 11px; line-height: 1.5; }
+
 .correlation-number {
   margin-top: 17px;
   padding-bottom: 20px;
@@ -674,7 +678,7 @@
 .correlation-number strong {
   color: var(--yellow);
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 58px;
+  font-size: 44px;
   font-weight: 500;
   line-height: .85;
   letter-spacing: -.06em;
@@ -2546,6 +2550,9 @@
   .lab-workspace {
     grid-template-columns: 1fr;
   }
+
+  .lab-result-panel { grid-row: 1; }
+  .lab-chart-panel { grid-row: 2; }
 
   .lab-chart-panel {
     padding: 13px;

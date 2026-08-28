@@ -1,0 +1,77 @@
+.municipality-hero,
+.municipality-explorer,
+.municipality-source-note {
+  width: min(1240px, calc(100% - 48px));
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.municipality-hero { padding: 44px 0 52px; }
+.municipality-hero h1 { max-width: 820px; margin: 28px 0 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(48px, 6.5vw, 82px); font-weight: 500; line-height: .98; letter-spacing: -.055em; }
+.municipality-hero > p:last-child { max-width: 680px; margin: 24px 0 0; color: #4e6074; font-size: 16px; line-height: 1.65; }
+
+.municipality-explorer { margin-bottom: 84px; display: grid; grid-template-columns: 275px minmax(0, 1fr); gap: 24px; align-items: start; }
+.municipality-control-panel { position: sticky; top: 100px; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); box-shadow: 0 16px 42px rgba(16, 34, 56, .055); }
+.municipality-control-panel label { display: block; margin-bottom: 9px; color: #536477; font-size: 12px; font-weight: 760; }
+.municipality-control-panel select { width: 100%; min-height: 52px; padding: 0 40px 0 13px; border: 1px solid #c9cecc; border-radius: 10px; background: #fff; font-size: 15px; font-weight: 700; }
+.municipality-control-panel p { margin: 17px 0 0; color: #617184; font-size: 12px; line-height: 1.55; }
+.municipality-result { min-width: 0; }
+.municipality-result-heading { min-height: 70px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.municipality-result-heading span { color: var(--blue); font-size: 11px; font-weight: 780; letter-spacing: .08em; text-transform: uppercase; }
+.municipality-result-heading h2 { margin: 4px 0 0; font-family: Georgia, 'Times New Roman', serif; font-size: 42px; font-weight: 500; letter-spacing: -.045em; }
+.municipality-result-heading > small { padding-bottom: 8px; color: #667587; font-size: 11px; }
+.municipality-message { min-height: 260px; margin-top: 22px; padding: 36px; display: flex; justify-content: center; flex-direction: column; gap: 8px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.48); }
+.municipality-message strong { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 500; }
+.municipality-message span { color: #637286; font-size: 13px; }
+.municipality-message a { min-height: 44px; margin-top: 10px; display: inline-flex; align-items: center; color: var(--blue); font-size: 12px; font-weight: 720; }
+.municipality-metric-grid { margin-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.municipality-metric-grid article { min-height: 330px; padding: 24px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 18px; background: var(--white); box-shadow: 0 14px 38px rgba(16, 34, 56, .04); }
+.municipality-metric-grid article > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #647488; font-size: 11px; }
+.municipality-metric-grid article > header span { color: var(--blue); font-weight: 780; }
+.municipality-metric-grid h3 { min-height: 48px; margin: 20px 0 0; font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 500; line-height: 1.08; letter-spacing: -.025em; }
+.municipality-value { margin-top: 18px; display: grid; gap: 3px; }
+.municipality-value strong { font-size: clamp(32px, 4vw, 48px); letter-spacing: -.05em; }
+.municipality-value span { color: #637286; font-size: 11px; }
+.municipality-difference { min-height: 48px; margin: 22px 0 0; padding: 13px; border-radius: 10px; background: #eef3fb; color: #3f5570; font-size: 12px; }
+.municipality-bars { margin-top: 24px; display: grid; gap: 11px; }
+.municipality-bars > div { display: grid; gap: 5px; }
+.municipality-bars span { color: #526477; font-size: 10px; }
+.municipality-bars i { display: block; height: 8px; min-width: 3px; border-radius: 999px; background: var(--blue); }
+.municipality-bars > div + div i { background: #aeb9c5; }
+.municipality-metric-grid details { margin-top: auto; padding-top: 18px; }
+.municipality-metric-grid summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: #42566e; font-size: 11px; font-weight: 730; cursor: pointer; }
+.municipality-metric-grid details p { margin: 8px 0; color: #5d6e81; font-size: 11px; line-height: 1.55; }
+.municipality-metric-grid details small { color: #657589; font-size: 10px; }
+.municipality-source-note { margin-bottom: 90px; padding: 38px; display: grid; grid-template-columns: .8fr 1.2fr auto; align-items: center; gap: 34px; border-radius: 20px; background: var(--ink); color: white; }
+.municipality-source-note h2 { margin: 9px 0 0; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: 500; line-height: 1.08; }
+.municipality-source-note > p { margin: 0; color: #c5d0dc; font-size: 12px; line-height: 1.65; }
+.municipality-source-note > a { min-height: 46px; padding: 0 15px; display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.3); border-radius: 10px; font-size: 11px; font-weight: 720; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .municipality-explorer { grid-template-columns: 1fr; }
+  .municipality-control-panel { position: static; display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, .7fr); align-items: center; gap: 8px 20px; }
+  .municipality-control-panel label { grid-column: 1; }
+  .municipality-control-panel select { grid-column: 1; }
+  .municipality-control-panel p { grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+  .municipality-source-note { grid-template-columns: 1fr 1fr; }
+  .municipality-source-note > a { grid-column: 1 / -1; width: fit-content; }
+}
+
+@media (max-width: 700px) {
+  .municipality-hero,
+  .municipality-explorer,
+  .municipality-source-note { width: calc(100% - 32px); }
+  .municipality-hero { padding: 27px 0 36px; }
+  .municipality-hero h1 { margin-top: 22px; font-size: clamp(43px, 14vw, 60px); }
+  .municipality-hero > p:last-child { margin-top: 18px; font-size: 14px; }
+  .municipality-explorer { margin-bottom: 58px; gap: 18px; }
+  .municipality-control-panel { padding: 18px; display: block; }
+  .municipality-control-panel p { margin-top: 13px; }
+  .municipality-result-heading { min-height: 58px; align-items: flex-start; flex-direction: column; gap: 4px; }
+  .municipality-result-heading h2 { font-size: 36px; }
+  .municipality-result-heading > small { padding: 0; }
+  .municipality-metric-grid { grid-template-columns: 1fr; }
+  .municipality-metric-grid article { min-height: 310px; padding: 20px; }
+  .municipality-source-note { margin-bottom: 64px; padding: 25px; grid-template-columns: 1fr; gap: 20px; }
+  .municipality-source-note > a { grid-column: auto; }
+}

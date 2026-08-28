@@ -2,12 +2,16 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { MobileBottomNav } from './mobile-bottom-nav';
+import { SiteHeader } from './site-header';
+import { buildSiteSearchIndex } from './site-search-data';
 import { siteConfig } from './site-config';
 import './globals.css';
 import './evidence-lab.css';
 import './seo-pages.css';
 import './climate-environment.css';
 import './international-reference.css';
+import './municipality.css';
+import './navigation-enhancements.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -116,6 +120,8 @@ const structuredData = {
   inLanguage: siteConfig.language,
 };
 
+const siteSearchEntries = buildSiteSearchIndex();
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -133,8 +139,9 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
           }}
         />
-        <MobileBottomNav />
+        <SiteHeader entries={siteSearchEntries} />
         {children}
+        <MobileBottomNav />
         <Analytics />
       </body>
     </html>

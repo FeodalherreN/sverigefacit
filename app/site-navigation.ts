@@ -6,11 +6,28 @@ export type SiteNavigationItem = {
 };
 
 export const primaryNavigation: SiteNavigationItem[] = [
-  { href: '/valet-2026', label: 'Valet 2026', mobileLabel: 'Valet', matches: ['/valet-2026'] },
-  { href: '/fakta', label: 'Fakta', matches: ['/fakta'] },
-  { href: '/statistik', label: 'Statistik', matches: ['/statistik', '/analys'] },
-  { href: '/datastudio', label: 'Jämför', matches: ['/datastudio'] },
-  { href: '/politik/valloften', label: 'Vallöften', mobileLabel: 'Löften', matches: ['/politik/valloften'] },
+  {
+    href: '/valet-2026',
+    label: 'Valet 2026',
+    mobileLabel: 'Valet',
+    matches: ['/valet-2026', '/politik/valloften'],
+  },
+  {
+    href: '/statistik',
+    label: 'Ämnen',
+    matches: ['/statistik', '/fakta', '/analys'],
+  },
+  {
+    href: '/kommun',
+    label: 'Min kommun',
+    mobileLabel: 'Kommun',
+    matches: ['/kommun'],
+  },
+  {
+    href: '/datastudio',
+    label: 'Jämför',
+    matches: ['/datastudio'],
+  },
 ];
 
 export function isNavigationItemActive(pathname: string, item: SiteNavigationItem) {

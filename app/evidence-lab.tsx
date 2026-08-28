@@ -721,11 +721,11 @@ export function DataStudio() {
 
         <aside className="lab-result-panel">
           <span className="lab-result-kicker">Samband i valda år · {mode === 'level' ? 'nivåer' : 'årlig förändring'}</span>
+          <p className="correlation-direct-result"><strong>{correlationStatus}</strong><span>{pairs.length} gemensamma observationspar. Resultatet beskriver samvariation och visar inte att den ena serien orsakar den andra.</span></p>
           <div className="correlation-number">
             <strong>{canEstimate ? formatCorrelation(pearsonValue) : '—'}</strong>
             <span>Pearson r</span>
           </div>
-          <p className="correlation-strength">{correlationStatus}</p>
           {hasEnoughData && pairs.length < 15 && <p className="correlation-sample-warning">Få observationspar — koefficienten är känslig för enskilda år.</p>}
           {hasObservationGaps && <p className="correlation-sample-warning">Minst en serie saknar vissa år. Båda seriernas förändring räknas då per år över samma gemensamma observationsintervall; mellanår fylls inte i.</p>}
           <div className="correlation-meta">

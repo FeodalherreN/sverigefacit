@@ -3,8 +3,9 @@ import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
 import { Breadcrumbs } from '../../breadcrumbs';
 import { CrimeMigrationLevels } from '../../crime-migration-levels';
+import { DataFreshness, getFactFreshness } from '../../data-freshness';
 import { EmbedButton } from '../../embed-button';
-import { GuideFooter, GuideHeader } from '../../guide-chrome';
+import { GuideFooter } from '../../guide-chrome';
 import { ShareButton } from '../../share-button';
 import { siteConfig } from '../../site-config';
 import { FactBreakdownChart } from '../fact-breakdown';
@@ -49,6 +50,7 @@ export default async function FactDetailPage({ params }: PageProps) {
   const fact = factBySlug[slug];
   if (!fact) notFound();
   const canonicalUrl = `${siteConfig.url}${factPath(fact.slug)}`;
+  const freshness = getFactFreshness(fact.slug);
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -93,18 +95,19 @@ export default async function FactDetailPage({ params }: PageProps) {
   const related = fact.related.map((relatedSlug) => factBySlug[relatedSlug]).filter(Boolean);
 
   return (
-    <main className="guide-page fact-detail-page" id="guide-content" tabIndex={-1} style={{ '--fact-accent': fact.accent } as CSSProperties}>
+    <main className="guide-page fact-detail-page" id="page-content" tabIndex={-1} style={{ '--fact-accent': fact.accent } as CSSProperties}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
-      <GuideHeader />
       <article>
         <header className="fact-detail-hero">
           <Breadcrumbs items={[
-            { href: '/fakta', label: 'Fakta' },
+            { href: '/statistik', label: 'Ämnen' },
+            { href: '/fakta', label: 'Korta svar' },
             { href: factPath(fact.slug), label: fact.question },
           ]} />
           <p className="section-kicker">{fact.topic} · {fact.geography ? `${fact.geography.label} · ` : ''}{fact.period}</p>
           <h1>{fact.question}</h1>
           <p className="fact-answer">{fact.answer}</p>
+          <DataFreshness period={fact.period} checkedAt={fact.sourceChecked} status={freshness.status} dataType={freshness.dataType} />
           {fact.slug === 'migration-och-brott' && <CrimeMigrationLevels current="fact" />}
           <div className="fact-primary-number"><strong>{fact.value}</strong><span>{fact.valueLabel}</span></div>
           <div className="fact-primary-actions">
@@ -142,6 +145,8 @@ export default async function FactDetailPage({ params }: PageProps) {
             <div><dt>Period</dt><dd>{fact.period}</dd></div>
             <div><dt>Enhet</dt><dd>{fact.unit}</dd></div>
             <div><dt>Tolkning</dt><dd>{fact.evidence}</dd></div>
+            <div><dt>Status</dt><dd>{freshness.status === 'historical' ? 'Historisk studie' : freshness.status === 'preliminary' ? 'Preliminär' : freshness.status === 'snapshot' ? 'Ögonblicksbild' : 'Slutlig'}</dd></div>
+            <div><dt>Datatyp</dt><dd>{freshness.dataType}</dd></div>
             <div><dt>Senast granskat</dt><dd>{fact.sourceChecked}</dd></div>
           </dl>
         </section>

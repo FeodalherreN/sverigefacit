@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Breadcrumbs } from '../breadcrumbs';
 import { seriesCatalogMetadata } from '../data/series-core';
-import { GuideFooter, GuideHeader } from '../guide-chrome';
+import { GuideFooter } from '../guide-chrome';
 
 const title = 'Källor – SCB, Brå, Eurostat och offentlig statistik';
 const description = 'Se myndigheterna och originalkällorna bakom Sverigefacits statistik om brott, migration, ekonomi, pension, energi, miljö och europeiska jämförelser.';
@@ -18,6 +18,11 @@ const sources = [
   { name: 'Brå', detail: 'Brottsstatistik, registerstudier, utsatthet och rättsväsende', url: 'https://bra.se/statistik' },
   { name: 'Riksbanken', detail: 'Styrränta, penningpolitik och ekonomisk kontext', url: 'https://www.riksbank.se/sv/statistik/' },
   { name: 'Migrationsverket', detail: 'Asyl, tillstånd och historiska mottagningsdata', url: 'https://www.migrationsverket.se/Om-Migrationsverket/Statistik.html' },
+  { name: 'Folkhälsomyndigheten', detail: 'Folkhälsa, levnadsvanor, psykisk hälsa, ANDTS och vaccinationer på riks-, läns- och kommunnivå', url: 'https://www.folkhalsomyndigheten.se/statistik-och-data/om-vara-data/statistikdatabaser/folkhalsodata-hitta-och-hamta-statistik/' },
+  { name: 'Skolverket', detail: 'Skolresultat, gymnasiebehörighet, lärare, skolenheter och öppen utbildningsstatistik', url: 'https://www.skolverket.se/om-skolverket/oppna-data' },
+  { name: 'Polismyndigheten', detail: 'Preliminär månadsstatistik om bekräftade skjutningar och sprängningar', url: 'https://polisen.se/om-polisen/polisens-arbete/sprangningar-och-skjutningar/' },
+  { name: 'Valmyndigheten', detail: 'Rådata om val, röstberättigade, partier, kandidater, valdistrikt och valresultat', url: 'https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026' },
+  { name: 'Medlingsinstitutet', detail: 'Löneutveckling, reallöner, lönestruktur och löneskillnader', url: 'https://www.mi.se/lonestatistik/' },
   { name: 'Energimyndigheten', detail: 'Elpris, bränslepris och svensk energistatistik', url: 'https://www.energimyndigheten.se/statistik/' },
   { name: 'Socialstyrelsen', detail: 'Hemtjänst, särskilt boende och äldreomsorg', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
   { name: 'Pensionsmyndigheten', detail: 'Allmän pension och fastprisberäknad utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
@@ -30,6 +35,11 @@ const sources = [
   { name: 'Europol', detail: 'Terrorism i EU, medlemsstaternas rapportering och årliga TE-SAT-rapporter', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
   { name: 'Eurostat', detail: 'Harmoniserade landsjämförelser för arbete, priser, ekonomi, energi och klimat', url: 'https://ec.europa.eu/eurostat/' },
   { name: 'Europeiska miljöbyrån', detail: 'Europeiska utsläppsinventeringar, miljödata och metodunderlag', url: 'https://www.eea.europa.eu/en/datahub' },
+  { name: 'Kolada / RKA', detail: 'Kommun- och regiondata från SCB, Skolverket, Brå, Socialstyrelsen och andra källor', url: 'https://www.kolada.se/om-oss/api/' },
+  { name: 'Boverket', detail: 'Bostadsbrist efter kommun, län, hushållsgrupp, boendeform, ålder och kön', url: 'https://www.boverket.se/sv/om-boverket/oppna-data/bedomning-av-bostadsbrist/' },
+  { name: 'Försäkringskassan', detail: 'Öppna data om sjukfrånvaro, sjukpenning, föräldrapenning, vab och socialförsäkring', url: 'https://www.forsakringskassan.se/om-forsakringskassan/oppna-data' },
+  { name: 'Kronofogden', detail: 'Skuldsättning och löneutmätning efter kommun, län, ålder och kön', url: 'https://www.kronofogden.se/om-kronofogden/analyser-statistik-och-forskning/statistik/statistikrobot?location=Sverige' },
+  { name: 'Statskontoret', detail: 'Statens budgetutgifter per utgiftsområde och realekonomisk kategori som öppna data', url: 'https://www.statskontoret.se/analys-och-statistik/oppna-data/realekonomisk-fordelning-av-anslagen-i-statens-budget/' },
 ];
 
 const cataloguedDate = new Intl.DateTimeFormat('sv-SE', {
@@ -40,11 +50,13 @@ const cataloguedDate = new Intl.DateTimeFormat('sv-SE', {
 
 export default function SourcesPage() {
   return (
-    <main className="guide-page" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page" id="page-content" tabIndex={-1}>
       <article>
         <header className="info-page-hero">
-          <Breadcrumbs items={[{ href: '/kallor', label: 'Källor' }]} />
+          <Breadcrumbs items={[
+            { href: '/om', label: 'Om Sverigefacit' },
+            { href: '/kallor', label: 'Källor' },
+          ]} />
           <h1>Källor och bearbetning</h1>
           <p>Varje diagram länkar till tabellen eller rapporten som siffran kommer från. Här ser du vilka myndigheter och organisationer som används.</p>
         </header>
@@ -66,6 +78,7 @@ export default function SourcesPage() {
             <li><strong>Datastudions {seriesCatalogMetadata.seriesCount} svenska tidsserier är versionsatta.</strong><span>De ligger i en gemensam datakatalog i projektet. Besökaren är därför inte beroende av att ett myndighets-API svarar just då.</span></li>
             <li><strong>Uppdateringar granskas före publicering.</strong><span>Nya värden jämförs med originalkällan, valideras och blir en synlig ändring i versionshistoriken. Katalogen strukturerades senast {cataloguedDate}.</span></li>
             <li><strong>Eurostat är undantaget.</strong><span>Internationella jämförelser försöker hämta harmoniserad data direkt från Eurostat och visar kontrollerade reservvärden om tjänsten inte kan nås.</span></li>
+            <li><strong>Kommunvyn är ett andra undantag.</strong><span>Min kommun hämtar och mellanlagrar Koladas senast publicerade API-värden. Period, ursprungskälla och metodvarning visas vid varje mått eftersom Kolada kan revidera data.</span></li>
             <li><strong>Öppen och maskinläsbar.</strong><span><a href="/data/series.json">Öppna hela tidsseriekatalogen som JSON ↗</a></span></li>
           </ul>
         </section>

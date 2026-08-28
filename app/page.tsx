@@ -1,13 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { FactCard } from './fakta/fact-card';
 import { featuredFacts } from './fakta/facts';
 import { environmentSeries } from './environment-data';
 import { homepageSeriesById as canonicalSeries } from './data/homepage-series';
 import { siteConfig, topicLinks } from './site-config';
-import { primaryNavigation } from './site-navigation';
 
 type Point = { year: number; value: number };
 type SeriesId =
@@ -392,6 +391,11 @@ const sourceHubs = [
   { name: 'Brå', detail: 'Brott · rättsväsende', url: 'https://bra.se/statistik' },
   { name: 'Riksbanken', detail: 'Ränta · penningpolitik', url: 'https://www.riksbank.se/sv/statistik/' },
   { name: 'Migrationsverket', detail: 'Asyl · tillstånd', url: 'https://www.migrationsverket.se/Om-Migrationsverket/Statistik.html' },
+  { name: 'Folkhälsomyndigheten', detail: 'Folkhälsa · hälsodata', url: 'https://www.folkhalsomyndigheten.se/statistik-och-data/' },
+  { name: 'Skolverket', detail: 'Skola · resultat · öppna data', url: 'https://www.skolverket.se/om-skolverket/oppna-data' },
+  { name: 'Polismyndigheten', detail: 'Skjutningar · sprängningar', url: 'https://polisen.se/om-polisen/polisens-arbete/sprangningar-och-skjutningar/' },
+  { name: 'Valmyndigheten', detail: 'Val · rådata · resultat', url: 'https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026' },
+  { name: 'Medlingsinstitutet', detail: 'Lön · reallön', url: 'https://www.mi.se/lonestatistik/' },
   { name: 'Energimyndigheten', detail: 'Energi · bränsle · el', url: 'https://www.energimyndigheten.se/statistik/' },
   { name: 'Socialstyrelsen', detail: 'Äldreomsorg · socialtjänst', url: 'https://www.socialstyrelsen.se/statistik-och-data/statistik/' },
   { name: 'Pensionsmyndigheten', detail: 'Pension · real utveckling', url: 'https://www.pensionsmyndigheten.se/statistik/' },
@@ -404,6 +408,7 @@ const sourceHubs = [
   { name: 'Europol', detail: 'Terrorism i EU · TE-SAT', url: 'https://www.europol.europa.eu/publications-events/main-reports/tesat-report' },
   { name: 'Eurostat', detail: 'Harmoniserad EU-statistik', url: 'https://ec.europa.eu/eurostat/' },
   { name: 'Europeiska miljöbyrån', detail: 'Utsläpp · europeisk miljödata', url: 'https://www.eea.europa.eu/en/datahub' },
+  { name: 'Kolada / RKA', detail: 'Kommun · region · jämförelser', url: 'https://www.kolada.se/om-oss/api/' },
 ];
 
 const seriesTopicPaths: Record<SeriesId, string> = {
@@ -751,11 +756,26 @@ export default function Home() {
   const [periodB, setPeriodB] = useState('lofven');
   const [timelineFilter, setTimelineFilter] = useState<'alla' | TimelineKind>('alla');
   const [selectedEventId, setSelectedEventId] = useState('migrationlaw');
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const searchButtonRef = useRef<HTMLButtonElement>(null);
-  const searchDialogRef = useRef<HTMLDialogElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const timelineDetailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const revealLinkedEvent = () => {
+      const targetId = decodeURIComponent(window.location.hash.slice(1));
+      if (!targetId.startsWith('handelse-')) return;
+      const eventId = targetId.replace('handelse-', '');
+      if (!timelineEvents.some((event) => event.id === eventId)) return;
+      if (timelineDetailsRef.current) timelineDetailsRef.current.open = true;
+      window.requestAnimationFrame(() => {
+        setTimelineFilter('alla');
+        setSelectedEventId(eventId);
+        window.requestAnimationFrame(() => document.getElementById(targetId)?.scrollIntoView({ block: 'center' }));
+      });
+    };
+
+    revealLinkedEvent();
+    window.addEventListener('hashchange', revealLinkedEvent);
+    return () => window.removeEventListener('hashchange', revealLinkedEvent);
+  }, []);
 
   const activeSeries = series[activeId];
   const selectedEvent =
@@ -764,129 +784,22 @@ export default function Home() {
     ? timelineEvents
     : timelineEvents.filter((event) => event.kind === timelineFilter);
 
-  const searchResults = useMemo(() => {
-    const term = searchTerm.trim().toLocaleLowerCase('sv-SE');
-    const entries: { id: string; type: string; title: string; subtitle: string; keywords?: string }[] = [
-      ...seriesOrder.map((id) => ({
-        id,
-        type: 'Tidsserie',
-        title: series[id].label,
-        subtitle: series[id].eyebrow,
-      })),
-      {
-        id: 'datastudio',
-        type: 'Fördjupning',
-        title: 'Datastudion',
-        subtitle: 'Korrelation · egna serieval · världshändelser',
-        keywords: 'alkohol cannabis narkotika otrygghet rökning snus antidepressiva cancer inflation löner utvandring fruktsamhet',
-      },
-      {
-        id: 'terrorism-eu',
-        type: 'Fördjupning',
-        title: 'Terroristattacker i EU 2025',
-        subtitle: 'Europol · jihadistisk · högerextremistisk · vänsterextremistisk och anarkistisk terrorism',
-        keywords: 'islamism jihadism terrordåd terrorism tesat te-sat',
-      },
-      {
-        id: 'brott-migration',
-        type: 'Fördjupning',
-        title: 'Brott och migrationsbakgrund',
-        subtitle: '48 brottstyper × födelseregion · alla brott × 31 födelseländer',
-        keywords: 'brottstyp födelseregion födelseland ursprungsland invandring migration bakgrund brå',
-      },
-      { id: 'valfragor', type: 'Fördjupning', title: 'Hushåll och välfärd', subtitle: 'Äldreomsorg · pension · matpriser · räntebörda' },
-      { id: 'valloften', type: 'Fördjupning', title: 'Vallöfteslabbet', subtitle: 'Beslut · genomförande · samhällseffekt' },
-      ...timelineEvents.map((event) => ({
-        id: event.id,
-        type: 'Tidslinje',
-        title: event.title,
-        subtitle: event.year + ' · ' + event.government,
-      })),
-    ];
-    return term
-      ? entries.filter((entry) => (entry.title + ' ' + entry.subtitle + ' ' + (entry.keywords || '')).toLocaleLowerCase('sv-SE').includes(term))
-      : entries.slice(0, 8);
-  }, [searchTerm]);
-
-  useEffect(() => {
-    const handleKey = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  useEffect(() => {
-    const dialog = searchDialogRef.current;
-    if (!dialog) return;
-
-    if (searchOpen) {
-      if (!dialog.open) dialog.showModal();
-      document.documentElement.style.overflow = 'hidden';
-      window.requestAnimationFrame(() => searchInputRef.current?.focus());
-    } else if (dialog.open) {
-      dialog.close();
-    }
-
-    return () => {
-      document.documentElement.style.overflow = '';
-    };
-  }, [searchOpen]);
-
-  const selectSearchResult = (id: string, type: string) => {
-    if (type === 'Tidsserie') {
-      setActiveId(id as SeriesId);
-      window.setTimeout(() => document.getElementById('utfall')?.scrollIntoView({ behavior: 'smooth' }), 30);
-    } else if (type === 'Tidslinje') {
-      setSelectedEventId(id);
-      setTimelineFilter('alla');
-      window.setTimeout(() => document.getElementById('tidslinje')?.scrollIntoView({ behavior: 'smooth' }), 30);
-    } else {
-      const routes: Record<string, string> = {
-        datastudio: '/datastudio',
-        'terrorism-eu': '/fakta/terrorism-i-eu-2025',
-        'brott-migration': '/analys/brott-och-migration#brott-ursprung',
-        valfragor: '/fakta',
-        valloften: '/politik/valloften',
-      };
-      window.location.assign(routes[id] || '/fakta');
-    }
-    setSearchOpen(false);
-    setSearchTerm('');
-  };
-
   return (
-    <main>
+    <main id="page-content" tabIndex={-1}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData).replace(/</g, '\\u003c') }} />
-      <a className="skip-link" href="#top">Hoppa till huvudinnehållet</a>
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Sverigefacit, startsida">
-          <span className="brand-mark" aria-hidden="true"><i /><i /></span>
-          <span>Sverigefacit</span>
-          <em>beta</em>
-        </a>
-        <nav className="main-nav" aria-label="Huvudmeny">
-          {primaryNavigation.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
-        </nav>
-        <button ref={searchButtonRef} className="search-button" type="button" onClick={() => setSearchOpen(true)} aria-label="Sök mått och händelser">
-          <span>Sök</span><kbd>⌘ K</kbd>
-        </button>
-      </header>
 
-      <section className="hero" id="top" tabIndex={-1}>
+      <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
           <p className="eyebrow"><span /> Datadriven politik</p>
-          <h1>Sverige i siffror.<br />{' '}Vad blev facit?</h1>
+          <h1>Hitta svaret.<br />{' '}Se källan.</h1>
           <p className="hero-lead">
-            Se aktuella nyckeltal, följ utvecklingen över tid och jämför mått. Originalkällan finns bredvid och samband skiljs från möjliga orsaker.
+            Börja med en fråga eller ett ämne. Du får resultatet direkt, kan följa utvecklingen och alltid öppna myndighetens originalkälla.
           </p>
           <div className="hero-actions">
-            <Link className="primary-button" href="/valet-2026">Se valet i siffror <span aria-hidden="true">→</span></Link>
-            <Link className="text-link" href="/datastudio#datastudio">Jämför två mått <span aria-hidden="true">→</span></Link>
+            <Link className="primary-button" href="/statistik">Utforska ämnen <span aria-hidden="true">→</span></Link>
+            <Link className="text-link" href="/kommun">Se min kommun <span aria-hidden="true">→</span></Link>
+            <Link className="text-link" href="/valet-2026">Valet 2026 <span aria-hidden="true">→</span></Link>
           </div>
         </div>
         <aside className="hero-side">
@@ -898,10 +811,20 @@ export default function Home() {
           </Link>
           <div className="hero-meta" role="group" aria-label="Om datan">
             <div><strong>33</strong><span>tidsserier</span></div>
-            <div><strong>16</strong><span>källor</span></div>
+            <div><strong>{sourceHubs.length}</strong><span>källor</span></div>
             <div><strong>{siteConfig.sourceChecked}</strong><span>senast granskat</span></div>
           </div>
         </aside>
+      </section>
+
+      <section className="home-route-section" aria-labelledby="home-route-heading">
+        <div><p className="section-kicker">Fyra enkla vägar</p><h2 id="home-route-heading">Vad vill du göra?</h2></div>
+        <nav aria-label="Välj ingång">
+          <Link href="/statistik"><span>01 · Ämnen</span><strong>Få ett kort svar och se utvecklingen</strong><i aria-hidden="true">→</i></Link>
+          <Link href="/kommun"><span>02 · Lokalt</span><strong>Jämför din kommun med riket</strong><i aria-hidden="true">→</i></Link>
+          <Link href="/analys/brott-och-migration#brott-ursprung"><span>03 · Direkt till data</span><strong>Brottstyp och födelseland</strong><i aria-hidden="true">→</i></Link>
+          <Link href="/datastudio#datastudio"><span>04 · Verktyg</span><strong>Jämför två tidsserier</strong><i aria-hidden="true">→</i></Link>
+        </nav>
       </section>
 
       <section className="home-facts-section" id="senaste" aria-labelledby="home-facts-heading">
@@ -1075,7 +998,7 @@ export default function Home() {
       </section>
 
       <section className="timeline-section" id="tidslinje">
-        <details className="timeline-disclosure">
+        <details ref={timelineDetailsRef} className="timeline-disclosure">
           <summary>
             <div className="section-heading">
               <div>
@@ -1116,6 +1039,7 @@ export default function Home() {
                   <button
                     type="button"
                     key={event.id}
+                    id={`handelse-${event.id}`}
                     className={selectedEvent.id === event.id ? 'active' : ''}
                     onClick={() => setSelectedEventId(event.id)}
                     aria-pressed={selectedEvent.id === event.id}
@@ -1152,11 +1076,12 @@ export default function Home() {
           <p>Vi visar vad statistiken beskriver, vad som bara samvarierar och vad som kräver en effektstudie. Samma krav på källor och metod gäller oavsett parti.</p>
           <div className="trust-actions">
             <Link href="/metod">Läs metoden <span>→</span></Link>
-            <Link href="/kallor">Källor & rättelser <span>→</span></Link>
+            <Link href="/kallor">Källor <span>→</span></Link>
+            <Link href="/rattelser">Rättelser <span>→</span></Link>
           </div>
         </div>
         <details className="source-disclosure">
-          <summary><span>16 myndigheter och organisationer</span><small>Visa listan</small><i>+</i></summary>
+          <summary><span>{sourceHubs.length} myndigheter och organisationer</span><small>Visa listan</small><i>+</i></summary>
           <div>
             {sourceHubs.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.name}>
@@ -1179,8 +1104,11 @@ export default function Home() {
             <Link href="/statistik/privatekonomi">Hushåll & välfärd</Link>
             <Link href="/statistik/klimat-och-miljo">Klimat & miljö</Link>
             <Link href="/politik/valloften">Vallöften</Link>
+            <Link href="/kommun">Min kommun</Link>
+            <Link href="/om">Om Sverigefacit</Link>
             <Link href="/metod">Metod</Link>
-            <Link href="/kallor">Källor & rättelser</Link>
+            <Link href="/kallor">Källor</Link>
+            <Link href="/rattelser">Rättelser</Link>
           </nav>
         </div>
         <div className="footer-meta">
@@ -1189,53 +1117,6 @@ export default function Home() {
         </div>
       </footer>
 
-      <dialog
-        ref={searchDialogRef}
-        className="search-overlay"
-        aria-labelledby="search-title"
-        onCancel={(event) => {
-          event.preventDefault();
-          setSearchOpen(false);
-        }}
-        onClose={() => {
-          if (searchOpen) setSearchOpen(false);
-          searchButtonRef.current?.focus();
-        }}
-        onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setSearchOpen(false);
-        }}
-      >
-          <section className="search-dialog">
-            <h2 className="sr-only" id="search-title">Sök i Sverigefacit</h2>
-            <div className="search-input-wrap">
-              <span aria-hidden="true">⌕</span>
-              <label className="sr-only" htmlFor="site-search">Sök mått, reform eller år</label>
-              <input
-                ref={searchInputRef}
-                id="site-search"
-                type="search"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder="Sök mått, reform eller år…"
-              />
-              <button type="button" onClick={() => setSearchOpen(false)} aria-label="Stäng sök">Esc</button>
-            </div>
-            <div className="search-results">
-              <p aria-live="polite">{searchTerm ? `${searchResults.length} sökresultat` : 'Populärt just nu'}</p>
-              {searchResults.length ? searchResults.map((result) => (
-                <button
-                  type="button"
-                  key={result.type + result.id}
-                  onClick={() => selectSearchResult(result.id, result.type)}
-                >
-                  <span>{result.type}</span>
-                  <div><strong>{result.title}</strong><small>{result.subtitle}</small></div>
-                  <i aria-hidden="true">→</i>
-                </button>
-              )) : <div className="empty-search">Inga träffar. Prova ett bredare ord.</div>}
-            </div>
-          </section>
-      </dialog>
     </main>
   );
 }

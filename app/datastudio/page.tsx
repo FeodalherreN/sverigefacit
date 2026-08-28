@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Breadcrumbs } from '../breadcrumbs';
 import { DataStudio } from '../evidence-lab';
-import { GuideFooter, GuideHeader } from '../guide-chrome';
+import { GuideFooter } from '../guide-chrome';
 import { InternationalReferenceStudio } from '../international-reference-studio';
 
 const title = 'Datastudion – jämför svensk statistik';
@@ -16,10 +16,9 @@ export const metadata: Metadata = {
 
 export default function DataStudioPage() {
   return (
-    <main className="guide-page tool-route" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page tool-route" id="page-content" tabIndex={-1}>
       <div className="tool-route-breadcrumbs">
-        <Breadcrumbs items={[{ href: '/datastudio', label: 'Datastudion' }]} />
+        <Breadcrumbs items={[{ href: '/datastudio', label: 'Jämför data' }]} />
       </div>
       <DataStudio />
       <InternationalReferenceStudio />

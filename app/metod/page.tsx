@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '../breadcrumbs';
-import { GuideFooter, GuideHeader } from '../guide-chrome';
+import { GuideFooter } from '../guide-chrome';
 
 const title = 'Metod – så bedömer Sverigefacit politiska samband';
 const description = 'Läs hur Sverigefacit skiljer observerad statistik, möjlig påverkan från politiska beslut och kausalt belagda effekter.';
@@ -15,11 +15,13 @@ export const metadata: Metadata = {
 
 export default function MethodPage() {
   return (
-    <main className="guide-page" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page" id="page-content" tabIndex={-1}>
       <article>
         <header className="info-page-hero">
-          <Breadcrumbs items={[{ href: '/metod', label: 'Metod' }]} />
+          <Breadcrumbs items={[
+            { href: '/om', label: 'Om Sverigefacit' },
+            { href: '/metod', label: 'Metod' },
+          ]} />
           <h1>Så skiljer vi samband från orsak</h1>
           <p>Att två kurvor rör sig samtidigt är en observation. Att en reform orsakade förändringen är en mycket starkare utsaga. Vi använder ordet satslogik för den enkla kontrollen att premisserna faktiskt räcker till slutsatsen.</p>
         </header>

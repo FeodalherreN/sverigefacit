@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Breadcrumbs } from '../../breadcrumbs';
 import { CrimeMigrationLevels } from '../../crime-migration-levels';
 import { CrimeMigrationEvidence } from '../../evidence-lab';
-import { GuideFooter, GuideHeader } from '../../guide-chrome';
+import { GuideFooter } from '../../guide-chrome';
 
 const title = 'Brott och migrationsbakgrund – Brås statistik';
 const description = 'Utforska 48 brottstyper efter födelseregion samt alla brott efter födelseland, med observerade nivåer, justerade överrisker och tydliga metodbegränsningar.';
@@ -16,11 +16,10 @@ export const metadata: Metadata = {
 
 export default function CrimeMigrationPage() {
   return (
-    <main className="guide-page tool-route" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page tool-route" id="page-content" tabIndex={-1}>
       <header className="tool-route-hero">
         <Breadcrumbs items={[
-          { href: '/statistik', label: 'Statistik' },
+          { href: '/statistik', label: 'Ämnen' },
           { href: '/statistik/invandring-och-brott', label: 'Brott och migrationsbakgrund' },
           { href: '/analys/brott-och-migration', label: 'Utforska data' },
         ]} />

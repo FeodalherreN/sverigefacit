@@ -4,7 +4,8 @@ import { Breadcrumbs } from '../breadcrumbs';
 import { FactCard } from '../fakta/fact-card';
 import { factBySlug } from '../fakta/facts';
 import { FollowSverigefacit } from '../follow-sverigefacit';
-import { GuideFooter, GuideHeader } from '../guide-chrome';
+import { GuideFooter } from '../guide-chrome';
+import { SectionNavigation } from '../section-navigation';
 
 const title = 'Valet 2026 – valfrågorna i siffror';
 const description = 'Ett mobilanpassat valfacit med officiell statistik om vård, lag och ordning, skola, ekonomi och röstberättigade.';
@@ -39,8 +40,7 @@ export default function Election2026Page() {
   const electionFact = factBySlug['valet-2026'];
   const electionSignals = [electionFact.metrics?.[0], electionFact.metrics?.[1], electionFact.metrics?.[3]].filter(Boolean);
   return (
-    <main className="guide-page election-page" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page election-page" id="page-content" tabIndex={-1}>
       <header className="election-hero">
         <Breadcrumbs items={[{ href: '/valet-2026', label: 'Valet 2026' }]} />
         <div className="election-hero-grid">
@@ -61,6 +61,16 @@ export default function Election2026Page() {
           </aside>
         </div>
       </header>
+
+      <SectionNavigation
+        label="Valet 2026"
+        className="election-section-navigation"
+        items={[
+          { href: '/valet-2026', label: 'Valfrågor', current: true },
+          { href: '/politik/valloften', label: 'Vallöften' },
+          { href: 'https://www.val.se/kommande-val/val-2026---riksdag-region-och-kommun', label: 'Praktisk information', external: true },
+        ]}
+      />
 
       <nav className="election-topic-chips" aria-label="Valfrågor">
         {electionTopics.map((topic) => <Link href={topic.href} key={topic.label}>{topic.label}</Link>)}

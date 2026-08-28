@@ -51,6 +51,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.78,
     },
     {
+      url: `${siteConfig.url}/kommun`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${siteConfig.url}/analys/brott-och-migration`,
       lastModified: new Date(siteConfig.modified),
       changeFrequency: 'monthly',
@@ -67,6 +73,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(siteConfig.modified),
       changeFrequency: 'yearly',
       priority: 0.6,
+    },
+    {
+      url: `${siteConfig.url}/om`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'monthly',
+      priority: 0.62,
+    },
+    {
+      url: `${siteConfig.url}/rattelser`,
+      lastModified: new Date(siteConfig.modified),
+      changeFrequency: 'monthly',
+      priority: 0.55,
     },
     {
       url: `${siteConfig.url}/kallor`,

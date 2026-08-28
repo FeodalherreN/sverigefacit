@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { Breadcrumbs } from './breadcrumbs';
 import { CrimeMigrationLevels } from './crime-migration-levels';
-import { GuideFooter, GuideHeader } from './guide-chrome';
+import { DataFreshness, getTopicFreshness } from './data-freshness';
+import { GuideFooter } from './guide-chrome';
 import { InternationalReference } from './international-reference';
 import { topicBenchmarkIds } from './international-reference-data';
 import { siteConfig } from './site-config';
+import { SectionNavigation } from './section-navigation';
 import { topicBySlug, topicPath, type SeoTopic } from './seo-topics';
 import { TopicTrend } from './topic-trend';
 
@@ -20,6 +22,7 @@ const topicComparisons: Partial<Record<string, [string, string]>> = {
 export function TopicPage({ topic }: { topic: SeoTopic }) {
   const canonicalUrl = `${siteConfig.url}${topicPath(topic.slug)}`;
   const benchmarkIds = topicBenchmarkIds[topic.slug];
+  const freshness = getTopicFreshness(topic.slug);
   const comparison = topicComparisons[topic.slug];
   const primaryAction = topic.slug === 'invandring-och-brott'
     ? { href: '/analys/brott-och-migration#brott-ursprung', label: 'Välj brottstyp eller födelseland' }
@@ -82,19 +85,18 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
   };
 
   return (
-    <main className="guide-page" id="guide-content" tabIndex={-1}>
+    <main className="guide-page" id="page-content" tabIndex={-1}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
         }}
       />
-      <GuideHeader />
 
       <article>
-        <header className="topic-page-hero">
+        <header className="topic-page-hero" id="kort-svar">
           <Breadcrumbs items={[
-            { href: '/statistik', label: 'Statistik' },
+            { href: '/statistik', label: 'Ämnen' },
             { href: topicPath(topic.slug), label: topic.heading },
           ]} />
           <div className="topic-page-hero-grid">
@@ -110,6 +112,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
             </section>
             <div className="topic-hero-detail">
               <p>{topic.lead}</p>
+              <DataFreshness period={topic.temporalCoverage.replace('/', '–')} checkedAt={siteConfig.sourceChecked} status={freshness.status} dataType={freshness.dataType} />
               <div className="topic-page-actions">
                 <Link href={primaryAction.href}>{primaryAction.label} <span aria-hidden="true">→</span></Link>
                 {relatedAction && <Link href={relatedAction.href}>{relatedAction.label}</Link>}
@@ -120,10 +123,23 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
           </div>
         </header>
 
-        <TopicTrend slug={topic.slug} />
+        <SectionNavigation
+          label={`På sidan om ${topic.heading}`}
+          className="topic-section-navigation"
+          items={[
+            { href: `${topicPath(topic.slug)}#kort-svar`, label: 'Kort svar', current: true },
+            { href: `${topicPath(topic.slug)}#utveckling`, label: 'Utveckling' },
+            benchmarkIds
+              ? { href: `${topicPath(topic.slug)}#jamfor`, label: 'Jämför' }
+              : { href: primaryAction.href, label: 'Jämför' },
+            { href: `${topicPath(topic.slug)}#kallor`, label: 'Källor' },
+          ]}
+        />
+
+        <div id="utveckling" className="topic-anchor-section"><TopicTrend slug={topic.slug} /></div>
 
         {benchmarkIds && (
-          <InternationalReference benchmarkIds={benchmarkIds} />
+          <div id="jamfor" className="topic-anchor-section"><InternationalReference benchmarkIds={benchmarkIds} /></div>
         )}
 
         <div className="topic-page-layout">
@@ -154,7 +170,7 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
               <p>{topic.definition}</p>
             </section>
 
-            <section className="topic-source-section" aria-labelledby="sources-heading">
+            <section className="topic-source-section" id="kallor" aria-labelledby="sources-heading">
               <h2 id="sources-heading">Originalkällor</h2>
               <div>
                 {topic.sources.map((source, index) => (
@@ -174,7 +190,8 @@ export function TopicPage({ topic }: { topic: SeoTopic }) {
               <div><dt>Geografi</dt><dd>Sverige</dd></div>
               <div><dt>Tidsperiod</dt><dd>{topic.temporalCoverage.replace('/', '–')}</dd></div>
               <div><dt>Senast granskat</dt><dd>{siteConfig.sourceChecked}</dd></div>
-              <div><dt>Källtyp</dt><dd>Myndighetsstatistik</dd></div>
+              <div><dt>Datatyp</dt><dd>{freshness.dataType}</dd></div>
+              <div><dt>Status</dt><dd>{freshness.status === 'historical' ? 'Historisk studie' : freshness.status === 'preliminary' ? 'Preliminär' : 'Slutlig'}</dd></div>
               <div><dt>Bearbetning</dt><dd>Ingen prognos</dd></div>
               <div><dt>Originalkällor</dt><dd>{topic.sources.length}</dd></div>
             </dl>

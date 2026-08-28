@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Breadcrumbs } from '../breadcrumbs';
-import { GuideFooter, GuideHeader } from '../guide-chrome';
+import { GuideFooter } from '../guide-chrome';
 
 export const metadata: Metadata = {
   title: 'Integritet och anonym besöksstatistik',
@@ -10,10 +10,12 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="guide-page" id="guide-content" tabIndex={-1}>
-      <GuideHeader />
+    <main className="guide-page" id="page-content" tabIndex={-1}>
       <article className="privacy-page">
-        <Breadcrumbs items={[{ href: '/integritet', label: 'Integritet' }]} />
+        <Breadcrumbs items={[
+          { href: '/om', label: 'Om Sverigefacit' },
+          { href: '/integritet', label: 'Integritet' },
+        ]} />
         <p className="section-kicker">Transparens</p>
         <h1>Integritet och besöksstatistik</h1>
         <p>Sverigefacit använder ingen Google Analytics-tagg och sätter inga egna statistikcookies.</p>
